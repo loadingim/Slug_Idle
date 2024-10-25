@@ -20,5 +20,10 @@ public class MapData : ScriptableObject
     [SerializeField] private Sprite backGroundSprite;
     public Sprite BackGroundSprite { get { return backGroundSprite; } }
 
+    [Tooltip("중분류 맵에 사용할 바닥 이미지")]
+    [SerializeField] private Sprite skySprite;
+    public Sprite SkySprite { get { return skySprite; } }
+    
+
 
 }

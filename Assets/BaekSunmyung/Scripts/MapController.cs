@@ -10,6 +10,9 @@ public class MapController : MonoBehaviour
     [Header("배경 이미지 리스트")]
     [SerializeField] private List<GameObject> backgroundMaps = new List<GameObject>();
 
+    [Header("하늘 이미지 리스트")]
+    
+
     [Header("배경 이미지 이동 속도")]
     [SerializeField] private float mapTranslateSpeed;     //Player MoveSpeed 고려
 
@@ -20,9 +23,10 @@ public class MapController : MonoBehaviour
     [SerializeField] private int viewMonsterCount = 0;
     [SerializeField] private int totalMonsterCount = 0;
     [SerializeField] private int killMonsterCount = 0;
-     
+
     [SerializeField] private Fade fade;
-    
+
+    //변수명 수정 필요
     private float killRate = 0f;
 
     //배경 이미지 이동 끝 위치 xPos 
@@ -37,8 +41,11 @@ public class MapController : MonoBehaviour
     //임시 변수명
     private MiddleMap curMiddleMap = MiddleMap.One;
     private int curSmallStage = 1;
-    
-  
+
+
+    private bool isDeath;
+
+
     private void Awake()
     {
         backGroundCount = backgroundMaps.Count;
@@ -50,8 +57,9 @@ public class MapController : MonoBehaviour
     }
 
     private void Start()
-    { 
-        //ChangeSprite(mapData[(int)curMiddleMap].BackGroundSprite);
+    {
+        //BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite);
+        //SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
     }
 
 
@@ -59,13 +67,14 @@ public class MapController : MonoBehaviour
     {
         Debug.Log($"현재 스테이지:{curMiddleMap} - {curSmallStage}");
 
-
         //테스트 코드
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
             //viewMonsterCount--;
             killMonsterCount++;
+
+            //스테이지 진행률
             killRate = ((float)killMonsterCount / totalMonsterCount) * 100;
 
         }
@@ -73,27 +82,48 @@ public class MapController : MonoBehaviour
         {
             viewMonsterCount++;
         }
-         
+
+
         TranslateBackGround();
         RePositionBackGround();
-        ResetBackGround();
+        StageClear();
+
+
+        //isDeath 값은 추후 Player Life 값 받아올 필요가 있음
+        if (isDeath)
+        {
+            ResetBackGround();
+        }
+
+
     }
 
+
+    /// <summary>
+    /// 배경 이미지 시작 위치로 변경
+    /// </summary>
     public void ResetBackGround()
     {
-        
+
+        for (int i = 0; i < backGroundCount; i++)
+        {
+            backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
+        }
+
+    }
+
+    /// <summary>
+    /// Stage 클리어 시 BackGround 설정 변경
+    /// </summary>
+    public void StageClear()
+    {
+
         if (killRate >= 100f)
         {
             fade.FadeOut();
-             
-            for (int i = 0; i < backGroundCount; i++)
-            {
-                backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
-            }
-
-            //맵 스테이지 변경 > ex) 1-1 > 1-2
+            ResetBackGround(); 
             NextStage();
-             
+
             killMonsterCount = 0;
             killRate = 0f;
             viewMonsterCount = 1;
@@ -111,8 +141,8 @@ public class MapController : MonoBehaviour
 
     public void NextStage()
     {
-
-        if(curSmallStage < mapData[(int)curMiddleMap].MaxSmallStage)
+        //맵 스테이지 변경 > ex) 1-1 > 1-2
+        if (curSmallStage < mapData[(int)curMiddleMap].MaxSmallStage)
         {
             curSmallStage++;
         }
@@ -122,11 +152,9 @@ public class MapController : MonoBehaviour
             curSmallStage = 1;
 
             //Map Data의 Sprite Image로 변경
-            //ChangeSprite(mapData[(int)curMiddleMap].BackGroundSprite);
-
+            //BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite); 
+            //SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
         }
-
-
     }
 
     /// <summary>
@@ -135,6 +163,7 @@ public class MapController : MonoBehaviour
     public void TranslateBackGround()
     {
         //현재 맵 상에서 보이는 몬스터가 없을 경우에만 맵 이동 진행
+        //추후 Player or Monster에서 감지된 Count를 받아 올 필요 있음
         if (viewMonsterCount == 0)
         {
             for (int i = 0; i < backGroundCount; i++)
@@ -162,16 +191,29 @@ public class MapController : MonoBehaviour
     /// <summary>
     /// Map Data의 맵 배경 Sprite 변경
     /// </summary>
-    /// <param name="sprite">맵 단계 별 받아올 sprite 변수</param>
-    public void ChangeSprite(Sprite sprite)
-    {
-         
+    /// <param name="sprite">맵 단계 별 받아올 백그라운드 이미지</param>
+    public void BackGroundSpriteChange(Sprite sprite)
+    { 
         for (int i = 0; i < backGroundCount; i++)
         {
             SpriteRenderer render = backgroundMaps[i].GetComponent<SpriteRenderer>();
             render.sprite = sprite;
         }
     }
+
+    /// <summary>
+    /// Map data의 하늘 배경 Sprite 변경
+    /// </summary>
+    /// <param name="sprite">맵 단계 별 하늘 이미지</param>
+    public void SkySpriteChange(Sprite sprite)
+    {
+        for(int i = 0; i < backGroundCount; i++)
+        {
+            SpriteRenderer skyRen = backgroundMaps[i].transform.GetChild(0).GetComponent<SpriteRenderer>();
+            skyRen.sprite = sprite; 
+        } 
+    }
+
 
 
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7968aca8343bfc342878d103ba0fe498, type: 3}
   m_Name: Two
   m_EditorClassIdentifier: 
-  curMiddleStage: 1
+  middleStage: 1
   maxSmallStage: 20
   backGroundSprite: {fileID: 0}
