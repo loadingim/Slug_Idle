@@ -343,7 +343,6 @@ MonoBehaviour:
   monsterMoveSpeed: 5
   dropGold: 100
   monsterAttack: 10
-  monsterAttackSpeed: 5
   attackRange: 5
 --- !u!114 &692541725
 MonoBehaviour:
