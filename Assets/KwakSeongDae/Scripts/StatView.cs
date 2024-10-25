@@ -8,7 +8,7 @@ public class StatView : MonoBehaviour
     struct StatTextView
     {
         public string prefixText;
-        public Stat stat;
+        public PlayerData stat;
         public TextMeshProUGUI textMesh;
     }
 
@@ -34,19 +34,26 @@ public class StatView : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 등록된 스탯 수치 텍스트를 모델에 저장된 수치와 동기화시키는 함수
+    /// </summary>
+    /// <param name="textView"></param>
     void UpdateView(StatTextView textView)
     {
         if (playerDataModel == null) return;
         switch (textView.stat)
         {
-            case Stat.Health:
+            case PlayerData.Health:
                 textView.textMesh.text = textView.prefixText + playerDataModel.Health.ToString();
                 break;
-            case Stat.Attack:
-                textView.textMesh.text = textView.prefixText + playerDataModel.Attack.ToString();
+            case PlayerData.Attack:
+                textView.textMesh.text = textView.prefixText + playerDataModel.Attack.ToString("F2");
                 break;
-            case Stat.AttackSpeed:
-                textView.textMesh.text = textView.prefixText + playerDataModel.AttackSpeed.ToString();
+            case PlayerData.AttackSpeed:
+                textView.textMesh.text = textView.prefixText + playerDataModel.AttackSpeed.ToString("F2");
+                break;
+            case PlayerData.Money:
+                textView.textMesh.text = textView.prefixText + playerDataModel.Money.ToString();
                 break;
             default:
                 break;
