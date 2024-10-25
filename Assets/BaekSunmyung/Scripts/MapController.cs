@@ -34,6 +34,7 @@ public class MapController : MonoBehaviour
     //배경 이미지 초기화 위치
     private Vector3 startPos;
 
+    //임시 변수명
     private MiddleMap curMiddleMap = MiddleMap.One;
     private int curSmallStage = 1;
     
@@ -47,6 +48,12 @@ public class MapController : MonoBehaviour
         //배경 이미지 개수에 따라 초기화 x위치 변경
         startPos = new Vector3(endPosX * (backGroundCount - 1), 0f);
     }
+
+    private void Start()
+    { 
+        //ChangeSprite(mapData[(int)curMiddleMap].BackGroundSprite);
+    }
+
 
     private void Update()
     {
