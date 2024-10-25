@@ -9,9 +9,7 @@ public class MapController : MonoBehaviour
 
     [Header("배경 이미지 리스트")]
     [SerializeField] private List<GameObject> backgroundMaps = new List<GameObject>();
-
-    [Header("하늘 이미지 리스트")]
-    
+ 
 
     [Header("배경 이미지 이동 속도")]
     [SerializeField] private float mapTranslateSpeed;     //Player MoveSpeed 고려
@@ -57,7 +55,7 @@ public class MapController : MonoBehaviour
     }
 
     private void Start()
-    {
+    { 
         //BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite);
         //SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
     }
@@ -108,6 +106,7 @@ public class MapController : MonoBehaviour
         for (int i = 0; i < backGroundCount; i++)
         {
             backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
+         
         }
 
     }
@@ -208,7 +207,7 @@ public class MapController : MonoBehaviour
     public void SkySpriteChange(Sprite sprite)
     {
         for(int i = 0; i < backGroundCount; i++)
-        {
+        { 
             SpriteRenderer skyRen = backgroundMaps[i].transform.GetChild(0).GetComponent<SpriteRenderer>();
             skyRen.sprite = sprite; 
         } 
