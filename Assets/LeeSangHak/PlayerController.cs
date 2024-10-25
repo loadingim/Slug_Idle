@@ -6,30 +6,37 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerDataModel dataModel;
     [SerializeField] GameObject targetMonster = null;
     public float attackCooldown = 0f;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] int ammo;
+    [SerializeField] float times;
 
     private void Start()
     {
-        dataModel.AttackSpeed = 10;
+        // 모델 데이터 : 공격 속도
+        PlayerDataModel.Instance.AttackSpeed = 3f;
+        Debug.Log(PlayerDataModel.Instance.AttackSpeed);
     }
 
     private void Update()
     {
-        Debug.Log("진행중");
+        if (targetMonster == null || targetMonster.activeSelf != true)
+        {
+            targetMonster = null;
+        }
+
+        times = Time.time;
+
+        // 타겟으로 지정된 몬스터가 비어있고 몬스터가 활성화가 아닐 시
         if (targetMonster == null || targetMonster.activeSelf != true)
         {
             ammo = 0;
-            Debug.Log("찾는중");
             FindTarget();
         }
 
         if (targetMonster != null && Time.time >= attackCooldown)
         {
-            Debug.Log("공격중");
             Attack();
         }
     }
@@ -53,25 +60,22 @@ public class PlayerController : MonoBehaviour
 
     public void TakeHit(int damage)
     {
-        dataModel.Health -= damage;
-        if (dataModel.Health <= 0)
+        PlayerDataModel.Instance.Health -= damage;
+        if (PlayerDataModel.Instance.Health <= 0)
         {
-            Destroy(gameObject);
+            // Destroy(gameObject); < 죽었을 시 
         }
     }
 
     public void Attack()
     {
-
-        Debug.Log("공격진입");
-        if (targetMonster != null && ammo < 5)
+        if (targetMonster != null && ammo < 1)
         {
             ammo++;
-            Debug.Log("공격시작");
             GameObject bulletGameObj = Instantiate(bulletPrefab, transform.position, transform.rotation);
             Bullet bullet = bulletGameObj.GetComponent<Bullet>();
             bullet.SetTarget(targetMonster);
-            attackCooldown = Time.time + dataModel.AttackSpeed;
+            attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;
         }
     }
 }
