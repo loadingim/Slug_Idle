@@ -519,6 +519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeInTime: 0.5
   fadeOutTime: 0.5
+  fadeWaitTime: 1
 --- !u!1 &1067981099
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +683,9 @@ MonoBehaviour:
   - {fileID: 753519219}
   - {fileID: 1067981099}
   mapTranslateSpeed: 5
+  mapData:
+  - {fileID: 11400000, guid: f757c1d97bcce714b8f35d0d665fd8b5, type: 2}
+  - {fileID: 11400000, guid: 8920fd6750b9e874e8babb51aff79b01, type: 2}
   viewMonsterCount: 0
   totalMonsterCount: 3
   killMonsterCount: 0

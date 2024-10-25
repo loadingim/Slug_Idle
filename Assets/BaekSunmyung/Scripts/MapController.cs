@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapController : MonoBehaviour
@@ -11,13 +13,16 @@ public class MapController : MonoBehaviour
     [Header("배경 이미지 이동 속도")]
     [SerializeField] private float mapTranslateSpeed;     //Player MoveSpeed 고려
 
-    //테스트 코드
+    [Header("맵 스테이지 데이터")]
+    [SerializeField] private List<MapData> mapData = new List<MapData>();
+
+    //테스트 코드 > 추후 변수명 수정 필요
     [SerializeField] private int viewMonsterCount = 0;
     [SerializeField] private int totalMonsterCount = 0;
     [SerializeField] private int killMonsterCount = 0;
-
+     
     [SerializeField] private Fade fade;
-
+    
     private float killRate = 0f;
 
     //배경 이미지 이동 끝 위치 xPos 
@@ -29,6 +34,10 @@ public class MapController : MonoBehaviour
     //배경 이미지 초기화 위치
     private Vector3 startPos;
 
+    private MiddleMap curMiddleMap = MiddleMap.One;
+    private int curSmallStage = 1;
+    
+  
     private void Awake()
     {
         backGroundCount = backgroundMaps.Count;
@@ -41,7 +50,8 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"맵 진행률 :{killRate}");
+        Debug.Log($"현재 스테이지:{curMiddleMap} - {curSmallStage}");
+
 
         //테스트 코드
         if (Input.GetKeyDown(KeyCode.Space))
@@ -56,35 +66,61 @@ public class MapController : MonoBehaviour
         {
             viewMonsterCount++;
         }
-
-
-
-
+         
         TranslateBackGround();
         RePositionBackGround();
         ResetBackGround();
     }
 
     public void ResetBackGround()
-    {   
-        if(killRate >= 100f)
+    {
+        
+        if (killRate >= 100f)
         {
-            //fade.FadeOut();
-
-            for(int i = 0; i < backGroundCount; i++)
+            fade.FadeOut();
+             
+            for (int i = 0; i < backGroundCount; i++)
             {
-                backgroundMaps[i].transform.position = new Vector3(endPosX * i,0f, 0f);
+                backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
             }
 
-            //fade.FadeIn();
-
-            //테스트 코드
+            //맵 스테이지 변경 > ex) 1-1 > 1-2
+            NextStage();
+             
+            killMonsterCount = 0;
+            killRate = 0f;
             viewMonsterCount = 1;
+        }
+        else
+        {
+            //맵 설정 완료됐으면 Fade In
+            if (fade.IsFade)
+            {
+                fade.FadeIn();
+            }
+        }
+
+    }
+
+    public void NextStage()
+    {
+
+        if(curSmallStage < mapData[(int)curMiddleMap].MaxSmallStage)
+        {
+            curSmallStage++;
+        }
+        else
+        {
+            curMiddleMap++;
+            curSmallStage = 1;
+
+            //Map Data의 Sprite Image로 변경
+            //ChangeSprite(mapData[(int)curMiddleMap].BackGroundSprite);
+
         }
 
 
     }
-
 
     /// <summary>
     /// 배경 이미지 위치 이동
@@ -117,11 +153,12 @@ public class MapController : MonoBehaviour
     }
 
     /// <summary>
-    /// 맵 배경 Sprite 변경
+    /// Map Data의 맵 배경 Sprite 변경
     /// </summary>
     /// <param name="sprite">맵 단계 별 받아올 sprite 변수</param>
     public void ChangeSprite(Sprite sprite)
     {
+         
         for (int i = 0; i < backGroundCount; i++)
         {
             SpriteRenderer render = backgroundMaps[i].GetComponent<SpriteRenderer>();
