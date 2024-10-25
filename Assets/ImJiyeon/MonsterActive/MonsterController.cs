@@ -1,17 +1,9 @@
+using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class MonsterController : MonoBehaviour
 {
-    /*
-        기능의 순서
-        1. 몬스터 생성 (해당 기능은 다른 스크립트에서 진행 예정)
-        2. 생성된 몬스터가 앞으로 움직임 (걸어다니는 몬스터가 더 많으므로 걸어다니는 몬스터를 디폴트로 설정)
-        3. 앞으로 움직일 때, 공격 범위 내로 플레이어의 콜라이더가 들어올 때 공격을 개시
-        4. 체력이 0이 될 경우, 개체는 삭제되며 동시에 재화를 드랍. (추후 플레이어 재화와 연동하여 등록된 값을 ++ 하는 식으로 구현을 예상하고 있음)
-
-        화면 밖에 있는 몬스터는 트리거가 on이 되어 맞지 않도록 함
-     */
-
     public enum MonsterState { Move, Attack, Dead, Size }
     [SerializeField] MonsterState CurMonsterState = MonsterState.Move;
 
@@ -21,8 +13,13 @@ public class MonsterController : MonoBehaviour
     [Header("Player")]
     [SerializeField] GameObject Player;         // 플레이어 오브젝트
     [SerializeField] GameObject PlayerBullet;   // 플레이어 총알 오브젝트 (프리팹 자체를 참조 예정)
-    // 추후 플레이어 오브젝트에서 model을 GetComponent하여 참조 후, 재화 추가와 데미지 값을 입력받을 예정 
 
+    [Header("Bullet")]
+    [SerializeField] GameObject MonsterBullet;  // 몬스터 총알 오브젝트 (프리팹 자체 참조)
+    [SerializeField] Transform muzzlePoint;     // 몬스터의 총알이 나가는 기준점이 될 오브젝트
+
+    // 추후 플레이어 오브젝트에서 model을 GetComponent하여 참조 후, 재화 추가와 데미지 값을 입력받을 예정 
+    // 추후 스테이지 화면 구성 시, 화면에 화면 안밖을 구분하는 콜라이더를 참조하여 피격 여부를 확인할 예정
 
     #region State 클래스 선언
     private BaseState[] States = new BaseState[(int)MonsterState.Size];
@@ -31,9 +28,13 @@ public class MonsterController : MonoBehaviour
     [SerializeField] DeadState deadState;
     #endregion
 
-    #region 애니메이션 Hash 선언 (추후 추가 예정)
-
-
+    [Header("Animation")]
+    #region 애니메이션 Hash 선언
+    [SerializeField] Animator monsterAnimator;
+    private int curAniHash;
+    private static int monsterMoveHash = Animator.StringToHash("MonsterMove");
+    private static int monsterAttackHash = Animator.StringToHash("MonsterAttack");
+    private static int monsterDeadHash = Animator.StringToHash("MonsterDead");
     #endregion
 
 
@@ -90,8 +91,10 @@ public class MonsterController : MonoBehaviour
             // Move 행동 구현
             // 몬스터는 생성 시 곧바로 앞을 향해 전진한다.
             Monster.transform.position = Vector2.MoveTowards(Monster.transform.position, Monster.transform.forward, Model.MonsterMoveSpeed * Time.deltaTime);
+            //Monster.AnimatorPlay();
 
-            // 추후 if문을 통해, 특정 콜라이더 안(=화면 안)으로 진입하였을 경우 isDamaged를 on하여 총알과 상호작용 하게 할 수 있을 듯 싶다
+            // 추후 if문을 통해, 특정 콜라이더 안(=화면 안)으로 진입하였을 경우
+            // isDamaged를 on하여 총알과 상호작용 하게 할 수 있을 듯 싶다
 
             // 다른 상태로 전환
             // 몬스터의 체력이 0 이하일 경우, 몬스터는 삭제된다.
@@ -109,11 +112,18 @@ public class MonsterController : MonoBehaviour
         [SerializeField] MonsterController Monster;
         [SerializeField] MonsterModel Model;
 
+        private Rigidbody2D rigid;
+        private Transform TargetPlayer;
+
         public override void Update()
         {
-            // Attack 행동 구현
-            // 기획팀에 문의 후 코드 구성 예정
-            // 원거리 공격으로 알고있음
+            Monster.AnimatorPlay();
+
+            // 총알 생성
+            GameObject bullet = Instantiate(Monster.MonsterBullet, Monster.muzzlePoint.position, Monster.muzzlePoint.rotation);
+            //MonsterShotBullet bulletShot = bullet.GetComponent<MonsterShotBullet>();
+            //bulletShot.SetTarget(Monster.Player);
+            Monster.Wait();
 
             // 다른 상태로 전환
             if (Model.MonsterHP < 0.01f) { Monster.ChangeState(MonsterState.Dead); }
@@ -132,10 +142,10 @@ public class MonsterController : MonoBehaviour
         {
             // Dead 행동 구현
             Debug.Log("몬스터 삭제됨");
-            // 몬스터는 삭제된다. (혹은 오브젝트 풀 패턴 사용)
-            Destroy(Monster.gameObject);
-            // 이후 코인이 UI를 향해 빨려가는 애니메이션 재생
-            // 마지막으로 플레이어의 재화를 보관하고 있는 자료형 += Model.DropGold;
+            //Monster.AnimatorPlay();
+            Destroy(Monster.gameObject); // 몬스터 자체를 오브젝트 풀 패턴을 보관하고 있어도 좋을듯
+            // 코인이 UI를 향해 빨려가는 애니메이션 재생
+            // 플레이어의 재화를 보관하고 있는 자료형 += Model.DropGold;
         }
     }
 
@@ -153,4 +163,38 @@ public class MonsterController : MonoBehaviour
             monsterModel.MonsterHP -= PlayerDamage;
         }
     }
+
+    // ==============================================
+
+    void AnimatorPlay()
+    {
+        int checkAniHash;
+
+        // Dead 상태
+        if (monsterModel.MonsterHP < 0.01f) { checkAniHash = monsterDeadHash; }
+        // Attack 상태
+        else if (Vector2.Distance(transform.position, Player.transform.position) < monsterModel.AttackRange) { checkAniHash = monsterAttackHash; }
+        // Move 상태
+        else { checkAniHash = monsterMoveHash; }
+
+
+        if (curAniHash != checkAniHash)
+        {
+            curAniHash = checkAniHash;
+            monsterAnimator.Play(curAniHash);
+        }
+    }
+
+    // ==============================================
+
+    void Wait()
+    {
+        StartCoroutine(TimerUse());
+    }
+
+    IEnumerator TimerUse()
+    {
+            yield return new WaitForSeconds(1.5f);
+    }
+
 }

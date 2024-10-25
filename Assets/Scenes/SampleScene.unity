@@ -230,7 +230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 646020961}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.61, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -247,9 +247,10 @@ GameObject:
   m_Component:
   - component: {fileID: 692541723}
   - component: {fileID: 692541722}
-  - component: {fileID: 692541721}
+  - component: {fileID: 692541727}
   - component: {fileID: 692541725}
   - component: {fileID: 692541724}
+  - component: {fileID: 692541726}
   m_Layer: 0
   m_Name: ExempleMonster
   m_TagString: Monster
@@ -257,22 +258,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!58 &692541721
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 692541720}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.5
 --- !u!212 &692541722
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -314,12 +299,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 1314690809, guid: 224540d25e6d6274e8e06f2c7e526e0b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.41, y: 0.39}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -353,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df597cba5743db24faa47d0e9ee021ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInside: 0
   monsterHP: 50
   monsterMoveSpeed: 5
   dropGold: 100
@@ -375,6 +361,8 @@ MonoBehaviour:
   monsterModel: {fileID: 0}
   Player: {fileID: 0}
   PlayerBullet: {fileID: 0}
+  MonsterBullet: {fileID: 8567523358615718062, guid: 01bb78560a9bb914e81f0f62b04d7b24, type: 3}
+  muzzlePoint: {fileID: 646020962}
   moveState:
     Monster: {fileID: 692541725}
     Model: {fileID: 692541724}
@@ -384,6 +372,44 @@ MonoBehaviour:
   deadState:
     Monster: {fileID: 692541725}
     Model: {fileID: 692541724}
+  monsterAnimator: {fileID: 692541726}
+--- !u!95 &692541726
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692541720}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9795af8396545a44a917ab27e7bc1849, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!70 &692541727
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 692541720}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.07, y: 0}
+  m_Size: {x: 0.8, y: 1.4}
+  m_Direction: 0
 --- !u!1 &1791385332
 GameObject:
   m_ObjectHideFlags: 0
