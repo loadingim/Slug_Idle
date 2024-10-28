@@ -76,7 +76,7 @@ public class Stage : MonoBehaviour
     {
         Debug.Log($"{curMiddleMap} / 난이도 :{curDifficult}");
         Debug.Log($"현재 스테이지:{curMiddleMap} - {curSmallStage} -{curWave}");
-
+        Debug.Log($"몬스터 스피드 :{monsters[0].MonsterMoveSpeed}");
         //테스트 코드
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -261,15 +261,15 @@ public class Stage : MonoBehaviour
         switch (curDifficult)
         {
             case Difficutly.Easy:
-                monsters[index].MonsterAttack = 3.5f;
+                monsters[index].MonsterMoveSpeed = 3.5f;
                 break;
 
             case Difficutly.Normal:
-                monsters[index].MonsterAttack = 5.5f;
+                monsters[index].MonsterMoveSpeed = 5.5f;
                 break;
 
             case Difficutly.Hard:
-                monsters[index].MonsterAttack = 7.5f;
+                monsters[index].MonsterMoveSpeed = 7.5f;
                 break;
         }
 
