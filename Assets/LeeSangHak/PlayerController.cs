@@ -9,13 +9,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject targetMonster = null;
     public float attackCooldown = 0f;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] int ammo;
+    public int ammo;
     [SerializeField] float times;
 
     private void Start()
     {
         // 모델 데이터 : 공격 속도
-        PlayerDataModel.Instance.AttackSpeed = 3f;
+        PlayerDataModel.Instance.AttackSpeed = 10f;
         Debug.Log(PlayerDataModel.Instance.AttackSpeed);
     }
 
@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         if (PlayerDataModel.Instance.Health <= 0)
         {
             // Destroy(gameObject); < 죽었을 시 
+            Debug.Log("피격됨");
         }
     }
 
