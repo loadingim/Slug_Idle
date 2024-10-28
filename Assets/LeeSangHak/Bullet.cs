@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Bullet : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class Bullet : MonoBehaviour
     [SerializeField] float speed;
     [SerializeField] GameObject target;
     [SerializeField] Transform trans;
+    private PlayerController playerController;
+
+    private void Start()
+    {
+        playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+    }
 
     private void Update()
     {
@@ -17,14 +24,13 @@ public class Bullet : MonoBehaviour
         if (target == null || target.activeSelf == false)
         {
             transform.Translate(trans.position * speed * Time.deltaTime);
-            return;
         }
 
-        
+
         // 타겟이 있고 활성화일때
         if (target != null && target.activeSelf == true)
         {
-            transform.Translate(target.transform.position * speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, trans.position, speed * Time.deltaTime);
 
             if (Vector2.Distance(transform.position, target.transform.position) < 0.1f)
             {
@@ -32,8 +38,18 @@ public class Bullet : MonoBehaviour
                 //target.GetComponent<Monster>().TakeDamage(damage);
 
                 // 탄환 제거
-                Destroy(gameObject);
+                //Destroy(gameObject);
             }
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Monster")
+        {
+            collision.GetComponent<MonsterModel>().MonsterHP--;
+            Debug.Log("몬스터가 받는 데미지");
+            playerController.ammo--;
+            Destroy(gameObject);
         }
     }
 
