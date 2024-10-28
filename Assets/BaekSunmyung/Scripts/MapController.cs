@@ -1,31 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapController : MonoBehaviour
 {
 
+    [SerializeField] private Stage stage;
+
     [Header("배경 이미지 리스트")]
     [SerializeField] private List<GameObject> backgroundMaps = new List<GameObject>();
- 
-
+  
     [Header("배경 이미지 이동 속도")]
     [SerializeField] private float mapTranslateSpeed;     //Player MoveSpeed 고려
-
-    [Header("맵 스테이지 데이터")]
-    [SerializeField] private List<MapData> mapData = new List<MapData>();
-
-    //테스트 코드 > 추후 변수명 수정 필요
-    [SerializeField] private int viewMonsterCount = 0;
-    [SerializeField] private int totalMonsterCount = 0;
-    [SerializeField] private int killMonsterCount = 0;
-
+ 
     [SerializeField] private Fade fade;
-
-    //변수명 수정 필요
-    private float killRate = 0f;
 
     //배경 이미지 이동 끝 위치 xPos 
     private float endPosX = 0;
@@ -33,16 +22,16 @@ public class MapController : MonoBehaviour
     //배경 이미지 개수
     private int backGroundCount = 0;
 
+    private Action bgAction;
+
     //배경 이미지 초기화 위치
     private Vector3 startPos;
 
-    //임시 변수명
-    private MiddleMap curMiddleMap = MiddleMap.One;
-    private int curSmallStage = 1;
-
-
+    private int viewMonsterCount;
     private bool isDeath;
 
+    private Coroutine resetRoutine;
+    private bool isChange;
 
     private void Awake()
     {
@@ -55,45 +44,31 @@ public class MapController : MonoBehaviour
     }
 
     private void Start()
-    { 
-        //BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite);
-        //SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
+    {
+        bgAction = ResetBackGround;
+        stage.BackGroundResetAction(bgAction);
     }
 
 
     private void Update()
     {
-        Debug.Log($"현재 스테이지:{curMiddleMap} - {curSmallStage}");
-
-        //테스트 코드
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            //viewMonsterCount--;
-            killMonsterCount++;
-
-            //스테이지 진행률
-            killRate = ((float)killMonsterCount / totalMonsterCount) * 100;
-
-        }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            viewMonsterCount++;
-        }
-
 
         TranslateBackGround();
         RePositionBackGround();
-        StageClear();
 
-
-        //isDeath 값은 추후 Player Life 값 받아올 필요가 있음
-        if (isDeath)
+        if (fade.IsFade)
         {
-            ResetBackGround();
+            fade.FadeIn();
+
+            if(isChange && resetRoutine != null)
+            {
+                Debug.Log("코루틴 중지");
+                StopCoroutine(resetRoutine);
+                resetRoutine = null;
+                isChange = false;
+            }
+
         }
-
-
     }
 
 
@@ -102,59 +77,11 @@ public class MapController : MonoBehaviour
     /// </summary>
     public void ResetBackGround()
     {
+        fade.FadeOut();
 
-        for (int i = 0; i < backGroundCount; i++)
-        {
-            backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
-         
-        }
-
+        resetRoutine = StartCoroutine(ResetCo());
     }
-
-    /// <summary>
-    /// Stage 클리어 시 BackGround 설정 변경
-    /// </summary>
-    public void StageClear()
-    {
-
-        if (killRate >= 100f)
-        {
-            fade.FadeOut();
-            ResetBackGround(); 
-            NextStage();
-
-            killMonsterCount = 0;
-            killRate = 0f;
-            viewMonsterCount = 1;
-        }
-        else
-        {
-            //맵 설정 완료됐으면 Fade In
-            if (fade.IsFade)
-            {
-                fade.FadeIn();
-            }
-        }
-
-    }
-
-    public void NextStage()
-    {
-        //맵 스테이지 변경 > ex) 1-1 > 1-2
-        if (curSmallStage < mapData[(int)curMiddleMap].MaxSmallStage)
-        {
-            curSmallStage++;
-        }
-        else
-        {
-            curMiddleMap++;
-            curSmallStage = 1;
-
-            //Map Data의 Sprite Image로 변경
-            //BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite); 
-            //SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
-        }
-    }
+  
 
     /// <summary>
     /// 배경 이미지 위치 이동
@@ -163,6 +90,7 @@ public class MapController : MonoBehaviour
     {
         //현재 맵 상에서 보이는 몬스터가 없을 경우에만 맵 이동 진행
         //추후 Player or Monster에서 감지된 Count를 받아 올 필요 있음
+        // or Player가 이동 상태일 경우 이동하는 방식으로 수정
         if (viewMonsterCount == 0)
         {
             for (int i = 0; i < backGroundCount; i++)
@@ -174,7 +102,7 @@ public class MapController : MonoBehaviour
     }
 
     /// <summary>
-    /// 배경 이미지 위치 우측
+    /// 배경 이미지 위치 우측 이동
     /// </summary>
     public void RePositionBackGround()
     {
@@ -212,7 +140,26 @@ public class MapController : MonoBehaviour
             skyRen.sprite = sprite; 
         } 
     }
+    
+    private IEnumerator ResetCo()
+    {
+        //맵이 재배치되기 전 대기 시간
+        //추후 player 가 준비 상태를 받아 올 수 있으면 대기 시간은 필요 없음
+        yield return new WaitForSeconds(1.5f);
+ 
+        if (!isChange)
+        {
+            for (int i = 0; i < backGroundCount; i++)
+            {
+                backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
+            } 
+        }
 
+        isChange = true;
+
+        yield break;
+
+    }
 
 
 }
