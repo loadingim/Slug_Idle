@@ -91,7 +91,7 @@ public class MapController : MonoBehaviour
         //현재 맵 상에서 보이는 몬스터가 없을 경우에만 맵 이동 진행
         //추후 Player or Monster에서 감지된 Count를 받아 올 필요 있음
         // or Player가 이동 상태일 경우 이동하는 방식으로 수정
-        if (viewMonsterCount == 0)
+        if (stage.ViewMonsterCount == 0)
         {
             for (int i = 0; i < backGroundCount; i++)
             {

@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Two
   m_EditorClassIdentifier: 
   middleStage: 1
-  maxSmallStage: 20
+  maxSmallStage: 5
   backGroundSprite: {fileID: 0}
+  skySprite: {fileID: 0}
