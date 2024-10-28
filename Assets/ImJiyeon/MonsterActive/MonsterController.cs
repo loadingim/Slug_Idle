@@ -90,8 +90,8 @@ public class MonsterController : MonoBehaviour
         {
             // Move 행동 구현
             // 몬스터는 생성 시 곧바로 앞을 향해 전진한다.
-            Monster.transform.position = Vector2.MoveTowards(Monster.transform.position, Monster.transform.forward, Model.MonsterMoveSpeed * Time.deltaTime);
-            //Monster.AnimatorPlay();
+            Monster.AnimatorPlay();
+            Monster.transform.position = Vector2.MoveTowards(Monster.transform.position, Monster.Player.transform.position, Model.MonsterMoveSpeed * Time.deltaTime);
 
             // 추후 if문을 통해, 특정 콜라이더 안(=화면 안)으로 진입하였을 경우
             // isDamaged를 on하여 총알과 상호작용 하게 할 수 있을 듯 싶다
@@ -117,13 +117,11 @@ public class MonsterController : MonoBehaviour
 
         public override void Update()
         {
-            Monster.AnimatorPlay();
+            //Monster.AnimatorPlay();
 
             // 총알 생성
             GameObject bullet = Instantiate(Monster.MonsterBullet, Monster.muzzlePoint.position, Monster.muzzlePoint.rotation);
-            //MonsterShotBullet bulletShot = bullet.GetComponent<MonsterShotBullet>();
-            //bulletShot.SetTarget(Monster.Player);
-            Monster.Wait();
+            // 코루틴 추가
 
             // 다른 상태로 전환
             if (Model.MonsterHP < 0.01f) { Monster.ChangeState(MonsterState.Dead); }
@@ -142,7 +140,7 @@ public class MonsterController : MonoBehaviour
         {
             // Dead 행동 구현
             Debug.Log("몬스터 삭제됨");
-            //Monster.AnimatorPlay();
+            Monster.AnimatorPlay();
             Destroy(Monster.gameObject); // 몬스터 자체를 오브젝트 풀 패턴을 보관하고 있어도 좋을듯
             // 코인이 UI를 향해 빨려가는 애니메이션 재생
             // 플레이어의 재화를 보관하고 있는 자료형 += Model.DropGold;
@@ -195,6 +193,7 @@ public class MonsterController : MonoBehaviour
     IEnumerator TimerUse()
     {
             yield return new WaitForSeconds(1.5f);
+            Debug.Log("총알 쉼");
     }
 
 }

@@ -137,4 +137,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  returnTime: 20
+  monsterAttackSpeed: 5
+  returnTime: 10
