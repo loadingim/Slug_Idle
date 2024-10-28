@@ -8,6 +8,10 @@ public enum PlayerData
 
 public class StatStore : MonoBehaviour
 {
+    /// <summary>
+    /// 스탯 증가량과 스탯 구매 비용에 대해 정의된 자료형 타입
+    /// </summary>
+    /// <typeparam name="T"> 스탯의 자료형과 일치 </typeparam>
     [Serializable]
     public struct StatChangeAmount<T>
     {
@@ -15,7 +19,7 @@ public class StatStore : MonoBehaviour
         public int cost;
     }
 
-    [Header("Stat Change Amount Setting")]
+    [Header("스탯 증가량 및 스탯 구매비용 설정")]
     public StatChangeAmount<int> health;
     public StatChangeAmount<float> attack;
     public StatChangeAmount<float> attackSpeed;
@@ -28,7 +32,7 @@ public class StatStore : MonoBehaviour
     }
 
     /// <summary>
-    /// 체력 스탯이 1씩 상승하는 함수
+    /// 체력 스탯이 value씩 상승하는 함수
     /// </summary>
     public void HealthStatUp()
     {
@@ -44,7 +48,7 @@ public class StatStore : MonoBehaviour
     }
 
     /// <summary>
-    /// 공격력 스탯이 1씩 상승하는 함수
+    /// 공격력 스탯이 value씩 상승하는 함수
     /// </summary>
     public void AttackStatUp()
     {
@@ -60,7 +64,7 @@ public class StatStore : MonoBehaviour
     }
 
     /// <summary>
-    /// 공격속도 스탯이 1씩 상승하는 함수
+    /// 공격속도 스탯이 value씩 상승하는 함수
     /// </summary>
     public void AttackSpeeedStatUp()
     {
