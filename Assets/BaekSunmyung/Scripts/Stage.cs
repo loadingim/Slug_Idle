@@ -24,6 +24,12 @@ public class Stage : MonoBehaviour
     private MiddleMap curMiddleMap = MiddleMap.One;
     private int curSmallStage = 1;
 
+    private int curWave = 1;
+    private int maxWave = 4; // 추후 Data Table 에서 받아올 필요 있음
+
+    //현재 중분류 난이도 체크
+    private Difficutly curDifficult = Difficutly.Easy;
+    private bool[,] difficultCheck = new bool[(int)MiddleMap.SIZE, (int)Difficutly.SIZE];
 
     private void Start()
     {
@@ -93,6 +99,52 @@ public class Stage : MonoBehaviour
             NextStage();
         }
     }
+    
+    public void SetDifficult()
+    {
+        //현재 중분류의 클리어한 난이도 확인
+        //true 가 된 나이도가 있으면 해당 난이도로 변경
+        
+        //for(int i = 0; i < (int)Difficutly.SIZE; i++)
+        //{
+        //    if (difficultCheck[(int)curMiddleMap, i])
+        //    {
+        //        curDifficult = (Difficutly)i;
+        //    }
+        //}
+         
+    }
+
+    public void ChangeDifficult()
+    {
+        //현재 중분류의 난이도 확인
+        //IF 중분류의 smallStage가 최대 stage보다 커졌는가?
+        //True : difficultCheck[(int)curMiddleMap, (int)curDifficult++] = true;
+        //False : difficultCheck[(int)curMiddleMap, (int)curDifficult++] = false;
+    }
+
+    public void StartWave()
+    {
+        //IF 현재 웨이브가 maxWave 전인가
+        //현재 웨이브 확인
+        //현재 웨이브에 맞는 몬스터 생성 
+        //CreateMonster()
+
+        //IF killRate >= 100f
+        //Stage Clear()
+        //curWave ++;
+
+        //IF 증가한 wave가 maxWave 보다 큰가?
+        //curSmallStage 증가
+        //IF curSmallStage가 중분류의 maxStage에 도달했는가?
+        //middleStage 증가
+    }
+
+    public void CreateMonster()
+    {
+        //몬스터 클래스 받아와서 Instantiate 진행
+    }
+
 
     public void BackGroundResetAction(Action action)
     {

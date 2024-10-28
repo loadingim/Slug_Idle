@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class MapController : MonoBehaviour
@@ -31,6 +30,9 @@ public class MapController : MonoBehaviour
     private int viewMonsterCount;
     private bool isDeath;
 
+    private Coroutine resetRoutine;
+    private bool isChange;
+
     private void Awake()
     {
         backGroundCount = backgroundMaps.Count;
@@ -57,6 +59,15 @@ public class MapController : MonoBehaviour
         if (fade.IsFade)
         {
             fade.FadeIn();
+
+            if(isChange && resetRoutine != null)
+            {
+                Debug.Log("코루틴 중지");
+                StopCoroutine(resetRoutine);
+                resetRoutine = null;
+                isChange = false;
+            }
+
         }
     }
 
@@ -67,12 +78,8 @@ public class MapController : MonoBehaviour
     public void ResetBackGround()
     {
         fade.FadeOut();
-         
-        for (int i = 0; i < backGroundCount; i++)
-        {
-            backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
-        } 
 
+        resetRoutine = StartCoroutine(ResetCo());
     }
   
 
@@ -133,7 +140,26 @@ public class MapController : MonoBehaviour
             skyRen.sprite = sprite; 
         } 
     }
+    
+    private IEnumerator ResetCo()
+    {
+        //맵이 재배치되기 전 대기 시간
+        //추후 player 가 준비 상태를 받아 올 수 있으면 대기 시간은 필요 없음
+        yield return new WaitForSeconds(1.5f);
+ 
+        if (!isChange)
+        {
+            for (int i = 0; i < backGroundCount; i++)
+            {
+                backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);
+            } 
+        }
 
+        isChange = true;
+
+        yield break;
+
+    }
 
 
 }
