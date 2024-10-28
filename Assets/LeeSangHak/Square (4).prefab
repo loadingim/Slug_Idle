@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8954962945446772094}
   - component: {fileID: 5109765540774597007}
   - component: {fileID: -255876944950136976}
-  - component: {fileID: -3971006961976530499}
+  - component: {fileID: 4557369198132793593}
   m_Layer: 0
   m_Name: Square (4)
   m_TagString: Untagged
@@ -98,11 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e930fce83831e40bc07090d9dde2ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigid: {fileID: -3971006961976530499}
-  speed: 0.4
+  rigid: {fileID: 0}
+  speed: 1
   target: {fileID: 0}
   trans: {fileID: 0}
---- !u!50 &-3971006961976530499
+--- !u!50 &4557369198132793593
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3306471569424342834}
   m_BodyType: 0
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
