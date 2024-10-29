@@ -19,9 +19,20 @@ public class StageCSV : MonoBehaviour
 {
     const string stagePath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1337676358&format=csv";
     public List<StageData> State;
+    public static StageCSV Instance;
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         StartCoroutine(DownloadRoutine());
     }
 

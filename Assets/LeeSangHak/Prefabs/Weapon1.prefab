@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fd30e2f82caab4e90ac66205a9c7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: F
+  name: Heavy
   damage: 3
   attackSpeed: 6
