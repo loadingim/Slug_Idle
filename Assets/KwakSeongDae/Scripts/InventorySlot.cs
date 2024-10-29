@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-
-
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
     public enum SlotType
@@ -22,20 +20,25 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         if (transform.childCount == 0)
         {
-            if (eventData.pointerDrag.TryGetComponent<InventoryItem>(out var Item))
+            if (eventData.pointerDrag.TryGetComponent<InventoryItem>(out var Item) && Item.canUse)
             {
                 Item.parentAfterDrag = transform;
             }
         }
         else if (transform.childCount == 1) // 이미 1개의 아이템을 지닌 경우에 서로 스왑
         {
-            if (eventData.pointerDrag.TryGetComponent<InventoryItem>(out var Item))
+            if (eventData.pointerDrag.TryGetComponent<InventoryItem>(out var dragItem) && dragItem.canUse)
             {
-                //원래 돌아가려고 했던 트랜스폼에 현재 자신이 가진 아이템을 넣기
                 var swapObject = transform.GetChild(0);
-                swapObject.SetParent(Item.parentAfterDrag);
-                //아이템이 들어갈곳을 parent로 설정
-                Item.parentAfterDrag = transform; 
+                // 바뀐 후, 스왑될 아이템에 대한 슬롯 체크 수행
+                if (swapObject.TryGetComponent<InventoryItem>(out var swapItem) && swapItem.canUse)
+                {
+                    //원래 돌아가려고 했던 트랜스폼에 현재 자신이 가진 아이템을 넣기
+                    swapObject.SetParent(dragItem.parentAfterDrag);
+                    swapItem.SlotCheck();
+                    //아이템이 들어갈곳을 parent로 설정
+                    dragItem.parentAfterDrag = transform;
+                }
             }
         }
     }
