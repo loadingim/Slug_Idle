@@ -13,7 +13,7 @@ public struct MonsterData
 
 public class MonsterCSV : MonoBehaviour
 {
-    const string monsterPath = "https://docs.google.com/spreadsheets/d/1IQlUt1E_mBeowAF0kYdPeLFND6kxM0qA/export?gid=1883674857&format=csv";
+    const string monsterPath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1087246424&format=csv";
     [SerializeField] List<MonsterData> monster;
 
     private void Awake()
@@ -32,7 +32,7 @@ public class MonsterCSV : MonoBehaviour
         Debug.Log(receiveText);
 
         string[] lines = receiveText.Split('\n');
-        for (int y = 3; y < lines.Length; y++)
+        for (int y = 4; y < lines.Length; y++)
         {
             MonsterData monsterData = new MonsterData();
 

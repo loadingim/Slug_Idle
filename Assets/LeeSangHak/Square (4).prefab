@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: -3971006961976530499}
-  speed: 2
+  speed: 1
   target: {fileID: 0}
   trans: {fileID: 0}
 --- !u!50 &-3971006961976530499
