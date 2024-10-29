@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b8eef15f209dc47ae15b7405ac15df, type: 3}
+  m_Name: SecondStageBoss
+  m_EditorClassIdentifier: 
+  bossIdleSprite: []
+  bossMoveSprite:
+  - {fileID: 67561015, guid: 5a64a5cc868971c4eb7843373698c248, type: 3}
+  - {fileID: -1562596880, guid: 5a64a5cc868971c4eb7843373698c248, type: 3}
+  - {fileID: 765053695, guid: 5a64a5cc868971c4eb7843373698c248, type: 3}
+  bossAttackSprite: []
+  bossDeathSprite: []
+  bossSlugSprite: []

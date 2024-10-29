@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -46,6 +45,7 @@ public class Stage : MonoBehaviour
     private int curWave = 0;
     private int maxWave = 3; // 추후 Data Table 에서 받아올 필요 있음
     private int curWaveMonsterCount = 5;    //Data Table에서 받아와야 함
+    private bool isBoss;
 
     //현재 중분류 난이도 체크 (임시 변수명)
     private Difficutly curDifficult = Difficutly.Easy;
@@ -95,6 +95,7 @@ public class Stage : MonoBehaviour
         Debug.Log($"현재 스테이지:{curMiddleMap} - {curSmallStage} -{curWave}");
          
         //테스트 코드
+        //머지 후에 몬스터가 Destroy 됐을 경우 판단하는 방식으로 작성
         if (Input.GetKeyDown(KeyCode.Space))
         {
             monsters[testIndex].MonsterHP = 0;
@@ -222,16 +223,18 @@ public class Stage : MonoBehaviour
 
 
     }
-
-    public void BossAndDeath()
+ 
+    public void CreateBoss()
     {
-
         //IF 보스 만난 상태에서 죽었는가
         //isMeenBoss && isDeath
         //보스 아이콘 노출
         //ELSE
-         
+
+        curWaveMonsterCount = 1;
+
     }
+
 
 
     /// <summary>
