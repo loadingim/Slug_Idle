@@ -3,39 +3,45 @@ using UnityEngine;
 public class MonsterShotBullet : MonoBehaviour
 {
     [SerializeField] GameObject Player;
+    [SerializeField] Rigidbody2D rigid;
     [SerializeField] PlayerDataModel playerDataModel;
-             private Rigidbody2D rb;
-
-    [SerializeField] float monsterAttackSpeed;
-    [SerializeField] int   monsterAttack;
     [SerializeField] float returnTime;
              private float remainTime;
+
+    private int damage;
+    public int Damage { get { return damage; } set { damage = value; } }
+
+    private float speed;
+    public float Speed { get { return speed; } set { speed = value; } }
+
+
 
     private void Awake()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
         playerDataModel = Player.GetComponent<PlayerDataModel>();
-        rb = GetComponent<Rigidbody2D>();
+        rigid = GetComponent<Rigidbody2D>();
     }
 
-    // 오브젝트 활성화 시, 쿨타임을 서로 연동
+
     void OnEnable() { remainTime = returnTime; }
 
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 플레이어의 콜라이더와 몬스터의 총알이 맞닿았을 때, 해당 총알은 삭제된다.
         if (Player == collision.gameObject)
         {
-            playerDataModel.Health -= monsterAttack;
+            Debug.Log("몬스터 총알 플레이어에게 맞음");
+            playerDataModel.Health -= damage;
             Destroy(gameObject);
         }
     }
 
     void Update()
     {
-        // 총알은 생성 시 자동으로 플레이어를 향해 발사된다.
-        transform.Translate(Player.transform.position * monsterAttackSpeed * Time.deltaTime);
+        // 총알 발사
+        Vector3 dir = (Player.transform.position - transform.position).normalized;
+        rigid.velocity = new Vector2(dir.x * speed, dir.y * speed);
 
         // 총알이 맞지 않고 일정 시간이 지났을 때, 자동으로 삭제된다.
         remainTime -= Time.deltaTime;

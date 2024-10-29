@@ -20,6 +20,17 @@ public class MonsterModel : MonoBehaviour
 
 
 
+    [Header("BulletAttack")]
+    // 몬스터 총알 공격력
+    [SerializeField] int monsterAttack;
+    public int MonsterAttack { get { return monsterAttack; } set { monsterAttack = value; } }
+
+    // 몬스터 총알 스피드
+    [SerializeField] float monsterAttackSpeed;
+    public float MonsterAttackSpeed { get { return monsterAttackSpeed; } set { monsterAttackSpeed = value; } }
+
+
+
     [Header("Range")]
     // 몬스터가 플레이어를 공격하는 최소 거리 설정. 해당 거리 내로 들어오면 몬스터는 원거리 공격을 시행한다.
     [SerializeField] int attackRange;
