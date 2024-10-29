@@ -13,7 +13,9 @@ public class StageTester : MonoBehaviour
     [SerializeField] private List<MapData> mapData = new List<MapData>();
     [SerializeField] private MapController mapController;
     [SerializeField] private Image foreGround;
-
+    [SerializeField] StageCSV CSVTester;
+    [SerializeField] int x;
+    
     [Header("Monster Spawn")]
     [SerializeField] private Transform monsterSpawnPoint;
     [SerializeField] private GameObject monsterPrefab;
@@ -33,7 +35,7 @@ public class StageTester : MonoBehaviour
 
     //Stage 관련 임시 변수명
     private MiddleMap curMiddleMap = MiddleMap.One;
-    private int curSmallStage = 1;
+    private int curSmallStage;
     private int curWave = 1;
     private int maxWave = 4; // 추후 Data Table 에서 받아올 필요 있음
     private int curWaveMonsterCount = 5;
@@ -53,7 +55,6 @@ public class StageTester : MonoBehaviour
         //테스트 코드
         monsters = new MonsterModel[curWaveMonsterCount];
 
-
         //모든 중분류의 Easy 난이도는 True로 변경
         for (int i = 0; i < (int)MiddleMap.SIZE; i++)
         {
@@ -69,13 +70,14 @@ public class StageTester : MonoBehaviour
         //totalMonsterCount = curWaveMonsterCount * maxWave;
         totalMonsterCount = curWaveMonsterCount;
         Wave();
-    }
 
+
+    }
 
     private void Update()
     {
         Debug.Log($"{curMiddleMap} / 난이도 :{curDifficult}");
-        Debug.Log($"현재 스테이지:{curMiddleMap} - {curSmallStage} -{curWave}");
+        Debug.Log($"현재 스테이지:{CSVTester.State[x].Stage_secondClass} - {CSVTester.State[x].Stage_thirdClass} -{CSVTester.State[x].Stage_wave}");
         Debug.Log($"몬스터 스피드 :{monsters[0].MonsterMoveSpeed}");
         //테스트 코드
         if (Input.GetKeyDown(KeyCode.Space))

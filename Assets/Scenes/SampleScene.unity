@@ -462,7 +462,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 586650204}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.0600586, y: 0.099975586, z: 0}
+  m_LocalPosition: {x: 1.53, y: 0.48, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -537,7 +537,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &753309696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -773,7 +773,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1089159065
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -857,7 +857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1112630773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,7 +911,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!212 &1122546540
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1082,7 +1082,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1169673336
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1181,7 +1181,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1316981973
 Transform:
   m_ObjectHideFlags: 0
@@ -1207,6 +1207,10 @@ PrefabInstance:
     - target: {fileID: 5326925187894411045, guid: 8e4620af002df4147bc8f463ea3338ed, type: 3}
       propertyPath: m_Name
       value: BasicUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 5326925187894411045, guid: 8e4620af002df4147bc8f463ea3338ed, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5326925187894411065, guid: 8e4620af002df4147bc8f463ea3338ed, type: 3}
       propertyPath: m_Pivot.x
@@ -1571,6 +1575,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8920fd6750b9e874e8babb51aff79b01, type: 2}
   mapController: {fileID: 1112630773}
   foreGround: {fileID: 0}
+  CSVTester: {fileID: 2074400692}
+  x: 0
   monsterSpawnPoint: {fileID: 1316981973}
   monsterPrefab: {fileID: 3994766619983724018, guid: 4b14f551bd8d3ef47af0f6bf690f8dee, type: 3}
   safeZone: {fileID: 1663386282}

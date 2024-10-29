@@ -18,7 +18,7 @@ public struct StageData
 public class StageCSV : MonoBehaviour
 {
     const string stagePath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1337676358&format=csv";
-    [SerializeField] List<StageData> State;
+    public List<StageData> State;
 
     private void Awake()
     {
