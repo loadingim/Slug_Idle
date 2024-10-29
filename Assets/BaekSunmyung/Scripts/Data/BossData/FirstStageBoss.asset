@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6b8eef15f209dc47ae15b7405ac15df, type: 3}
+  m_Name: FirstStageBoss
+  m_EditorClassIdentifier: 
+  bossIdleSprite: []
+  bossMoveSprite:
+  - {fileID: 248236394, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 1017931454, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 258304362, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 1144657690, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 19219517, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 942132589, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 1328345767, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 850467245, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: -1646185282, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 588654931, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 1425699516, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 378801504, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: -650289159, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 963502065, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 1216932285, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: -1147857702, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: -1924655485, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: -982071717, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: 705810153, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  - {fileID: -1794326073, guid: 84d5929b419fc9942acb8282c3bcb1d6, type: 3}
+  bossAttackSprite: []
+  bossDeathSprite: []
+  bossSlugSprite: []
