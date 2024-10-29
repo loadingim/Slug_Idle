@@ -17,11 +17,16 @@ public class Bullet : MonoBehaviour
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
+    private void Awake()
+    {
+
+    }
+
     private void Update()
     {
         trans = target.transform;
         // 타겟은 비어있거나 타겟이 비활성화일때
-        if (target == null || target.activeSelf == false)
+        if (target == null)
         {
             transform.Translate(trans.position * speed * Time.deltaTime);
         }
@@ -31,24 +36,16 @@ public class Bullet : MonoBehaviour
         if (target != null && target.activeSelf == true)
         {
             transform.position = Vector2.MoveTowards(transform.position, trans.position, speed * Time.deltaTime);
-
-            if (Vector2.Distance(transform.position, target.transform.position) < 0.1f)
-            {
-                // 몬스터에게 데미지 입히기
-                //target.GetComponent<Monster>().TakeDamage(damage);
-
-                // 탄환 제거
-                //Destroy(gameObject);
-            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Monster")
+        Debug.Log("접촉");
+        if (collision.gameObject.tag == "Monster" && collision.gameObject == target)
         {
-            collision.GetComponent<MonsterModel>().MonsterHP--;
+            Debug.Log("타겟접촉");
+            collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack;
             Debug.Log("몬스터가 받는 데미지");
-            playerController.ammo--;
             Destroy(gameObject);
         }
     }
