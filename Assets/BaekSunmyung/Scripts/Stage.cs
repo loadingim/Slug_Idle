@@ -114,23 +114,23 @@ public class Stage : MonoBehaviour
 
         if (monsters[testIndex] != null)
         {
-            Debug.Log($"몬스터 파괴 여부 :{monsters[testIndex].IsDestroyed()}");
-            if (monsters[testIndex].IsDestroyed())
+            //Debug.Log($"몬스터 파괴 여부 :{monsters[testIndex].IsDestroyed()}");
+            //if (monsters[testIndex].IsDestroyed())
+            //{
+            //    Debug.Log("파괴된 이후!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            //    testIndex++;
+            //    fieldWaveMonsterCount--;
+            //}
+
+            if (monsters[testIndex].MonsterHP < 1)
             {
-                Debug.Log("파괴된 이후!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-                testIndex++;
+                Destroy(monsters[testIndex]);
                 fieldWaveMonsterCount--;
+                killMonsterCount++;
+                testIndex++;
+                //스테이지 진행률
+
             }
-
-            //    if (monsters[testIndex].IsDestroyed())
-            //    {
-            //        Destroy(monsters[testIndex]);
-            //        fieldWaveMonsterCount--;
-            //        killMonsterCount++;
-            //        testIndex++;
-            //        //스테이지 진행률
-
-            //    }
         }
 
         if (curWaveMonsterCount <= createLimitCount && createCo != null)
