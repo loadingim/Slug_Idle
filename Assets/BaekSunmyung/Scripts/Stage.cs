@@ -40,8 +40,8 @@ public class Stage : MonoBehaviour
 
     public int FieldWaveMonsterCount { get { return fieldWaveMonsterCount; } }
 
-    private StageCSVTest csvPaser;
-    private int paserIndex = -1;
+    private StageCSVTest csvParser;
+    private int parserIndex = -1;
 
     public Action bgAction;
 
@@ -69,14 +69,18 @@ public class Stage : MonoBehaviour
 
 
     //테스트 코드
+    [SerializeField]
+    MonsterTest[] test = new MonsterTest[5];
+    [SerializeField] GameObject tt;
+
     [SerializeField] MonsterModel[] monsters;
     private int testIndex = 0;
 
-    private bool isWave;
+    [SerializeField] private bool isWave;
 
     private void Start()
     {
-        csvPaser = GetComponent<StageCSVTest>();
+        csvParser = GetComponent<StageCSVTest>();
   
         //모든 중분류의 Easy 난이도는 True로 변경
         for (int i = 0; i < (int)MiddleMap.SIZE; i++)
@@ -91,62 +95,46 @@ public class Stage : MonoBehaviour
 
         monsters = new MonsterModel[5];
  
+
     }
 
 
     private void Update()
     {
-        if (!csvPaser.isComplet)
+        if (!csvParser.isComplet)
         {
             return;
         }
-
-
-
+        
         //테스트 코드
         //머지 후에 몬스터가 Destroy 됐을 경우 판단하는 방식으로 작성
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            monsters[testIndex].MonsterHP = 0;
+            Destroy(test[testIndex]);
+            testIndex++;
+            killMonsterCount++;
+            fieldWaveMonsterCount--;
         }
-
-        
-
-        if (monsters[testIndex] != null)
-        {
-            //Debug.Log($"몬스터 파괴 여부 :{monsters[testIndex].IsDestroyed()}");
-            //if (monsters[testIndex].IsDestroyed())
-            //{
-            //    Debug.Log("파괴된 이후!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            //    testIndex++;
-            //    fieldWaveMonsterCount--;
-            //}
-
-            if (monsters[testIndex].MonsterHP < 1)
-            {
-                Destroy(monsters[testIndex]);
-                fieldWaveMonsterCount--;
-                killMonsterCount++;
-                testIndex++;
-                //스테이지 진행률
-
-            }
-        }
-
+  
+        //Wave 생상 완료됐으면
         if (curWaveMonsterCount <= createLimitCount && createCo != null)
-        {
+        { 
+            //코루틴 중지
             StopCoroutine(createCo);
             createCo = null;
+            //Wave False로 변경
+            isWave = false;
         }
 
         
-        if (!isWave &&fieldWaveMonsterCount < 1)
+        //생성된 Wave 몬스터가 없을 경우
+        if (!isWave && fieldWaveMonsterCount < 1)
         {
-            //wave 몬스터를 다 잡았으면 paserIndex 증가 
+            testIndex = 0;
+            //Wave 호출
             Wave();
         }
-
-
+ 
         //스테이지 진행률 UI 연동
         killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
         foreGround.fillAmount = killRate * 0.01f;
@@ -155,6 +143,12 @@ public class Stage : MonoBehaviour
 
     }
 
+    private void MonsterRemover()
+    {
+         
+    }
+
+     
      
     /// <summary>
     /// 다음 스테이지 이동
@@ -179,6 +173,7 @@ public class Stage : MonoBehaviour
         {
             killMonsterCount = 0;
             killRate = 0f;
+            ThirdClassMonsterCount = 0;
             NextStage();
         }
     }
@@ -188,55 +183,30 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void Wave()
     {
-        
-        isWave = true;
+        //Index 다중 증가 방지
+        isWave = true; 
+        parserIndex++;
+        Debug.Log($"인덱스 :{parserIndex}");
+        Debug.Log("Wave 호출");
 
-        paserIndex++;
-
-        curThirdClass = csvPaser.State[paserIndex].Stage_thirdClass; 
-        Debug.Log($"{csvPaser.State[paserIndex].Stage_secondClass}-{curThirdClass}-{csvPaser.State[paserIndex].Stage_wave}");
+        //소분류 스테이지
+        curThirdClass = csvParser.State[parserIndex].Stage_thirdClass; 
+        Debug.Log($"{csvParser.State[parserIndex].Stage_secondClass}-{curThirdClass}-{csvParser.State[parserIndex].Stage_wave}");
 
         //ThirdClass에서 소환되는 총 몬스터
-        if (paserIndex % waveCount == 0)
+        if (parserIndex % waveCount == 0)
         {
-            for (int i = paserIndex; i < paserIndex + waveCount; i++)
+            for (int i = parserIndex; i < parserIndex + waveCount; i++)
             {
-                ThirdClassMonsterCount += csvPaser.State[i].Stage_monsterNum;
+                ThirdClassMonsterCount += csvParser.State[i].Stage_monsterNum;
             }
         }
 
         //현재 웨이브 몬스터 수
-        curWaveMonsterCount = csvPaser.State[paserIndex].Stage_monsterNum;
+        curWaveMonsterCount = csvParser.State[parserIndex].Stage_monsterNum;
+        createLimitCount = 0;
         CreateMonster();
-
-
-
-
-        //if (curWave <= maxWave)
-        //마지막 Wave일 때 보스 몬스터가 생성됨
-        //if (curWave < maxWave)
-        //{
-        //    bossText.gameObject.SetActive(false);
-        //    //curWaveMonsterCount 에 Data Table 에서 받아온 값을 저장 
-        //    createLimitCount = 0;
-        //    CreateMonster();
-        //}
-        ////보스전 로직 작성
-        //else
-        //{
-        //    //curWaveMonsterCount 에 Data Table 에서 받아온 값을 저장
-        //    bossText.gameObject.SetActive(true); 
-        //    createLimitCount = 0;
-        //    CreateMonster();
-        //}
-
-
-        //IF curWave < maxWave
-        //viewMonsterCount = curWaveMonsterCount;
-        //ELSE IF curWave >= maxWave 현재 웨이브가 마지막 웨이브인 상태
-        //보스몬스터 생성
-        //보스 몬스터가 생성됐으면 isMeenBoss
-
+ 
 
     }
 
@@ -272,28 +242,32 @@ public class Stage : MonoBehaviour
         WaitForSeconds cycleWait = new WaitForSeconds(cycleTimer);
         monsters = new MonsterModel[curWaveMonsterCount];
         testIndex = 0;
-
+        
         //시간값으로 대기할 지 준비 상태로 할지 생각 필요
         yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
 
         while (curWaveMonsterCount > createLimitCount)
-        {
+        { 
             float xPos = UnityEngine.Random.Range(11f, 13f);
             float yPos = UnityEngine.Random.Range(2.5f, -3f);
             Vector3 offset = new Vector3(xPos, yPos, 0);
 
-            GameObject monsterInstance = Instantiate(monsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
-            Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
-            monsterCollider.enabled = false;
+            //GameObject monsterInstance = Instantiate(monsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
+            //Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
+            //monsterCollider.enabled = false;
 
-            monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
+            GameObject ins = Instantiate(tt);
+            test[createLimitCount] = ins.GetComponent<MonsterTest>();
+
+            //monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
             createLimitCount++;
+             
             yield return createWait;
         }
 
-
+        isWave = false;
         yield break;
     }
 
@@ -345,7 +319,7 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void SetDifficult()
     {
-        switch (csvPaser.State[paserIndex].Stage_firstClass)
+        switch (csvParser.State[parserIndex].Stage_firstClass)
         {
             case "쉬움":
                 curDifficult = Difficutly.Easy;
