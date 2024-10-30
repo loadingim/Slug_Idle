@@ -156,71 +156,6 @@ public class PlayerDataModel : MonoBehaviour
     }
     public UnityAction<int> OnCrystalChanged;
 
-    [Header("기타 스탯 설정")]
-    [Tooltip("머지 공격력 수치")]
-    [SerializeField] private float mergeAttack;
-    public float MergeAttack
-    {
-        get { return mergeAttack; }
-        set
-        {
-            // 머지 공격력의 예외상황 처리
-            if (value < 0)
-            {
-                mergeAttack = 0;
-            }
-            else
-            {
-                mergeAttack = value;
-            }
-            OnMergeAttackChanged?.Invoke(mergeAttack);
-        }
-    }
-    public UnityAction<float> OnMergeAttackChanged;
-
-    [Tooltip("무기 공격력 수치")]
-    [SerializeField] private float weaponAttack;
-    public float WeaponAttack
-    {
-        get { return weaponAttack; }
-        set
-        {
-            // 무기 공격력의 예외상황 처리
-            if (value < 0)
-            {
-                weaponAttack = 0;
-            }
-            else
-            {
-                weaponAttack = value;
-            }
-            OnWeaponAttackChanged?.Invoke(weaponAttack);
-        }
-    }
-    public UnityAction<float> OnWeaponAttackChanged;
-
-    [Tooltip("스킬 공격력 수치")]
-    [SerializeField] private float skillAttack;
-    public float SkillAttack
-    {
-        get { return skillAttack; }
-        set
-        {
-            // 스킬 공격력의 예외상황 처리
-            if (value < 0)
-            {
-                skillAttack = 0;
-            }
-            else
-            {
-                skillAttack = value;
-            }
-            OnSkillAttackChanged?.Invoke(skillAttack);
-        }
-    }
-    public UnityAction<float> OnSkillAttackChanged;
-
-
     /// <summary>
     /// 스킬 해금 여부 판단하기 위한 플래그 열거형 타입 선언
     /// </summary>
@@ -268,8 +203,6 @@ public class PlayerDataModel : MonoBehaviour
 
     }
     public UnityAction<WeaponType> OnCanUseWeaponChanged;
-
-
     #endregion
 
     // 싱글톤
