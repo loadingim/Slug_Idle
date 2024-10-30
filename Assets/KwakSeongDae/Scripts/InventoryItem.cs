@@ -15,8 +15,10 @@ public class InventoryItem : MonoBehaviour/*, IBeginDragHandler, IDragHandler, I
     [SerializeField] private GameObject ItemObject;
     [Tooltip("인벤토리 아이템의 버튼")]
     [SerializeField] private Button button;
-    [Tooltip("활성화 인벤토리 슬롯")]
+    [Tooltip("활성화 슬롯")]
     [SerializeField] private InventorySlot activeSlot;
+    [Tooltip("저장 슬롯들")]
+    [SerializeField] private InventorySlot[] storageSlots;
     [Tooltip("아이템 해금 여부")]
     public bool canUse;
     /* [HideInInspector] public Transform parentAfterDrag; // 드래그 후에 다시 원래 위치로 돌아갈 부모 트랜스폼 */
@@ -37,24 +39,52 @@ public class InventoryItem : MonoBehaviour/*, IBeginDragHandler, IDragHandler, I
         }
     }
 
-    void MoveToActiveSlot()
+    private void Update()
     {
         // 해금 여부 확인
+        button.interactable = canUse;
+    }
+
+    void MoveToActiveSlot()
+    {
+        // 해금 여부 다시 확인
         if (canUse == false) return;
 
-        // 원래 활성화 슬롯에 있던 아이템을 현재 슬롯에 옮기기
-        if (activeSlot.transform.childCount > 0)
+        // 현재 아이템이 슬롯에 있는지 체크
+        if (transform.parent.TryGetComponent<InventorySlot>(out var slot) == false) return;
+
+        // if 활성화 슬롯에 아이템이 있는 경우는 빈 슬롯으로
+        if(slot.slotType == InventorySlot.SlotType.ActiveSlot)
         {
-            var activeItem = activeSlot.transform.GetChild(0);
-            activeItem.SetParent(transform.parent);
-            if (activeItem.TryGetComponent<InventoryItem>(out var item))
+            //빈 슬롯 탐색
+            foreach (var storageSlot in storageSlots)
             {
-                item.SlotCheck();
+                if (storageSlot.transform.childCount < 1)
+                {
+                    //원래 활성화 슬롯에 있던 아이템을 빈 슬롯에 옮기기
+                    transform.SetParent(storageSlot.transform);
+                    break;
+                }
             }
         }
+        // else 스토리지 슬롯에 아이템이 있는 경우는 활성화 슬롯으로
+        else
+        {
+            // 원래 활성화 슬롯에 있던 아이템을 현재 슬롯에 옮기기
+            if (activeSlot.transform.childCount > 0)
+            {
+                var activeItem = activeSlot.transform.GetChild(0);
+                activeItem.SetParent(transform.parent);
+                if (activeItem.TryGetComponent<InventoryItem>(out var item))
+                {
+                    item.SlotCheck();
+                }
+            }
+            // 현재 슬롯의 아이템은 활성화 슬롯으로 옮기기
+            transform.SetParent(activeSlot.transform);
+        }
 
-        // 현재 슬롯의 아이템은 활성화 슬롯으로 옮기기
-        transform.SetParent(activeSlot.transform);
+        // 어떤 작업이 수행되든지 현재 슬롯 체크 필요
         SlotCheck();
     }
 

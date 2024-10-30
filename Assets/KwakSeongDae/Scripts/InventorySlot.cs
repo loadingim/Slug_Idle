@@ -16,6 +16,7 @@ public class InventorySlot : MonoBehaviour/*, IDropHandler*/
     [Tooltip("ActiveSlot: 해당 슬롯에 들어온 아이템은 활성화\n" +
              "StorageSlot: 해당 슬롯에 들어온 아이템은 비활성화")]
     public SlotType slotType;
+
     /* 드롭 기능 비활성화
     public void OnDrop(PointerEventData eventData)
     {
