@@ -12,7 +12,11 @@ public class PlayerController : MonoBehaviour
     public int ammo, attackRange;
     [SerializeField] float times;
     [SerializeField] GameObject[] monsters;
-    
+    [SerializeField] GameObject muzzlePoint;
+    [SerializeField] Animator upperAnim;
+    [SerializeField] Animator lowerAnim;
+    [SerializeField] GameObject[] weapons;
+    [SerializeField] List<GameObject> bullets;
 
     private void Start()
     {
@@ -23,10 +27,10 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (targetMonster == null || targetMonster.activeSelf != true)
+        /*if (targetMonster == null || targetMonster.activeSelf != true)
         {
             targetMonster = null;
-        }
+        }*/
 
         times = Time.time;
 
@@ -40,10 +44,21 @@ public class PlayerController : MonoBehaviour
         {
             Attack();
         }
+
+        if (PlayerDataModel.Instance.Health <= 0)
+        {
+            Death();
+            upperAnim.SetBool("Death", true);
+            lowerAnim.gameObject.SetActive(false);
+        }
     }
 
     private void FindTarget()
     {
+        upperAnim.SetBool("Atk", false);
+        lowerAnim.SetBool("Walk", true);
+        
+
         monsters = GameObject.FindGameObjectsWithTag("Monster");
 
 
@@ -77,11 +92,34 @@ public class PlayerController : MonoBehaviour
         Debug.Log("어택");
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
+            lowerAnim.SetBool("Walk", false);
+            upperAnim.SetBool("Atk", true);
+            upperAnim.SetFloat("speed", 5);
+
+
             Debug.Log("발사");
-            GameObject bulletGameObj = Instantiate(bulletPrefab, transform.position, transform.rotation);
+            //apon.shot();
+            GameObject bulletGameObj = Instantiate(bulletPrefab, muzzlePoint.transform.position, transform.rotation);
             Bullet bullet = bulletGameObj.GetComponent<Bullet>();
+            bullets.Add(bulletGameObj);
             bullet.SetTarget(targetMonster);
             attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;
         }
+    }
+
+    public void RemoveBullets(GameObject bullet)
+    {
+            bullets.Remove(bullet);
+    }
+
+
+    public void Death()
+    {
+        // 플레이어가 죽었을 때 모든 탄환 삭제
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
+        bullets.Clear(); // 리스트 초기화
     }
 }
