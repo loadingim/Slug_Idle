@@ -1551,7 +1551,6 @@ GameObject:
   m_Component:
   - component: {fileID: 449667400}
   - component: {fileID: 449667399}
-  - component: {fileID: 449667401}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -1593,6 +1592,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   tt: {fileID: 3367902095405666778, guid: 313ac3426a3b58242abfaef5f46dd80c, type: 3}
+  gos: []
   monsters: []
   isWave: 0
 --- !u!4 &449667400
@@ -1611,20 +1611,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &449667401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449667398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6a6361e2e19cc142bf7b30f546662af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  State: []
-  isComplet: 0
 --- !u!1 &454192942
 GameObject:
   m_ObjectHideFlags: 0
@@ -4558,7 +4544,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1114560234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6320,6 +6306,52 @@ Transform:
   m_Children: []
   m_Father: {fileID: 603782787}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1708458364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1708458366}
+  - component: {fileID: 1708458365}
+  m_Layer: 0
+  m_Name: StageParser
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1708458365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708458364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 341b131d0d47f7845988ab3d95009d17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  State: []
+  downloadCheck: 0
+--- !u!4 &1708458366
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708458364}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.8197649, y: 3.779401, z: -0.15270449}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1730486488
 GameObject:
