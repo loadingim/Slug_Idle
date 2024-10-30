@@ -365,9 +365,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 10
+  healthRegen: 0
   attack: 1
+  touchAttack: 0
   attackSpeed: 100
   money: 10000
+  crystal: 0
+  mergeAttack: 0
+  weaponAttack: 0
+  skillAttack: 0
+  canUseSkill: 0
+  canUseWeapon: 0
 --- !u!4 &1122574478
 Transform:
   m_ObjectHideFlags: 0

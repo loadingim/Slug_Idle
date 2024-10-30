@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,11 @@ using UnityEngine.Events;
 public class PlayerDataModel : MonoBehaviour
 {
     #region Data Variable
-    /// <summary>
-    /// 플레이어 체력
-    /// </summary>
-    [SerializeField] private int health;
-    public int Health
+    [Header("플레이어 스탯 설정")]
+    [Header("플레이어 체력")]
+    [Tooltip("플레이어 현재 체력")]
+    [SerializeField] private float health;
+    public float Health
     {
         get { return health; }
         set
@@ -27,11 +28,101 @@ public class PlayerDataModel : MonoBehaviour
             OnHealthChanged?.Invoke(health);
         }
     }
-    public UnityAction<int> OnHealthChanged;
+    public UnityAction<float> OnHealthChanged;
 
-    /// <summary>
-    /// 공격력 수치
-    /// </summary>
+    [Tooltip("플레이어 최대 체력")]
+    [SerializeField] private float maxHealth;
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+        set
+        {
+            // 체력의 예외상황 처리
+            if (value < 0)
+            {
+                maxHealth = 0;
+            }
+            else
+            {
+                maxHealth = value;
+            }
+            OnMaxHealthChanged?.Invoke(health);
+        }
+    }
+    public UnityAction<float> OnMaxHealthChanged;
+
+    [Tooltip("플레이어 체력 레벨")]
+    [SerializeField] private int healthLevel;
+    public int HealthLevel
+    {
+        get { return healthLevel; }
+        set
+        {
+            // 체력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                healthLevel = 0;
+            }
+            else
+            {
+                healthLevel = value;
+                // 플레이어 체력 레벨에 비례해서 체력 증가량만큼 현재 체력, 최대 체력 증가
+                
+                // 체력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnHealthLevelChanged?.Invoke(healthLevel);
+        }
+    }
+    public UnityAction<int> OnHealthLevelChanged;
+
+    [Header("플레이어 체력재생")]
+    [Tooltip("플레이어 체력재생")]
+    [SerializeField] private int healthRegen;
+    public int HealthRegen
+    {
+        get { return healthRegen; }
+        set
+        {
+            // 체력 재생의 예외상황 처리
+            if (value < 0)
+            {
+                healthRegen = 0;
+            }
+            else
+            {
+                healthRegen = value;
+            }
+            OnHealthRegenChanged?.Invoke(healthRegen);
+        }
+    }
+    public UnityAction<int> OnHealthRegenChanged;
+
+    [Tooltip("플레이어 체력재생 레벨")]
+    [SerializeField] private int healthRegenLevel;
+    public int HealthRegenLevel
+    {
+        get { return healthRegenLevel; }
+        set
+        {
+            // 체력 재생 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                healthRegenLevel = 0;
+            }
+            else
+            {
+                healthRegenLevel = value;
+                // 플레이어 체력 재생력 레벨에 비례해서 체력 재생력 증가량만큼 체력 재생력 증가
+
+                // 체력 증가량 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnHealthRegenLevelChanged?.Invoke(healthRegenLevel);
+        }
+    }
+    public UnityAction<int> OnHealthRegenLevelChanged;
+
+    [Header("플레이어 기본 공격력")]
+    [Tooltip("플레이어 기본 공격력")]
     [SerializeField] private float attack;
     public float Attack
     {
@@ -52,9 +143,78 @@ public class PlayerDataModel : MonoBehaviour
     }
     public UnityAction<float> OnAttackChanged;
 
-    /// <summary>
-    /// 공격속도 수치
-    /// </summary>
+    [Tooltip("플레이어 기본 공격력 레벨")]
+    [SerializeField] private int attackLevel;
+    public int AttackLevel
+    {
+        get { return attackLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                attackLevel = 0;
+            }
+            else
+            {
+                attackLevel = value;
+                // 플레이어 공격력 레벨에 비례해서 공격력 증가량만큼 공격력 증가
+
+                // 공격력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnAttackLevelChanged?.Invoke(attackLevel);
+        }
+    }
+    public UnityAction<int> OnAttackLevelChanged;
+
+    [Header("플레이어 터치 공격력")]
+    [Tooltip("플레이어 터치 공격력")]
+    [SerializeField] private float touchAttack;
+    public float TouchAttack
+    {
+        get { return touchAttack; }
+        set
+        {
+            // 터치 공격력의 예외상황 처리
+            if (value < 0)
+            {
+                touchAttack = 0;
+            }
+            else
+            {
+                touchAttack = value;
+            }
+            OnTouchAttackChanged?.Invoke(touchAttack);
+        }
+    }
+    public UnityAction<float> OnTouchAttackChanged;
+
+    [Tooltip("플레이어 터치 공격력 레벨")]
+    [SerializeField] private int touchAttackLevel;
+    public int TouchAttackLevel
+    {
+        get { return touchAttackLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                touchAttackLevel = 0;
+            }
+            else
+            {
+                touchAttackLevel = value;
+                // 플레이어 터치 공격력 레벨에 비례해서 터치 공격력 증가량만큼 터치 공격력 증가
+
+                // 터치 공격력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnTouchAttackLevelChanged?.Invoke(touchAttackLevel);
+        }
+    }
+    public UnityAction<int> OnTouchAttackLevelChanged;
+
+    [Header("플레이어 기본 공격속도")]
+    [Tooltip("플레이어 기본 공격속도")]
     [SerializeField] private float attackSpeed;
     public float AttackSpeed
     {
@@ -75,16 +235,39 @@ public class PlayerDataModel : MonoBehaviour
     }
     public UnityAction<float> OnAttackSpeedChanged;
 
-    /// <summary>
-    /// 보유한 자본
-    /// </summary>
+    [Tooltip("플레이어 기본 공격속도 레벨")]
+    [SerializeField] private int attackSpeedLevel;
+    public int AttackSpeedLevel
+    {
+        get { return attackSpeedLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                attackSpeedLevel = 0;
+            }
+            else
+            {
+                attackSpeedLevel = value;
+                // 플레이어 공격속도 레벨에 비례해서 공격속도 증가량만큼 공격속도 증가
+
+                // 공격속도 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnAttackSpeedLevelChanged?.Invoke(attackSpeedLevel);
+        }
+    }
+    public UnityAction<int> OnAttackSpeedLevelChanged;
+
+    [Header("플레이어 보유 재화")]
+    [Tooltip("플레이어가 보유한 기본 재화")]
     [SerializeField] private int money;
     public int Money
     {
         get { return money; }
         set
         {
-            // 자본의 예외상황 처리
+            // 기본 재화의 예외상황 처리
             if (value < 0)
             {
                 money = 0;
@@ -97,6 +280,75 @@ public class PlayerDataModel : MonoBehaviour
         }
     }
     public UnityAction<int> OnMoneyChanged;
+
+    [Tooltip("플레이어가 보유한 동료 슬러그 강화 재화 (편의상, 크리스탈로 명칭)")]
+    [SerializeField] private int crystal;
+    public int Crystal
+    {
+        get { return crystal; }
+        set
+        {
+            // 크리스탈의 예외상황 처리
+            if (value < 0)
+            {
+                crystal = 0;
+            }
+            else
+            {
+                crystal = value;
+            }
+            OnCrystalChanged?.Invoke(crystal);
+        }
+    }
+    public UnityAction<int> OnCrystalChanged;
+
+    /// <summary>
+    /// 스킬 해금 여부 판단하기 위한 플래그 열거형 타입 선언
+    /// </summary>
+    [Flags]
+    public enum SkillType
+    {
+        None = 0,
+        FirstSkill = 1 << 0,
+        SecondSkill = 1 << 1,
+        ThirdSkill = 1 << 2,
+        FourthSkill = 1 << 3,
+    }
+
+    /// <summary>
+    /// 무기 해금 여부 판단하기 위한 플래그 열거형 타입 선언
+    /// </summary>
+    [Flags]
+    public enum WeaponType
+    {
+        None = 0,
+        FirstWeapon = 1 << 0,
+        SecondWeapon = 1 << 1,
+        ThirdWeapon = 1 << 2,
+        FourthWeapon = 1 << 3,
+    }
+
+
+    [Header("인벤토리 아이템 관련 설정")]
+    [Tooltip("스킬 해금 여부 플래그")]
+    [SerializeField] private SkillType canUseSkill;
+    public SkillType CanUseSkill
+    {
+        get { return canUseSkill; }
+        set { canUseSkill = value; OnCanUseSkillChanged?.Invoke(canUseSkill); }
+
+    }
+    public UnityAction<SkillType> OnCanUseSkillChanged;
+
+    [Tooltip("무기 해금 여부 플래그")]
+    [SerializeField] private WeaponType canUseWeapon;
+    public WeaponType CanUseWeapon
+    {
+        get { return canUseWeapon; }
+        set { canUseWeapon = value; OnCanUseWeaponChanged?.Invoke(canUseWeapon); }
+
+    }
+    public UnityAction<WeaponType> OnCanUseWeaponChanged;
     #endregion
 
     // 싱글톤
