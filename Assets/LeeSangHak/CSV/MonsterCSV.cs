@@ -16,6 +16,12 @@ public class MonsterCSV : MonoBehaviour
     const string monsterPath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1087246424&format=csv";
     [SerializeField] List<MonsterData> monster;
     public static MonsterCSV Instance;
+    public bool downloadCheck;
+
+    private void Start()
+    {
+        downloadCheck = false;
+    }
 
     private void Awake()
     {
@@ -63,7 +69,8 @@ public class MonsterCSV : MonoBehaviour
             monsterData.Enemy_deadSound = values[11];
 
             monster.Add(monsterData);
-
         }
+
+        downloadCheck = false;
     }
 }

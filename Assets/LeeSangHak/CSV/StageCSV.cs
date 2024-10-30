@@ -20,6 +20,12 @@ public class StageCSV : MonoBehaviour
     const string stagePath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1337676358&format=csv";
     public List<StageData> State;
     public static StageCSV Instance;
+    public bool downloadCheck;
+
+    private void Start()
+    {
+        downloadCheck = false;
+    }
 
     private void Awake()
     {
@@ -69,5 +75,7 @@ public class StageCSV : MonoBehaviour
 
             State.Add(stageData);
         }
+
+        downloadCheck = false;
     }
 }
