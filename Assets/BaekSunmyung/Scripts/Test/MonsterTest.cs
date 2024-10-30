@@ -5,9 +5,20 @@ using UnityEngine;
 public class MonsterTest : MonoBehaviour
 {
 
-    private void OnDestroy()
+    [SerializeField] private PlayerDataModel player;
+    
+    private void Start()
     {
-        Debug.Log("¸ó½ºÅÍ ÆÄ±«");
+        player = GetComponent<PlayerDataModel>();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            player.Health = 0;
+            
+        }
     }
 
 }

@@ -16,6 +16,10 @@ public class MapController : MonoBehaviour
  
     [SerializeField] private Fade fade;
 
+    [Header("Background Map Reset")] 
+    [SerializeField] private float backGroundResetSpeed;
+
+
     //배경 이미지 이동 끝 위치 xPos 
     private float endPosX = 0;
 
@@ -62,7 +66,6 @@ public class MapController : MonoBehaviour
 
             if(isChange && resetRoutine != null)
             {
-                Debug.Log("코루틴 중지");
                 StopCoroutine(resetRoutine);
                 resetRoutine = null;
                 isChange = false;
@@ -89,8 +92,6 @@ public class MapController : MonoBehaviour
     public void TranslateBackGround()
     {
         //현재 맵 상에서 보이는 몬스터가 없을 경우에만 맵 이동 진행
-        //추후 Player or Monster에서 감지된 Count를 받아 올 필요 있음
-        // or Player가 이동 상태일 경우 이동하는 방식으로 수정
         if (stage.FieldWaveMonsterCount == 0)
         {
             for (int i = 0; i < backGroundCount; i++)
@@ -143,9 +144,9 @@ public class MapController : MonoBehaviour
     
     private IEnumerator ResetCo()
     {
-        //맵이 재배치되기 전 대기 시간
-        //추후 player 가 준비 상태를 받아 올 수 있으면 대기 시간은 필요 없음
-        yield return new WaitForSeconds(1.5f);
+        WaitForSeconds resetWait = new WaitForSeconds(backGroundResetSpeed);
+
+        yield return resetWait;
  
         if (!isChange)
         {
