@@ -15,12 +15,23 @@ public class MonsterCSV : MonoBehaviour
 {
     const string monsterPath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1087246424&format=csv";
     [SerializeField] List<MonsterData> monster;
+    public static MonsterCSV Instance;
 
     private void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(Instance);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         StartCoroutine(DownloadRoutine());
     }
-
+    
     IEnumerator DownloadRoutine()
     {
         UnityWebRequest request = UnityWebRequest.Get(monsterPath); // 링크를 통해서 웹사이트에 다운로드 요청
