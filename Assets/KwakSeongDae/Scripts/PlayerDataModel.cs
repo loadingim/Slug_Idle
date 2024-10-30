@@ -8,6 +8,7 @@ public class PlayerDataModel : MonoBehaviour
 {
     #region Data Variable
     [Header("플레이어 스탯 설정")]
+    [Header("플레이어 체력")]
     [Tooltip("플레이어 현재 체력")]
     [SerializeField] private float health;
     public float Health
@@ -65,13 +66,16 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 healthLevel = value;
-                Health
+                // 플레이어 체력 레벨에 비례해서 체력 증가량만큼 현재 체력, 최대 체력 증가
+                
+                // 체력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
             }
             OnHealthLevelChanged?.Invoke(healthLevel);
         }
     }
     public UnityAction<int> OnHealthLevelChanged;
 
+    [Header("플레이어 체력재생")]
     [Tooltip("플레이어 체력재생")]
     [SerializeField] private int healthRegen;
     public int HealthRegen
@@ -93,6 +97,31 @@ public class PlayerDataModel : MonoBehaviour
     }
     public UnityAction<int> OnHealthRegenChanged;
 
+    [Tooltip("플레이어 체력재생 레벨")]
+    [SerializeField] private int healthRegenLevel;
+    public int HealthRegenLevel
+    {
+        get { return healthRegenLevel; }
+        set
+        {
+            // 체력 재생 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                healthRegenLevel = 0;
+            }
+            else
+            {
+                healthRegenLevel = value;
+                // 플레이어 체력 재생력 레벨에 비례해서 체력 재생력 증가량만큼 체력 재생력 증가
+
+                // 체력 증가량 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnHealthRegenLevelChanged?.Invoke(healthRegenLevel);
+        }
+    }
+    public UnityAction<int> OnHealthRegenLevelChanged;
+
+    [Header("플레이어 기본 공격력")]
     [Tooltip("플레이어 기본 공격력")]
     [SerializeField] private float attack;
     public float Attack
@@ -114,6 +143,31 @@ public class PlayerDataModel : MonoBehaviour
     }
     public UnityAction<float> OnAttackChanged;
 
+    [Tooltip("플레이어 기본 공격력 레벨")]
+    [SerializeField] private int attackLevel;
+    public int AttackLevel
+    {
+        get { return attackLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                attackLevel = 0;
+            }
+            else
+            {
+                attackLevel = value;
+                // 플레이어 공격력 레벨에 비례해서 공격력 증가량만큼 공격력 증가
+
+                // 공격력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnAttackLevelChanged?.Invoke(attackLevel);
+        }
+    }
+    public UnityAction<int> OnAttackLevelChanged;
+
+    [Header("플레이어 터치 공격력")]
     [Tooltip("플레이어 터치 공격력")]
     [SerializeField] private float touchAttack;
     public float TouchAttack
@@ -135,6 +189,31 @@ public class PlayerDataModel : MonoBehaviour
     }
     public UnityAction<float> OnTouchAttackChanged;
 
+    [Tooltip("플레이어 터치 공격력 레벨")]
+    [SerializeField] private int touchAttackLevel;
+    public int TouchAttackLevel
+    {
+        get { return touchAttackLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                touchAttackLevel = 0;
+            }
+            else
+            {
+                touchAttackLevel = value;
+                // 플레이어 터치 공격력 레벨에 비례해서 터치 공격력 증가량만큼 터치 공격력 증가
+
+                // 터치 공격력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnTouchAttackLevelChanged?.Invoke(touchAttackLevel);
+        }
+    }
+    public UnityAction<int> OnTouchAttackLevelChanged;
+
+    [Header("플레이어 기본 공격속도")]
     [Tooltip("플레이어 기본 공격속도")]
     [SerializeField] private float attackSpeed;
     public float AttackSpeed
@@ -155,6 +234,30 @@ public class PlayerDataModel : MonoBehaviour
         }
     }
     public UnityAction<float> OnAttackSpeedChanged;
+
+    [Tooltip("플레이어 기본 공격속도 레벨")]
+    [SerializeField] private int attackSpeedLevel;
+    public int AttackSpeedLevel
+    {
+        get { return attackSpeedLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                attackSpeedLevel = 0;
+            }
+            else
+            {
+                attackSpeedLevel = value;
+                // 플레이어 공격속도 레벨에 비례해서 공격속도 증가량만큼 공격속도 증가
+
+                // 공격속도 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+            }
+            OnAttackSpeedLevelChanged?.Invoke(attackSpeedLevel);
+        }
+    }
+    public UnityAction<int> OnAttackSpeedLevelChanged;
 
     [Header("플레이어 보유 재화")]
     [Tooltip("플레이어가 보유한 기본 재화")]
