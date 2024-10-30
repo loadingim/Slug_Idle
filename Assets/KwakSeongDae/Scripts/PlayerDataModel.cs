@@ -8,9 +8,9 @@ public class PlayerDataModel : MonoBehaviour
 {
     #region Data Variable
     [Header("플레이어 스탯 설정")]
-    [Tooltip("플레이어 체력")]
-    [SerializeField] private int health;
-    public int Health
+    [Tooltip("플레이어 현재 체력")]
+    [SerializeField] private float health;
+    public float Health
     {
         get { return health; }
         set
@@ -27,7 +27,50 @@ public class PlayerDataModel : MonoBehaviour
             OnHealthChanged?.Invoke(health);
         }
     }
-    public UnityAction<int> OnHealthChanged;
+    public UnityAction<float> OnHealthChanged;
+
+    [Tooltip("플레이어 최대 체력")]
+    [SerializeField] private float maxHealth;
+    public float MaxHealth
+    {
+        get { return maxHealth; }
+        set
+        {
+            // 체력의 예외상황 처리
+            if (value < 0)
+            {
+                maxHealth = 0;
+            }
+            else
+            {
+                maxHealth = value;
+            }
+            OnMaxHealthChanged?.Invoke(health);
+        }
+    }
+    public UnityAction<float> OnMaxHealthChanged;
+
+    [Tooltip("플레이어 체력 레벨")]
+    [SerializeField] private int healthLevel;
+    public int HealthLevel
+    {
+        get { return healthLevel; }
+        set
+        {
+            // 체력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                healthLevel = 0;
+            }
+            else
+            {
+                healthLevel = value;
+                Health
+            }
+            OnHealthLevelChanged?.Invoke(healthLevel);
+        }
+    }
+    public UnityAction<int> OnHealthLevelChanged;
 
     [Tooltip("플레이어 체력재생")]
     [SerializeField] private int healthRegen;
