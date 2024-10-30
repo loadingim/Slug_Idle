@@ -10,6 +10,9 @@ public class SkillActive_One : MonoBehaviour
 
     public void SkillOne()
     {
+        // 스킬 코드 작성 예정
+
+
         if (LookCoolTime.gameObject.activeSelf == false)
         {
             Debug.Log("첫번째 스킬 사용됨");

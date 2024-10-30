@@ -10,6 +10,9 @@ public class SkillActive_Fur : MonoBehaviour
 
     public void SkillFur()
     {
+        // 스킬 코드 작성 예정
+
+
         if (LookCoolTime.gameObject.activeSelf == false)
         {
             Debug.Log("네번째 스킬 사용됨");

@@ -10,6 +10,9 @@ public class SkillActive_Two : MonoBehaviour
 
     public void SkillTwo()
     {
+        // 스킬 코드 작성 예정
+
+
         if (LookCoolTime.gameObject.activeSelf == false)
         {
             Debug.Log("두번째 스킬 사용됨");

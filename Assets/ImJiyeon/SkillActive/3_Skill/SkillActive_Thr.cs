@@ -10,6 +10,9 @@ public class SkillActive_Thr : MonoBehaviour
 
     public void SkillThr()
     {
+        // 스킬 코드 작성 예정
+
+
         if (LookCoolTime.gameObject.activeSelf == false)
         {
             Debug.Log("세번째 스킬 사용됨");
