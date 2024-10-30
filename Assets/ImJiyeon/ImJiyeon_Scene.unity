@@ -235,7 +235,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &43398797
 GameObject:
@@ -915,8 +915,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06d239b636623f84792d4bef52c57c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActived: 0
   LookCoolTime: {fileID: 375328755}
-  CoolTime: 5
+  CoolTime: 3
 --- !u!1 &747213783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1134,8 +1135,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33542e37c0791b94b8509c3d28130c9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActived: 0
   LookCoolTime: {fileID: 1682763360}
-  CoolTime: 10
+  CoolTime: 5
 --- !u!1001 &788652661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1323,12 +1325,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ActiveSkill:
-  - {fileID: 1217450665}
-  - {fileID: 726915351}
-  - {fileID: 784735357}
-  - {fileID: 1527937152}
+  - {fileID: 1217450664}
+  - {fileID: 726915354}
+  - {fileID: 784735360}
+  - {fileID: 1527937155}
   AutoOnOff: 0
-  ActiveAoto: {fileID: 1034655953}
+  ActiveAuto: {fileID: 1034655953}
 --- !u!1 &973724515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1844,8 +1846,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47d430b2dc565af418db980901a6a69a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActived: 0
   LookCoolTime: {fileID: 973724517}
-  CoolTime: 3
+  CoolTime: 1
 --- !u!114 &1217450665
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2803,8 +2806,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5d35cd401574f42a163b97f9c26036, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActived: 0
   LookCoolTime: {fileID: 1954819503}
-  CoolTime: 15
+  CoolTime: 10
 --- !u!1 &1554385249
 GameObject:
   m_ObjectHideFlags: 0
@@ -3971,7 +3975,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2127498467
 MonoBehaviour:
