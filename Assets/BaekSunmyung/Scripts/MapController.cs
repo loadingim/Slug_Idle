@@ -16,6 +16,10 @@ public class MapController : MonoBehaviour
  
     [SerializeField] private Fade fade;
 
+    [Header("Background Map Reset")] 
+    [SerializeField] private float backGroundResetSpeed;
+
+
     //배경 이미지 이동 끝 위치 xPos 
     private float endPosX = 0;
 
@@ -140,9 +144,9 @@ public class MapController : MonoBehaviour
     
     private IEnumerator ResetCo()
     {
-        //맵이 재배치되기 전 대기 시간
-        //추후 player 가 준비 상태를 받아 올 수 있으면 대기 시간은 필요 없음
-        yield return new WaitForSeconds(1.5f);
+        WaitForSeconds resetWait = new WaitForSeconds(backGroundResetSpeed);
+
+        yield return resetWait;
  
         if (!isChange)
         {

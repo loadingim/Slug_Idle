@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3367902095405666595}
   - component: {fileID: 3367902095405666596}
   - component: {fileID: 3367902095405666597}
-  - component: {fileID: -522793788137554654}
   m_Layer: 0
   m_Name: ExempleMonster
   m_TagString: Monster
@@ -172,21 +171,9 @@ MonoBehaviour:
   monsterHP: 50
   monsterMoveSpeed: 5
   dropGold: 100
-  monsterAttack: 10
-  monsterAttackSpeed: 50
+  monsterAttack: 1
+  monsterAttackSpeed: 0.001
   attackRange: 5
---- !u!114 &-522793788137554654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3367902095405666778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c4b3f4ab53d19134a98e3d51c7d83017, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3367902096743293611
 GameObject:
   m_ObjectHideFlags: 0
