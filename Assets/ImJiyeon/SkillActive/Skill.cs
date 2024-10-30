@@ -4,8 +4,13 @@ using UnityEngine.UI;
 
 public abstract class Skill : MonoBehaviour
 {
-    public bool isActived = true;
+    public bool isActived;
 
+
+    private void Start()
+    {
+        isActived = true;
+    }
 
     // 스킬의 발동 함수
     public abstract void Activate();

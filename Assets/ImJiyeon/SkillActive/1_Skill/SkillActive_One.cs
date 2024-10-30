@@ -12,7 +12,7 @@ public class SkillActive_One : Skill
 
     public void SkillOne()
     {
-            Activate();
+        Activate();
     }
 
     public override void Activate()
