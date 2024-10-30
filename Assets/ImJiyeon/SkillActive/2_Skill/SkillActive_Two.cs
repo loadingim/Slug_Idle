@@ -1,23 +1,23 @@
-using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SkillActive_Two : MonoBehaviour
+public class SkillActive_Two : Skill
 {
-    [SerializeField] bool isActived;
-    [SerializeField] int CoolTime;
+    [SerializeField] Image LookCoolTime;
+    [SerializeField] float CoolTime;
 
-
-    public void SkillOne()
+    public void SkillTwo()
     {
-        StartCoroutine(SkillTwoCoolTime());
+        Activate();
     }
 
-    IEnumerator SkillTwoCoolTime()
+    public override void Activate()
     {
-        while (isActived)
-        {
-            Debug.Log("두번째 스킬 사용됨");
-            yield return new WaitForSeconds(CoolTime);
-        }
+        isActived = false;
+
+        // 스킬 코드 작성 예정
+        Debug.Log("두번째 스킬 사용됨");
+
+        StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
     }
 }

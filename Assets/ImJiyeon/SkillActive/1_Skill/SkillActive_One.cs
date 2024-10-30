@@ -1,39 +1,27 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillActive_One : MonoBehaviour
+public class SkillActive_One : Skill
 {
-    [SerializeField] bool isActived;
-    [SerializeField] int CoolTime;
+    [SerializeField] Image LookCoolTime;
+    [SerializeField] float CoolTime;
+
+    // 1. 쿨타임
+    // 2. 공격값
 
 
     public void SkillOne()
     {
-        if (isActived == true)
-        {
-            Debug.Log("첫번째 스킬 사용됨");
-            isActived = false;
-        }
-
-        StartCoroutine(SkillOneActive());
+        Activate();
     }
 
-    IEnumerator SkillOneActive()
+    public override void Activate()
     {
-        gameObject.GetComponent<Button>().interactable = false;
+        isActived = false;
 
-        while (isActived == false)
-        {
-            for (int i = 0; CoolTime < i; CoolTime--)
-            {
-                Debug.Log($"쿨타임 적용중 : {i}");
-            }
+        // 스킬 코드 작성 예정
+        Debug.Log("첫번째 스킬 사용됨");
 
-            yield return new WaitForSeconds(CoolTime);
-        }
-
-        isActived = true;
-        gameObject.GetComponent<Button>().interactable = true;
+        StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
     }
 }

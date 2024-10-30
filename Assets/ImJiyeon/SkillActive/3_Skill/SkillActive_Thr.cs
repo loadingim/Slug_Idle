@@ -1,23 +1,24 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class SkillActive_Thr : MonoBehaviour
+public class SkillActive_Thr : Skill
 {
-    [SerializeField] bool isActived;
-    [SerializeField] int CoolTime;
+    [SerializeField] Image LookCoolTime;
+    [SerializeField] float CoolTime;
 
-
-    public void SkillOne()
+    public void SkillThr()
     {
-        StartCoroutine(SkillThrCoolTime());
+        Activate();
     }
 
-    IEnumerator SkillThrCoolTime()
+    public override void Activate()
     {
-        while (isActived)
-        {
-            Debug.Log("세번째 스킬 사용됨");
-            yield return new WaitForSeconds(CoolTime);
-        }
+        isActived = false;
+
+        // 스킬 코드 작성 예정
+        Debug.Log("세번째 스킬 사용됨");
+
+        StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
     }
 }
