@@ -4,36 +4,40 @@ using UnityEngine.UI;
 
 public class SkillActive_One : MonoBehaviour
 {
-    [SerializeField] bool isActived;
-    [SerializeField] int CoolTime;
+    [SerializeField] Image LookCoolTime;
+    [SerializeField] float CoolTime;
 
 
     public void SkillOne()
     {
-        if (isActived == true)
+        if (LookCoolTime.gameObject.activeSelf == false)
         {
             Debug.Log("첫번째 스킬 사용됨");
-            isActived = false;
-        }
 
-        StartCoroutine(SkillOneActive());
+            StartCoroutine(SkillOneCoolTime(CoolTime));
+        }
     }
 
-    IEnumerator SkillOneActive()
+
+    IEnumerator SkillOneCoolTime(float Cool)
     {
+        LookCoolTime.gameObject.SetActive(true);
         gameObject.GetComponent<Button>().interactable = false;
 
-        while (isActived == false)
-        {
-            for (int i = 0; CoolTime < i; CoolTime--)
-            {
-                Debug.Log($"쿨타임 적용중 : {i}");
-            }
+        Debug.Log("쿨타임 시작");
+        float MaxCool = Cool;
 
-            yield return new WaitForSeconds(CoolTime);
+        while (Cool > 0.1f)
+        {
+            Cool -= Time.deltaTime;
+            LookCoolTime.fillAmount = (Cool / MaxCool);
+
+            yield return new WaitForFixedUpdate();
         }
 
-        isActived = true;
+        LookCoolTime.gameObject.SetActive(false);
         gameObject.GetComponent<Button>().interactable = true;
+
+        Debug.Log("쿨타임 종료");
     }
 }
