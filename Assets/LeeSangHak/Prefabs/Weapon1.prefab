@@ -47,3 +47,5 @@ MonoBehaviour:
   name: Heavy
   damage: 3
   attackSpeed: 6
+  level: 0
+  bulletPrefabs: {fileID: 3306471569424342834, guid: 71e13eada1644ce4b9540d2657478ea4, type: 3}

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3971006961976530499}
   - component: {fileID: -4154248064288833516}
   m_Layer: 0
-  m_Name: Square (4)
+  m_Name: Square (4) 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: -3971006961976530499}
-  speed: 1
+  speed: 0.2
   target: {fileID: 0}
 --- !u!50 &-3971006961976530499
 Rigidbody2D:

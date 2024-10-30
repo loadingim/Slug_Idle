@@ -9,12 +9,13 @@ public class Bullet : MonoBehaviour
     [SerializeField] Rigidbody2D rigid;
     [SerializeField] float speed;
     [SerializeField] GameObject target;
-    [SerializeField] Transform trans;
     private PlayerController playerController;
+    private Vector2 bfPosition;
 
     private void Start()
     {
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+        bfPosition = (target.transform.position - transform.position).normalized;
     }
 
     private void Awake()
@@ -24,24 +25,29 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        trans = target.transform;
         // 타겟은 비어있거나 타겟이 비활성화일때
         if (target == null)
         {
-            transform.Translate(trans.position * speed * Time.deltaTime);
+            transform.Translate(bfPosition * speed * Time.deltaTime, Space.World);
         }
 
 
         // 타겟이 있고 활성화일때
         if (target != null && target.activeSelf == true)
         {
-            transform.position = Vector2.MoveTowards(transform.position, trans.position, speed * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
         }
     }
+
+    private void OnDestroy()
+    {
+            playerController.RemoveBullets(gameObject); // 탄환 제거 요청
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log("접촉");
-        if (collision.gameObject.tag == "Monster" && collision.gameObject == target)
+        if (collision.gameObject.tag == "Monster")
         {
             Debug.Log("타겟접촉");
             collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack;
