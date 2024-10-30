@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour, IDropHandler
+public class InventorySlot : MonoBehaviour/*, IDropHandler*/
 {
     public enum SlotType
     {
@@ -16,6 +16,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     [Tooltip("ActiveSlot: 해당 슬롯에 들어온 아이템은 활성화\n" +
              "StorageSlot: 해당 슬롯에 들어온 아이템은 비활성화")]
     public SlotType slotType;
+    /* 드롭 기능 비활성화
     public void OnDrop(PointerEventData eventData)
     {
         if (transform.childCount == 0)
@@ -42,4 +43,5 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             }
         }
     }
+    */
 }
