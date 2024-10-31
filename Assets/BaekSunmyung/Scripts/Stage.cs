@@ -21,6 +21,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private Transform monsterSpawnPoint;
     [SerializeField] private GameObject monsterPrefab;
 
+    [Header("Monster Wave Setting")]
     [Tooltip("Monster Wave Cycle")]
     [SerializeField] private float cycleTimer;
 
@@ -115,46 +116,37 @@ public class Stage : MonoBehaviour
 
 
     private void Update()
-    {
-
-
-
+    { 
         //Data를 받아오지 못한 상태면 Return
         if (csvParser.State.Count == 0)
         {
             return;
         }
-
-
-
+         
         //생성된 Wave 몬스터가 없을 경우
         if (!isWave && fieldWaveMonsterCount < 1)
         {
             //Wave 호출
-            Wave(); 
+            Wave();
         }
 
-        Debug.Log($"현재 스테이지 :{curThirdClass} - {csvParser.State[parserIndex].Stage_wave}");
-        Debug.Log($"현재 인덱스 :{parserIndex}");
         if (player.Health < 1)
         {
             isPlayerLife = false;
 
         }
 
-
-        StopedCoroutine();
-        MonsterRemover();
-        StageClear();
         MonsterSafeZone();
         PlayerDeath();
-        BossStage();
+        StageClear();
+        StopedCoroutine();
+        MonsterRemover();
+        Debug.Log($"현재 인덱스 :{parserIndex}");
+        Debug.Log($"현재 isBoss :{isBoss}");
+        Debug.Log($"현재 스테이지 :{curThirdClass} - {csvParser.State[parserIndex].Stage_wave}");
 
-        
- 
         //스테이지 진행률 UI 연동 
         foreGround.fillAmount = killRate * 0.01f;
-
 
     }
 
@@ -167,19 +159,22 @@ public class Stage : MonoBehaviour
         if (!isPlayerLife)
         {
             //플레이어 사망 시 소환된 모든 몬스터 삭제
-            //foreach (MonsterModel model in monsters)
-            //{
-            //    if (model != null)
-            //    {
-            //        Destroy(model.gameObject);
-            //    }
-            //}
+            foreach (MonsterModel model in monsters)
+            {
+                if (model != null)
+                {
+                    Destroy(model.gameObject);
+                }
+            }
 
             //몬스터 저장 배열 클리어
             Array.Clear(monsters, 0, monsters.Length);
+            isPlayerLife = true;
+            player.Health = 3000;
         }
         else
         {
+            //플레이어가 살아있을 때 몬스터 제거 작업
             foreach (MonsterModel model in monsters)
             {
                 if (model != null && model.MonsterHP < 1)
@@ -195,9 +190,11 @@ public class Stage : MonoBehaviour
                     }
                 }
             }
-
+            //스테이지 클리어 트리거
+            isStageClear = true;
+              
         }
-     }
+    }
 
 
 
@@ -224,7 +221,8 @@ public class Stage : MonoBehaviour
         {
             killMonsterCount = 0;
             killRate = 0f;
-            isStageClear = true;
+            isBoss = false;
+            isBossClear = true;
             NextStage();
         }
     }
@@ -234,8 +232,8 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void CalculateMonsterSpawn()
     {
-        bossObject.gameObject.SetActive(false);
-        isBoss = false;
+        //각 스테이지 1Wave 진입 시 Boss 클리어 전 상태로 변경 
+        isBossClear = false;
 
         //스테이지 소환 몬스터 수 초기화
         ThirdClassMonsterCount = 0;
@@ -251,6 +249,29 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void Wave()
     {
+
+        //스테이지 새로 진입 
+        if (parserIndex % waveCount == 0)
+        {
+            CalculateMonsterSpawn();
+        }
+
+        //스테이지 클리어 한 상태에서만 Index 증가
+        if (isStageClear)
+        {
+            parserIndex++;
+        }
+
+        //보스 스테이지 진입 단계
+        if (parserIndex % waveCount >= 4)
+        {
+            isBoss = true;
+            bossObject.gameObject.SetActive(false);
+        }
+
+        BossStage();
+        
+        //스테이지 진행률
         killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
 
         //Index 다중 증가 방지
@@ -260,132 +281,71 @@ public class Stage : MonoBehaviour
         //소분류 스테이지 
         curThirdClass = csvParser.State[parserIndex].Stage_thirdClass;
 
-        //스테이지 새로 진입 
-        if (parserIndex % waveCount == 0)
-        {
-            CalculateMonsterSpawn();
-        }
-
-        Debug.Log("웨이브 생성");
         //현재 웨이브 몬스터 수
         curWaveMonsterCount = csvParser.State[parserIndex].Stage_monsterNum;
-
+         
+        //몬스터 생성 제한 수
         createLimitCount = 0;
         CreateMonster();
-
-
-        //isBoss && !isBosoClear && 버튼이 나와있는 상태
-        //return;
-
-        //보스전 테스트 인덱스
-        //parserIndex = 4;
-
-
-        if (parserIndex % waveCount < 4)
-        {
-            //여기가 문제인가 조건을 isPlayerLife && isStageClear?
-            if (isPlayerLife)
-            {
-                parserIndex++;
-            }
-
-            //parserIndex++;
-        }
 
     }
 
     public void BossStage()
     {
-        if (parserIndex % waveCount >= 4)
+        //보스 단계에 진입한 상태에서 플레이어 사망 상태
+        if(parserIndex % waveCount == 3 && isBoss && !isBossClear)
         {
-            Debug.Log("보스 스테이지 진입");
-
-            //보스 스테이지 진행
-            isBoss = true;
-
-            if (isBoss)
-            {   
-                //보스를 잡은 상태
-                if(isStageClear)
-                {
-                    Debug.Log("보스 클리어");
-                    parserIndex++;
-                }
-                else
-                {
-                    Debug.Log("보스 클리어 실패");
-                    bossObject.gameObject.SetActive(true); 
-                }
-            }
+            bossObject.gameObject.SetActive(true);
         }
+
+        //보스 클리어 확인
+        if (isBossClear)
+        {
+            Debug.Log("보스 클리어");
+        } 
+          
     }
-     
+
     public void PlayerDeath()
     {
-         
+
         if (!isPlayerLife)
         {
             Debug.Log("플레이어 사망");
-            //Bullet을 어떻게 얻어와야 하는가?
-
-            if (TryGetComponent<Bullet>(out playerBullet))
-            {
-                Destroy(playerBullet.gameObject);
-            }
-             
-            //몬스터 생성 중지
-            if (createCo != null)
-            {
-                StopCoroutine(createCo);
-                createCo = null;
-
-                //Wave False로 변경
-                isWave = false;
-            }
- 
+            //Kill카운트를 현재 wave에서 킬한수만 빼주는거로 변경 필요
+            killMonsterCount = 0;
+            killRate = 0f;
+            fieldWaveMonsterCount = 0;
+            isStageClear = false;
             //보스 스테이지 진입 상태
             if (isBoss)
             {
                 //보스 필드 진입 후 죽으면 -1 감소 
                 if (!isLoop)
                 {
-                    parserIndex += -1;
+                    parserIndex--;
                     isLoop = true;
                 }
             }
             else
             {
-                //현재 2스테이지 이상 진입 상태
-                if (parserIndex >= 5)
-                { 
-                    //이전 Wave 단계로 이동 
-                    //ex) Index 13 (3Stage 4Wave 상태) > Index 5 (2Stage 1Wave) 이동
-                    parserIndex += -((parserIndex % waveCount) + waveCount); 
-                }
-                //현재 1스테이지 상태
-                else
-                {
-                    parserIndex += -parserIndex;
-                }
+                parserIndex += parserIndex > 0 ? -1 : 0;
             }
 
             //배경 리셋
             bgAction?.Invoke();
-            //테스트 코드
-            player.Health = 3000;
+        }
 
-            isPlayerLife = true;
-        } 
     }
 
- 
+
     /// <summary>
     /// 보스 스테이지 재도전 기능
     /// </summary>
     public void BossChallenge()
     {
         Debug.Log("보스 재도전!!");
-        parserIndex += 1;
+        parserIndex++;
         isLoop = false;
         bossObject.gameObject.SetActive(false);
         bgAction?.Invoke();
@@ -406,13 +366,18 @@ public class Stage : MonoBehaviour
     public void StopedCoroutine()
     {
         //Wave 생상 완료됐으면
-        if (curWaveMonsterCount <= createLimitCount && createCo != null)
+        if ((curWaveMonsterCount <= createLimitCount && createCo != null))
         {
             //코루틴 중지
             StopCoroutine(createCo);
             createCo = null;
             //Wave False로 변경
             isWave = false;
+
+            //테스트 코드
+            // player.Health = 3000;
+
+            isPlayerLife = true;
         }
     }
 
