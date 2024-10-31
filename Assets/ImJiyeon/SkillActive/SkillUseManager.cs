@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,32 @@ public class SkillUseManager : MonoBehaviour
     [Header("Auto")]
     [SerializeField] bool AutoOnOff;
     [SerializeField] Button ActiveAuto;
+
+    [Header("Toggle Move")]
+    [SerializeField] Animator ani;
+    private int curHash;
+    private static int EnableHash = Animator.StringToHash("Enable");
+    private static int DisableHash = Animator.StringToHash("Disable");
+
+    // ========
+
+    void AniPlay()
+    {
+        int checkAniHash;
+
+        if (AutoOnOff == false) { checkAniHash = DisableHash; }
+        else if (AutoOnOff) { checkAniHash = EnableHash; }
+        else return;
+
+
+        if (curHash != checkAniHash)
+        {
+            curHash = checkAniHash;
+            ani.Play(curHash);
+        }
+    }
+
+    // ========
 
 
     private void Awake()
@@ -41,6 +68,7 @@ public class SkillUseManager : MonoBehaviour
     IEnumerator SkillAuto()
     {
         ColorChange();
+        AniPlay();
 
         while (AutoOnOff)
         {
@@ -63,6 +91,8 @@ public class SkillUseManager : MonoBehaviour
             Debug.Log("자동 액티브 사용 비활성화");
             yield break;
         }
+
+        AniPlay();
     }
 
     // ========
@@ -79,6 +109,7 @@ public class SkillUseManager : MonoBehaviour
             colorBlock.highlightedColor = colorBlock.selectedColor;
             colorBlock.normalColor = colorBlock.selectedColor;
         }
+
         else if (AutoOnOff)
         {
             colorBlock.selectedColor = Color.green;
