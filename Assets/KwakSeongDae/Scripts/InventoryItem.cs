@@ -17,8 +17,8 @@ public class InventoryItem : MonoBehaviour/*, IBeginDragHandler, IDragHandler, I
     [SerializeField] private Button button;
     [Tooltip("활성화 슬롯")]
     [SerializeField] private InventorySlot activeSlot;
-    [Tooltip("저장 슬롯들")]
-    [SerializeField] private InventorySlot[] storageSlots;
+    [Tooltip("슬롯을 보유하는 인벤토리 트랜스폼")]
+    [SerializeField] private Transform inventory;
     [Tooltip("아이템 해금 여부")]
     public bool canUse;
     /* [HideInInspector] public Transform parentAfterDrag; // 드래그 후에 다시 원래 위치로 돌아갈 부모 트랜스폼 */
@@ -57,9 +57,10 @@ public class InventoryItem : MonoBehaviour/*, IBeginDragHandler, IDragHandler, I
         if(slot.slotType == InventorySlot.SlotType.ActiveSlot)
         {
             //빈 슬롯 탐색
-            foreach (var storageSlot in storageSlots)
+            for (int i = 0; i < inventory.childCount; i++)
             {
-                if (storageSlot.transform.childCount < 1)
+                var storageSlot = inventory.GetChild(i);
+                if (storageSlot.childCount < 1)
                 {
                     //원래 활성화 슬롯에 있던 아이템을 빈 슬롯에 옮기기
                     transform.SetParent(storageSlot.transform);
