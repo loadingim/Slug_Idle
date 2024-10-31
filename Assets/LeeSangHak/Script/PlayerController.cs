@@ -19,14 +19,40 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject[] weapons;
     public List<GameObject> bullets;
     private float attackSpeed;
+    private bool respawn;
+
+    IEnumerator Respawn()
+    {
+        Debug.Log("코루틴 진입");
+        upperAnim.SetBool("Death", true);
+        lowerAnim.gameObject.SetActive(false);
+
+        // 플레이어가 죽었을 때 모든 탄환 삭제
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
+        bullets.Clear(); // 리스트 초기화
+
+        PlayerDataModel.Instance.Health = 500;
+        yield return new WaitForSeconds(1f);
+        upperAnim.SetBool("Death", false);
+        lowerAnim.gameObject.SetActive(true);
+
+        respawn = true;
+
+
+    }
+
 
     private void Start()
     {
         // 모델 데이터 : 공격 속도
         attackSpeed = 1f;
-        attackRange = 10;
-        Debug.Log(PlayerDataModel.Instance.AttackSpeed);
+        attackRange = 20;
     }
+
+
 
     private void Update()
     {
@@ -50,13 +76,19 @@ public class PlayerController : MonoBehaviour
 
         if (PlayerDataModel.Instance.Health <= 0)
         {
-            Death();
-            
+            Debug.Log("사망");
+            Death();            
         }
 
         if (weaponPrefab != null)
         {
             upperAnim.SetBool("isWeapon", true);
+        }
+
+        if (respawn == true)
+        {
+            StopCoroutine(Respawn());
+            respawn = false;
         }
     }
 
@@ -89,14 +121,11 @@ public class PlayerController : MonoBehaviour
         PlayerDataModel.Instance.Health -= damage;
         if (PlayerDataModel.Instance.Health <= 0)
         {
-            // Destroy(gameObject); < 죽었을 시 
-            Debug.Log("피격됨");
         }
     }
 
     public void Attack()
     {
-        Debug.Log("어택");
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
             lowerAnim.SetBool("Walk", false);
@@ -117,15 +146,7 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
-        upperAnim.SetBool("Death", true);
-        lowerAnim.gameObject.SetActive(false);
-
-        // 플레이어가 죽었을 때 모든 탄환 삭제
-        foreach (GameObject bullet in bullets)
-        {
-            Destroy(bullet);
-        }
-        bullets.Clear(); // 리스트 초기화
+        StartCoroutine(Respawn());
     }
 
     public void SwapWeapon(GameObject weapon)

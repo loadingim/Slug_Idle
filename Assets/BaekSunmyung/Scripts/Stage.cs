@@ -169,7 +169,7 @@ public class Stage : MonoBehaviour
             //몬스터 저장 배열 클리어
             Array.Clear(monsters, 0, monsters.Length);
             isPlayerLife = true;
-            player.Health = 3000;
+            //player.Health = 3000;
         }
         else
         {

@@ -51,6 +51,3 @@ TagManager:
   - name: Bullet
     uniqueID: 1112424561
     locked: 0
-  - name: FrontGround
-    uniqueID: 2011049209
-    locked: 0

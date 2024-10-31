@@ -12,9 +12,11 @@ public class Bullet : MonoBehaviour
     private PlayerController playerController;
     private Vector2 bfPosition;
     [SerializeField] Animator animator;
+    private bool check = false;
 
     private void Start()
     {
+        Destroy(gameObject, 10f);
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
 
         if (target != null)
@@ -39,27 +41,31 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
-            playerController.RemoveBullets(gameObject); // ≈∫»Ø ¡¶∞≈ ø‰√ª
+        playerController.RemoveBullets(gameObject); // ≈∫»Ø ¡¶∞≈ ø‰√ª
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (check)
+            return;
+        Debug.Log("¡¢√À");
         if (collision.gameObject.tag == "Monster")
         {
-            if(animator != null)
+            check = true;
+            if (animator != null)
             {
                 animator.SetBool("isHit", true);
-            }            
+            }
             collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack;
-            if(gameObject.name== "Player_Flame(Clone)")
+            if (gameObject.name == "Player_Flame(Clone)")
             {
-                Debug.Log("2.9√ µ⁄ ªË¡¶");
                 Destroy(gameObject, 0.8f);
             }
             else
             {
+                Debug.Log("±«√—");
                 Destroy(gameObject);
-            }            
+            }
         }
     }
 
