@@ -9,18 +9,21 @@ public class PlayerController : MonoBehaviour
     public GameObject targetMonster = null;
     public float attackCooldown = 0f;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject weaponPrefab;
     public int ammo, attackRange;
     [SerializeField] float times;
     [SerializeField] GameObject[] monsters;
-    [SerializeField] GameObject muzzlePoint;
+    public GameObject muzzlePoint;
     [SerializeField] Animator upperAnim;
     [SerializeField] Animator lowerAnim;
     [SerializeField] GameObject[] weapons;
-    [SerializeField] List<GameObject> bullets;
+    public List<GameObject> bullets;
+    private float attackSpeed;
 
     private void Start()
     {
         // 모델 데이터 : 공격 속도
+        attackSpeed = 1f;
         attackRange = 10;
         Debug.Log(PlayerDataModel.Instance.AttackSpeed);
     }
@@ -35,7 +38,7 @@ public class PlayerController : MonoBehaviour
         times = Time.time;
 
         // 타겟으로 지정된 몬스터가 비어있고 몬스터가 활성화가 아닐 시
-        if (targetMonster == null || targetMonster.activeSelf != true)
+        if (targetMonster == null || !targetMonster.activeSelf)
         {
             FindTarget();
         }
@@ -48,8 +51,12 @@ public class PlayerController : MonoBehaviour
         if (PlayerDataModel.Instance.Health <= 0)
         {
             Death();
-            upperAnim.SetBool("Death", true);
-            lowerAnim.gameObject.SetActive(false);
+            
+        }
+
+        if (weaponPrefab != null)
+        {
+            upperAnim.SetBool("isWeapon", true);
         }
     }
 
@@ -94,16 +101,11 @@ public class PlayerController : MonoBehaviour
         {
             lowerAnim.SetBool("Walk", false);
             upperAnim.SetBool("Atk", true);
-            upperAnim.SetFloat("speed", 5);
+            upperAnim.SetFloat("speed", attackSpeed + (PlayerDataModel.Instance.AttackSpeedLevel * 0.01f));
 
+            ShootBullet();
 
-            Debug.Log("발사");
-            //apon.shot();
-            GameObject bulletGameObj = Instantiate(bulletPrefab, muzzlePoint.transform.position, transform.rotation);
-            Bullet bullet = bulletGameObj.GetComponent<Bullet>();
-            bullets.Add(bulletGameObj);
-            bullet.SetTarget(targetMonster);
-            attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;
+            attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;            
         }
     }
 
@@ -115,11 +117,46 @@ public class PlayerController : MonoBehaviour
 
     public void Death()
     {
+        upperAnim.SetBool("Death", true);
+        lowerAnim.gameObject.SetActive(false);
+
         // 플레이어가 죽었을 때 모든 탄환 삭제
         foreach (GameObject bullet in bullets)
         {
             Destroy(bullet);
         }
         bullets.Clear(); // 리스트 초기화
+    }
+
+    public void SwapWeapon(GameObject weapon)
+    {
+        if (weaponPrefab != null)
+        {
+            weaponPrefab.gameObject.SetActive(false);
+            weaponPrefab = weapon;
+            weaponPrefab.gameObject.SetActive(true);
+        }
+        else if(weaponPrefab == null)
+        {
+            weaponPrefab = weapon;
+            weaponPrefab.gameObject.SetActive(true);
+        }
+    }
+
+    private void ShootBullet()
+    {
+        if (weaponPrefab == null)
+        {
+            GameObject bulletGameObj = Instantiate(bulletPrefab, muzzlePoint.transform.position, transform.rotation);
+            Bullet bullet = bulletGameObj.GetComponent<Bullet>();
+            bullets.Add(bulletGameObj);
+            bullet.SetTarget(targetMonster);
+        }
+        else
+        {
+            weaponPrefab.GetComponent<Weapon>().shot();
+        }
+
+        
     }
 }

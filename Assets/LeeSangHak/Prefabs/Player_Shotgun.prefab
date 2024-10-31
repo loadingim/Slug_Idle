@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -3971006961976530499}
   - component: {fileID: -4154248064288833516}
   m_Layer: 0
-  m_Name: Square (4) 2
+  m_Name: Player_Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1112424561
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 014979016262756438675ca83e9e4e15, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -100,9 +100,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rigid: {fileID: -3971006961976530499}
-  speed: 1
+  speed: 5
   target: {fileID: 0}
-  trans: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!50 &-3971006961976530499
 Rigidbody2D:
   serializedVersion: 4
@@ -141,7 +141,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 8.81, y: 6.29}
+    oldSize: {x: 1.8354167, y: 1.3104167}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
