@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,8 +11,6 @@ public class SkillUseManager : MonoBehaviour
     [Header("Auto")]
     [SerializeField] bool AutoOnOff;
     [SerializeField] Button ActiveAuto;
-    [SerializeField] TextMeshProUGUI AutoOnText;
-    [SerializeField] TextMeshProUGUI AutoOffText;
 
     [Header("Toggle Move")]
     [SerializeField] Animator ani;
@@ -31,6 +28,7 @@ public class SkillUseManager : MonoBehaviour
         else if (AutoOnOff) { checkAniHash = EnableHash; }
         else return;
 
+
         if (curHash != checkAniHash)
         {
             curHash = checkAniHash;
@@ -39,6 +37,7 @@ public class SkillUseManager : MonoBehaviour
     }
 
     // ========
+
 
     private void Awake()
     {
@@ -92,6 +91,8 @@ public class SkillUseManager : MonoBehaviour
             Debug.Log("자동 액티브 사용 비활성화");
             yield break;
         }
+
+        AniPlay();
     }
 
     // ========
@@ -104,22 +105,16 @@ public class SkillUseManager : MonoBehaviour
 
         if (AutoOnOff == false)
         {
-            colorBlock.selectedColor = new Color32(185, 0, 25, 255);
+            colorBlock.selectedColor = Color.red;
             colorBlock.highlightedColor = colorBlock.selectedColor;
             colorBlock.normalColor = colorBlock.selectedColor;
-
-            AutoOnText.gameObject.SetActive(false);
-            AutoOffText.gameObject.SetActive(true);
         }
 
         else if (AutoOnOff)
         {
-            colorBlock.selectedColor = new Color32(85, 210, 0, 255);
+            colorBlock.selectedColor = Color.green;
             colorBlock.highlightedColor = colorBlock.selectedColor;
             colorBlock.normalColor = colorBlock.selectedColor;
-
-            AutoOnText.gameObject.SetActive(true);
-            AutoOffText.gameObject.SetActive(false);
         }
 
         ActiveAuto.colors = colorBlock;
