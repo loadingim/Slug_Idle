@@ -86,9 +86,8 @@ public class Stage : MonoBehaviour
     [SerializeField] MonsterModel[] monsters;
 
     //Player 변수
-    PlayerDataModel player;
+    private PlayerDataModel player;
     [SerializeField] private bool isPlayerLife = true;
-    [SerializeField] Bullet playerBullet;
 
 
     public bool IsWave { get { return isWave; } }
@@ -311,12 +310,12 @@ public class Stage : MonoBehaviour
 
         if (!isPlayerLife)
         {
-            Debug.Log("플레이어 사망");
             //Kill카운트를 현재 wave에서 킬한수만 빼주는거로 변경 필요
             killMonsterCount = 0;
             killRate = 0f;
             fieldWaveMonsterCount = 0;
             isStageClear = false;
+
             //보스 스테이지 진입 상태
             if (isBoss)
             {
@@ -337,14 +336,12 @@ public class Stage : MonoBehaviour
         }
 
     }
-
-
+     
     /// <summary>
     /// 보스 스테이지 재도전 기능
     /// </summary>
     public void BossChallenge()
     {
-        Debug.Log("보스 재도전!!");
         parserIndex++;
         isLoop = false;
         bossObject.gameObject.SetActive(false);
@@ -373,9 +370,6 @@ public class Stage : MonoBehaviour
             createCo = null;
             //Wave False로 변경
             isWave = false;
-
-            //테스트 코드
-            // player.Health = 3000;
 
             isPlayerLife = true;
         }
@@ -435,31 +429,7 @@ public class Stage : MonoBehaviour
         }
     }
 
-
-
-    /// <summary>
-    /// 난이도 별 스탯 조정
-    /// </summary>
-    /// <param name="index">몬스터 생성 시 받아올 인덱스</param>
-    public void AdjustmentStats(int index)
-    {
-        switch (curDifficult)
-        {
-            case Difficutly.Easy:
-                monsters[index].MonsterMoveSpeed = 3.5f;
-                break;
-
-            case Difficutly.Normal:
-                monsters[index].MonsterMoveSpeed = 5.5f;
-                break;
-
-            case Difficutly.Hard:
-                monsters[index].MonsterMoveSpeed = 7.5f;
-                break;
-        }
-
-    }
-
+    
     /// <summary>
     /// 현재 중분류 맵에서 난이도가 True 인 값을 찾아서 현재 난이도에 할당
     /// </summary>
@@ -499,7 +469,5 @@ public class Stage : MonoBehaviour
     {
         bgAction = action;
     }
-
-
-
+     
 }
