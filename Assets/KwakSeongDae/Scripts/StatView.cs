@@ -7,24 +7,17 @@ public class StatView : MonoBehaviour
     [Serializable]
     struct StatTextView
     {
-        public string prefixText;
-        public PlayerData stat;
-        public TextMeshProUGUI textMesh;
+        public PlayerStatStoreData stat;
+        public string prefixLevelText;
+        public string prefixStatText;
+        public string prefixBuyText;
+        public TextMeshProUGUI LevelText;
+        public TextMeshProUGUI StatText;
+        public TextMeshProUGUI BuyText;
     }
-
+    [Header("스탯 뷰어 기본 설정")]
+    [SerializeField] private StatStore statStore;
     [SerializeField] private StatTextView[] textViews;
-
-    private PlayerDataModel playerDataModel;
-
-    void Start()
-    {
-        playerDataModel = PlayerDataModel.Instance;
-        if (playerDataModel == null)
-        {
-            Debug.Log("PlayerDataModel이 있는 경우에 스탯 관련 시스템이 활성화됩니다.");
-            return;
-        }
-    }
 
     void Update()
     {
@@ -40,23 +33,43 @@ public class StatView : MonoBehaviour
     /// <param name="textView"></param>
     void UpdateView(StatTextView textView)
     {
-        if (playerDataModel == null) return;
+        if (PlayerDataModel.Instance == null ||
+            textView.LevelText == null ||
+            textView.StatText == null ||
+            textView.BuyText == null) return;
+
         switch (textView.stat)
         {
-            case PlayerData.Health:
-                textView.textMesh.text = textView.prefixText + playerDataModel.Health.ToString();
+            case PlayerStatStoreData.Health:
+                textView.LevelText?.SetText($"{textView.prefixLevelText}: {PlayerDataModel.Instance.HealthLevel}");
+                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.Health}");
+                textView.BuyText?.SetText($"{textView.prefixBuyText}: {statStore.health.upValue}");
                 break;
-            case PlayerData.Attack:
-                textView.textMesh.text = textView.prefixText + playerDataModel.Attack.ToString("F2");
+
+            case PlayerStatStoreData.HealthRegen:
+                textView.LevelText?.SetText($"{textView.prefixLevelText}: {PlayerDataModel.Instance.HealthRegenLevel}");
+                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.HealthRegen:F2}");
+                textView.BuyText?.SetText($"{textView.prefixBuyText}: {statStore.healthRegen.upValue}");
                 break;
-            case PlayerData.AttackSpeed:
-                textView.textMesh.text = textView.prefixText + playerDataModel.AttackSpeed.ToString("F2");
+
+            case PlayerStatStoreData.Attack:
+                textView.LevelText?.SetText($"{textView.prefixLevelText}: {PlayerDataModel.Instance.AttackLevel}");
+                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.Attack:F2}");
+                textView.BuyText.text = $"{textView.prefixBuyText}: {statStore.attack.upValue.ToString()}";
                 break;
-            case PlayerData.Money:
-                textView.textMesh.text = textView.prefixText + playerDataModel.Money.ToString();
+
+            case PlayerStatStoreData.TouchAttack:
+                textView.LevelText?.SetText($"{textView.prefixLevelText}: {PlayerDataModel.Instance.TouchAttackLevel}");
+                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.TouchAttack:F2}");
+                textView.BuyText?.SetText($"{textView.prefixBuyText}: {statStore.touchAttack.upValue}");
                 break;
-            default:
+
+            case PlayerStatStoreData.AttackSpeed:
+                textView.LevelText?.SetText($"{textView.prefixLevelText}: {PlayerDataModel.Instance.AttackSpeedLevel}");
+                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.AttackSpeed:F2}");
+                textView.BuyText?.SetText($"{textView.prefixBuyText}: {statStore.attackSpeed.upValue}");
                 break;
         }
+
     }
 }

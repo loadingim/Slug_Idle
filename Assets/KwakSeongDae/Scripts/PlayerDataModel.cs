@@ -77,8 +77,8 @@ public class PlayerDataModel : MonoBehaviour
 
     [Header("플레이어 체력재생")]
     [Tooltip("플레이어 체력재생")]
-    [SerializeField] private int healthRegen;
-    public int HealthRegen
+    [SerializeField] private float healthRegen;
+    public float HealthRegen
     {
         get { return healthRegen; }
         set
@@ -95,7 +95,7 @@ public class PlayerDataModel : MonoBehaviour
             OnHealthRegenChanged?.Invoke(healthRegen);
         }
     }
-    public UnityAction<int> OnHealthRegenChanged;
+    public UnityAction<float> OnHealthRegenChanged;
 
     [Tooltip("플레이어 체력재생 레벨")]
     [SerializeField] private int healthRegenLevel;

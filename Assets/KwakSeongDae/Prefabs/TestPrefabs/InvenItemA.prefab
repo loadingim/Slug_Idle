@@ -93,6 +93,7 @@ MonoBehaviour:
   ItemObject: {fileID: 0}
   button: {fileID: -4591455823626454202}
   activeSlot: {fileID: 0}
+  inventory: {fileID: 0}
   canUse: 1
 --- !u!114 &-4591455823626454202
 MonoBehaviour:
