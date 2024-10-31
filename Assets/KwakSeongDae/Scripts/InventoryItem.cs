@@ -38,6 +38,13 @@ public class InventoryItem : MonoBehaviour/*, IBeginDragHandler, IDragHandler, I
             SlotCheck();
         }
     }
+    private void OnDisable()
+    {
+        if (button != null)
+        {
+            button.onClick.RemoveAllListeners();
+        }
+    }
 
     private void Update()
     {
