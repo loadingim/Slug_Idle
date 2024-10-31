@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7911559964721147203}
   - component: {fileID: -2846971685234828876}
   m_Layer: 5
-  m_Name: InvenItemB
+  m_Name: InvenItemC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b0d7ffb2bc024e84bb3ea142257a3e8b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eb450cc18aac5e34db6dd86ac07c100a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
