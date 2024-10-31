@@ -8,7 +8,7 @@ public class ProgressIconController : MonoBehaviour
     [Header("기본 설정")]
     [Tooltip("프로그레스바의 ForeGround")]
     [SerializeField] private Image progressForeground;
-    [Tooltip("현재 프로그레스 아이콘")]
+    [Tooltip("ForeGround의 자식에 있는 프로그레스 아이콘\n 부모의 Anchor와 같도록 사전 설정 필요")]
     [SerializeField] private RectTransform progressIcon;
 
     // Update is called once per frame
@@ -16,9 +16,8 @@ public class ProgressIconController : MonoBehaviour
     {
         if (progressForeground != null && progressIcon != null)
         {
-            var pos = progressForeground.rectTransform.anchoredPosition;
             var width = progressForeground.rectTransform.sizeDelta.x;
-            progressIcon.anchoredPosition = new Vector3(pos.x + (width * progressForeground.fillAmount), pos.y);
+            progressIcon.anchoredPosition = new Vector3(width * progressForeground.fillAmount, 0);
         }
     }
 }
