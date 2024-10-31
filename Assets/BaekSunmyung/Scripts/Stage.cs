@@ -31,6 +31,7 @@ public class Stage : MonoBehaviour
     [Header("Monster Safe Zone")]
     [SerializeField] private Transform safeZone;
 
+    [SerializeField] private int curWaveKillCount;
     [SerializeField] private int fieldWaveMonsterCount;
     [SerializeField] private int killMonsterCount;
     [SerializeField] private int ThirdClassMonsterCount;
@@ -131,8 +132,11 @@ public class Stage : MonoBehaviour
 
         if (player.Health < 1)
         {
-            isPlayerLife = false;
-
+            isPlayerLife = false; 
+        }
+        else
+        {
+            
         }
 
         MonsterSafeZone();
@@ -182,6 +186,7 @@ public class Stage : MonoBehaviour
                     {
                         if (model == monsters[i])
                         {
+                            curWaveKillCount++;
                             monsters[i] = null;
                             killMonsterCount++;
                             fieldWaveMonsterCount--;
@@ -259,6 +264,7 @@ public class Stage : MonoBehaviour
         if (isStageClear)
         {
             parserIndex++;
+            curWaveKillCount = 0;
         }
 
         //보스 스테이지 진입 단계
@@ -307,32 +313,44 @@ public class Stage : MonoBehaviour
 
     public void PlayerDeath()
     {
-
+        int prevIndex = 0;
+        int prevWaveCount = 0;
         if (!isPlayerLife)
         {
-            //Kill카운트를 현재 wave에서 킬한수만 빼주는거로 변경 필요
-            killMonsterCount = 0;
-            killRate = 0f;
+            //이전 Wave 인덱스
+            prevIndex = parserIndex > 0 ? parserIndex - 1 : 0; 
+            
+            //이전 Wave 몬스터 수
+            prevWaveCount = csvParser.State[prevIndex].Stage_monsterNum;
+
+            //현재 죽인 몬스터 수 - (이전 스테이지에서 생상된 몬스터 수 + 현재 스테이지에서 죽인 몬스터수)
+            killMonsterCount = (killMonsterCount - (prevWaveCount + curWaveKillCount));
+            
+            //스테이지 진행률 조정
+            killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
             fieldWaveMonsterCount = 0;
             isStageClear = false;
-
+ 
             //보스 스테이지 진입 상태
             if (isBoss)
-            {
+            { 
                 //보스 필드 진입 후 죽으면 -1 감소 
                 if (!isLoop)
                 {
                     parserIndex--;
                     isLoop = true;
                 }
+                 
             }
             else
-            {
+            { 
                 parserIndex += parserIndex > 0 ? -1 : 0;
             }
 
             //배경 리셋
             bgAction?.Invoke();
+
+            curWaveKillCount = 0;
         }
 
     }

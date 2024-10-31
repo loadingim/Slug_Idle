@@ -1280,6 +1280,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7419415212423066598, guid: 125dee2fd4ad6614cb34eaab43af1bae, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8020274423523781999, guid: 125dee2fd4ad6614cb34eaab43af1bae, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1387,14 +1391,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    value: 10
-    cost: 1
+    upValue: 0
+    curCost: 0
+    buyButton: {fileID: 0}
+  healthRegen:
+    upValue: 0
+    curCost: 0
+    buyButton: {fileID: 0}
   attack:
-    value: 1.2
-    cost: 2
+    upValue: 0
+    curCost: 0
+    buyButton: {fileID: 0}
+  touchAttack:
+    upValue: 0
+    curCost: 0
+    buyButton: {fileID: 0}
   attackSpeed:
-    value: 0.1
-    cost: 1
+    upValue: 0
+    curCost: 0
+    buyButton: {fileID: 0}
 --- !u!114 &275755847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1407,19 +1422,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c01894100791a649ad93b1ce17ecc06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  statStore: {fileID: 0}
   textViews:
-  - prefixText: 'HP: '
-    stat: 0
-    textMesh: {fileID: 1275540093}
-  - prefixText: 'Attack: '
-    stat: 1
-    textMesh: {fileID: 1274138632}
-  - prefixText: 'AttackSpeed: '
-    stat: 2
-    textMesh: {fileID: 525006987}
-  - prefixText: 'CurMoney: '
-    stat: 3
-    textMesh: {fileID: 16951046}
+  - stat: 0
+    prefixLevelText: 
+    prefixStatText: 
+    prefixBuyText: 
+    LevelText: {fileID: 0}
+    StatText: {fileID: 0}
+    BuyText: {fileID: 0}
+  - stat: 1
+    prefixLevelText: 
+    prefixStatText: 
+    prefixBuyText: 
+    LevelText: {fileID: 0}
+    StatText: {fileID: 0}
+    BuyText: {fileID: 0}
+  - stat: 2
+    prefixLevelText: 
+    prefixStatText: 
+    prefixBuyText: 
+    LevelText: {fileID: 0}
+    StatText: {fileID: 0}
+    BuyText: {fileID: 0}
+  - stat: 3
+    prefixLevelText: 
+    prefixStatText: 
+    prefixBuyText: 
+    LevelText: {fileID: 0}
+    StatText: {fileID: 0}
+    BuyText: {fileID: 0}
 --- !u!114 &275755848
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,7 +1898,6 @@ MonoBehaviour:
   bossChallengeBtn: {fileID: 665476728}
   monsters: []
   isPlayerLife: 1
-  playerBullet: {fileID: 0}
 --- !u!4 &449667400
 Transform:
   m_ObjectHideFlags: 0
@@ -4884,6 +4915,7 @@ MonoBehaviour:
   targetMonster: {fileID: 0}
   attackCooldown: 0
   bulletPrefab: {fileID: 3306471569424342834, guid: 8402a65c7254fab4ab736b8542eb8410, type: 3}
+  weaponPrefab: {fileID: 0}
   ammo: 0
   attackRange: 0
   times: 0
@@ -5396,6 +5428,7 @@ MonoBehaviour:
   targetMonster: {fileID: 0}
   attackCooldown: 0
   bulletPrefab: {fileID: 3306471569424342834, guid: 8402a65c7254fab4ab736b8542eb8410, type: 3}
+  weaponPrefab: {fileID: 0}
   ammo: 0
   attackRange: 0
   times: 0
@@ -5918,6 +5951,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6930231620274951244, guid: 15c895b5120419b4880444f5189e02bc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9089832504319144166, guid: 15c895b5120419b4880444f5189e02bc, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -7619,6 +7656,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2854455165620488700, guid: 9bc22b174cfa7b74e83a64b08f3e411a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7845620299911557142, guid: 9bc22b174cfa7b74e83a64b08f3e411a, type: 3}
       propertyPath: m_Name
       value: Weapon2
@@ -7710,6 +7751,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5460978122901239868, guid: 4aea007988159da4cb5f7d62fa399021, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7174352139686230752, guid: 4aea007988159da4cb5f7d62fa399021, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
