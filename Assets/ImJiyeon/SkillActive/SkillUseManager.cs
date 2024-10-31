@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +12,33 @@ public class SkillUseManager : MonoBehaviour
     [Header("Auto")]
     [SerializeField] bool AutoOnOff;
     [SerializeField] Button ActiveAuto;
+    [SerializeField] TextMeshProUGUI AutoOnText;
+    [SerializeField] TextMeshProUGUI AutoOffText;
 
+    [Header("Toggle Move")]
+    [SerializeField] Animator ani;
+    private int curHash;
+    private static int EnableHash = Animator.StringToHash("Enable");
+    private static int DisableHash = Animator.StringToHash("Disable");
+
+    // ========
+
+    void AniPlay()
+    {
+        int checkAniHash;
+
+        if (AutoOnOff == false) { checkAniHash = DisableHash; }
+        else if (AutoOnOff) { checkAniHash = EnableHash; }
+        else return;
+
+        if (curHash != checkAniHash)
+        {
+            curHash = checkAniHash;
+            ani.Play(curHash);
+        }
+    }
+
+    // ========
 
     private void Awake()
     {
@@ -41,6 +69,7 @@ public class SkillUseManager : MonoBehaviour
     IEnumerator SkillAuto()
     {
         ColorChange();
+        AniPlay();
 
         while (AutoOnOff)
         {
@@ -75,15 +104,22 @@ public class SkillUseManager : MonoBehaviour
 
         if (AutoOnOff == false)
         {
-            colorBlock.selectedColor = Color.red;
+            colorBlock.selectedColor = new Color32(185, 0, 25, 255);
             colorBlock.highlightedColor = colorBlock.selectedColor;
             colorBlock.normalColor = colorBlock.selectedColor;
+
+            AutoOnText.gameObject.SetActive(false);
+            AutoOffText.gameObject.SetActive(true);
         }
+
         else if (AutoOnOff)
         {
-            colorBlock.selectedColor = Color.green;
+            colorBlock.selectedColor = new Color32(85, 210, 0, 255);
             colorBlock.highlightedColor = colorBlock.selectedColor;
             colorBlock.normalColor = colorBlock.selectedColor;
+
+            AutoOnText.gameObject.SetActive(true);
+            AutoOffText.gameObject.SetActive(false);
         }
 
         ActiveAuto.colors = colorBlock;
