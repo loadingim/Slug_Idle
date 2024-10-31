@@ -428,13 +428,13 @@ public class Stage : MonoBehaviour
         yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
-
+        Debug.Log("몬스터 생성 코루틴 실행됨");
         while (curWaveMonsterCount > createLimitCount)
         {
             float xPos = UnityEngine.Random.Range(11f, 13f);
             float yPos = UnityEngine.Random.Range(2.5f, -3f);
             Vector3 offset = new Vector3(xPos, yPos, 0);
-
+            Debug.Log("몬스터 생성 코루틴 실행됨");
             GameObject monsterInstance = Instantiate(monsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
             Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
             monsterCollider.enabled = false;
