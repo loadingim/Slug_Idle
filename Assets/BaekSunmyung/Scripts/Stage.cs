@@ -7,6 +7,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 
@@ -31,11 +32,10 @@ public class Stage : MonoBehaviour
     [Header("Monster Safe Zone")]
     [SerializeField] private Transform safeZone;
 
-    [SerializeField] private int curWaveKillCount;
-    [SerializeField] private int fieldWaveMonsterCount;
-    [SerializeField] private int killMonsterCount;
-    [SerializeField] private int ThirdClassMonsterCount;
-
+    [Header("Stage Data Variable")]
+    [Tooltip("대분류 스테이지 개수")]
+    [SerializeField] private int stageSecondClass;
+    [Tooltip("소분류 Wave 개수")]
     [SerializeField] private int waveCount;
 
     //임시 보스
@@ -47,19 +47,27 @@ public class Stage : MonoBehaviour
     //배경 이미지 리셋
     public Action bgAction;
 
+    //배경 이미지 인덱스
+    private int bgIndex = 0;
+
     //Data Table CSV 변수
     private StageCSV csvParser;
 
     //Data Table Index 변수
     private int parserIndex = 0;
-
+     
     //몬스터 소탕률
     private float killRate;
 
-    //Stage 관련 임시 변수명
-    private MiddleMap curSecondClass = MiddleMap.First;
-    private int curThirdClass;
-    private int curWaveMonsterCount;    //Data Table에서 받아와야 함
+    //Stage 관련 변수
+    private MiddleMap curSecondClass = MiddleMap.First;     //스테이지 난이도 변수
+    private int curThirdClass;          //현재 스테이지의 위치
+    private int curWaveMonsterCount;    //현재 Wave에서 생성될 몬스터 수
+    private int curWaveKillCount;       //이전 스테이지 이동 시 진행률에서 빼줄 값
+    private int fieldWaveMonsterCount;  //현재 필드위에 남은 몬스터 수
+    private int killMonsterCount;       //현재까지 잡은 몬스터 수
+    private int ThirdClassMonsterCount; //현재 스테이지의 소환될 총 몬스터 수
+
 
     //Wave 생성 여부
     private bool isWave;
@@ -93,8 +101,7 @@ public class Stage : MonoBehaviour
 
     public bool IsWave { get { return isWave; } }
 
-
-
+    
     private void Awake()
     {
         bossChallengeBtn.onClick.AddListener(BossChallenge);
@@ -103,15 +110,19 @@ public class Stage : MonoBehaviour
     private void Start()
     {
         csvParser = StageCSV.Instance;
+        bgIndex = parserIndex / 50;
 
         //MapController > 배경, 하늘 이미지 전달
-        //mapController.BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite);
-        //mapController.SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
+        //mapController.BackGroundSpriteChange(mapData[bgIndex].BackGroundSprite);
+        //mapController.SkySpriteChange(mapData[bgIndex].SkySprite);
 
         monsters = new MonsterModel[5];
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
         bossObject.gameObject.SetActive(false);
+
+        
+
     }
 
 
@@ -133,11 +144,7 @@ public class Stage : MonoBehaviour
         if (player.Health < 1)
         {
             isPlayerLife = false; 
-        }
-        else
-        {
-            
-        }
+        } 
 
         MonsterSafeZone();
         PlayerDeath();
@@ -208,11 +215,17 @@ public class Stage : MonoBehaviour
     private void NextStage()
     {
         SetDifficult();
-
-        //배경, 하늘 이미지 전달
-        //mapController.BackGroundSpriteChange(mapData[(int)curMiddleMap].BackGroundSprite);
-        //mapController.SkySpriteChange(mapData[(int)curMiddleMap].SkySprite);
-
+        
+        //똑같은 배경 이미지 지속적으로 전달 방지
+        //추후 BG Sprite 전달 받을 경우 사용 예정
+        //if(bgIndex != (parserIndex / 50))
+        //{
+        //    bgIndex = parserIndex / 50;
+        //    //배경, 하늘 이미지 전달
+        //    mapController.BackGroundSpriteChange(mapData[bgIndex].BackGroundSprite);
+        //    mapController.SkySpriteChange(mapData[bgIndex].SkySprite);
+        //}
+         
         bgAction?.Invoke();
     }
 
