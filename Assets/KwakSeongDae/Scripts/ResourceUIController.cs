@@ -12,17 +12,17 @@ public class ResourceUIController : MonoBehaviour
     [Tooltip("사용자의 기본 재화를 표기하는 TextMeshUI")]
     [SerializeField] private TextMeshProUGUI moneyText;
     [Tooltip("동료 및 슬러그 강화 시에 사용되는 재화를 표기하는 TextMeshUI")]
-    [SerializeField] private TextMeshProUGUI crystalText;
+    [SerializeField] private TextMeshProUGUI jewelText;
 
     private void Start()
     {
         if (PlayerDataModel.Instance != null)
         {
             PlayerDataModel.Instance.OnMoneyChanged += UpdateMoney;
-            PlayerDataModel.Instance.OnCrystalChanged += UpdateCrystal;
+            PlayerDataModel.Instance.OnJewelChanged += UpdateJewel;
 
             moneyText?.SetText(PlayerDataModel.Instance.Money.ToString());
-            crystalText?.SetText(PlayerDataModel.Instance.Money.ToString());
+            jewelText?.SetText(PlayerDataModel.Instance.Money.ToString());
         }
     }
 
@@ -31,7 +31,7 @@ public class ResourceUIController : MonoBehaviour
         if (PlayerDataModel.Instance != null)
         {
             PlayerDataModel.Instance.OnMoneyChanged += UpdateMoney;
-            PlayerDataModel.Instance.OnCrystalChanged += UpdateCrystal;
+            PlayerDataModel.Instance.OnJewelChanged += UpdateJewel;
         }
     }
 
@@ -40,7 +40,7 @@ public class ResourceUIController : MonoBehaviour
         if (PlayerDataModel.Instance != null)
         {
             PlayerDataModel.Instance.OnMoneyChanged -= UpdateMoney;
-            PlayerDataModel.Instance.OnCrystalChanged -= UpdateCrystal;
+            PlayerDataModel.Instance.OnJewelChanged -= UpdateJewel;
         }
     }
 
@@ -49,8 +49,8 @@ public class ResourceUIController : MonoBehaviour
         moneyText?.SetText(newMoney.ToString());
     }
 
-    void UpdateCrystal(int newCrystal)
+    void UpdateJewel(int newJewel)
     {
-        crystalText?.SetText(newCrystal.ToString());
+        jewelText?.SetText(newJewel.ToString());
     }
 }
