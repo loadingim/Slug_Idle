@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7968aca8343bfc342878d103ba0fe498, type: 3}
   m_Name: Second
   m_EditorClassIdentifier: 
-  middleStage: 1
-  maxSmallStage: 5
-  backGroundSprite: {fileID: 0}
-  skySprite: {fileID: 0}
+  backGroundSprite:
+  - {fileID: 21300000, guid: f6234b9fa69948f479e6dabd5777ad84, type: 3}
+  skySprite:
+  - {fileID: 21300000, guid: 77c6ef8ecb40efc468ecf1d04d76ed6b, type: 3}

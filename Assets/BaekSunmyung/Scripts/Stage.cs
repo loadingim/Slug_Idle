@@ -121,13 +121,7 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
-        csvParser = StageCSV.Instance;
-        bgSecondClsIndex = parserIndex / stageSecondClass;
-
-        //MapController > 배경, 하늘 이미지 전달
-        //mapController.BackGroundSpriteChange(mapData[bgSecondClsIndex].BackGroundSprite);
-        //mapController.SkySpriteChange(mapData[bgSecondClsIndex].SkySprite);
-
+        csvParser = StageCSV.Instance;   
         monsters = new MonsterModel[5];
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
@@ -157,6 +151,7 @@ public class Stage : MonoBehaviour
             isPlayerLife = false;
         }
 
+        
         MonsterSafeZone();
         PlayerDeath();
         StageClear();
@@ -164,12 +159,8 @@ public class Stage : MonoBehaviour
         MonsterRemover();
 
         //BG 받기전까지만 Update 에서 사용
-        bgSecondClsIndex = parserIndex / stageSecondClass;
-        SetStageText();
-
-        Debug.Log($"현재 인덱스 :{parserIndex}");
-        Debug.Log($"현재 isBoss :{isBoss}");
-        Debug.Log($"현재 스테이지 :{curThirdClass} - {csvParser.State[parserIndex].Stage_wave}");
+        //bgSecondClsIndex = parserIndex / stageSecondClass;
+        SetStageText(); 
 
         //스테이지 진행률 UI 연동 
         foreGround.fillAmount = killRate * 0.01f;
@@ -234,13 +225,13 @@ public class Stage : MonoBehaviour
 
         //똑같은 배경 이미지 지속적으로 전달 방지
         //추후 BG Sprite 전달 받을 경우 사용 예정
-        //if(bgSecondClsIndex != (parserIndex / stageSecondClass))
-        //{
-        //    bgSecondClsIndex = parserIndex / stageSecondClass;
-        //    //배경, 하늘 이미지 전달
-        //    mapController.BackGroundSpriteChange(mapData[bgSecondClsIndex].BackGroundSprite);
-        //    mapController.SkySpriteChange(mapData[bgSecondClsIndex].SkySprite);
-        //}
+        if (bgSecondClsIndex != (csvParser.State[parserIndex].Stage_secondClass))
+        {
+            bgSecondClsIndex = csvParser.State[parserIndex].Stage_secondClass;
+            //배경, 하늘 이미지 전달
+            mapController.BackGroundSpriteChange(bgSecondClsIndex);
+            mapController.SkySpriteChange(bgSecondClsIndex);
+        }
 
         bgAction?.Invoke();
     }
@@ -295,6 +286,8 @@ public class Stage : MonoBehaviour
             parserIndex++;
             curWaveKillCount = 0;
         }
+
+        mapController.ThirdIndex = parserIndex % waveCount;
 
         //보스 스테이지 진입 단계
         if (parserIndex % waveCount >= 4)
@@ -546,22 +539,38 @@ public class Stage : MonoBehaviour
     { 
         if (isTestMode)
         {
-            foreach (MonsterModel model in monsters)
+
+            while (true)
             {
-                if (model != null)
+                bool isCheck = false;
+                foreach (MonsterModel model in monsters)
                 {
-                    Destroy(model.gameObject);
+                    if (model != null)
+                    {
+                        Destroy(model.gameObject); 
+                    }
+                    else
+                    {
+                        isCheck = true;
+                    } 
                 }
+
+                //몬스터 저장 배열 클리어
+                Array.Clear(monsters, 0, monsters.Length);
+                if (isCheck)
+                {
+                    break;
+                }
+
             }
-
-            //몬스터 저장 배열 클리어
-            Array.Clear(monsters, 0, monsters.Length);
-
+             
             isWave = false;
             fieldWaveMonsterCount = 0;
             parserIndex = testStageIndex;
-            int startIndex = parserIndex - (parserIndex % waveCount);
+            killMonsterCount = 0;
 
+            int startIndex = parserIndex - (parserIndex % waveCount);
+             
             for (int i = startIndex; i < parserIndex; i++)
             {
                 killMonsterCount += csvParser.State[i].Stage_monsterNum;
@@ -574,8 +583,13 @@ public class Stage : MonoBehaviour
                 ThirdClassMonsterCount += csvParser.State[i].Stage_monsterNum;
             }
 
-            parserIndex--;
+            killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
 
+            bgSecondClsIndex = csvParser.State[parserIndex].Stage_secondClass;
+            mapController.BackGroundSpriteChange(bgSecondClsIndex);
+            mapController.SkySpriteChange(bgSecondClsIndex);
+
+            parserIndex--; 
         }
         else
         {
