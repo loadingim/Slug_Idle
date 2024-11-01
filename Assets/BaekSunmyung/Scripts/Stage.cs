@@ -140,7 +140,7 @@ public class Stage : MonoBehaviour
         {
             return;
         }
-
+        Debug.Log($"파서 몇개?:{csvParser.State.Count}");
         //생성된 Wave 몬스터가 없을 경우
         if (!isWave && fieldWaveMonsterCount < 1)
         {
@@ -526,7 +526,7 @@ public class Stage : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Stage Test Mode
     /// </summary>
     public void TestMode()
     { 
