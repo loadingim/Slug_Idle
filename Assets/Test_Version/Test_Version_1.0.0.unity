@@ -333,7 +333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &78963285
 Transform:
   m_ObjectHideFlags: 0
@@ -342,7 +342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 78963284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.38, y: 0, z: 0}
+  m_LocalPosition: {x: 11, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1146,6 +1146,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &607039361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2901402287154109082, guid: 4aea007988159da4cb5f7d62fa399021, type: 3}
+  m_PrefabInstance: {fileID: 4211838205438377977}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &636043107
 GameObject:
   m_ObjectHideFlags: 0
@@ -8812,7 +8817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!223 &2916413225915940746
 Canvas:
   m_ObjectHideFlags: 0
@@ -11058,10 +11063,10 @@ RectTransform:
   m_Father: {fileID: 2916413227072923389}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 85, y: -30}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2916413226366212879
 GameObject:
@@ -12479,10 +12484,10 @@ RectTransform:
   m_Father: {fileID: 2916413227072923389}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 245, y: -30}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2916413226670997455
 GameObject:
@@ -12901,10 +12906,10 @@ RectTransform:
   m_Father: {fileID: 2916413227072923389}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 85, y: -90}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2916413226743850269
 GameObject:
@@ -15933,10 +15938,10 @@ RectTransform:
   m_Father: {fileID: 2916413227072923389}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 245, y: -90}
+  m_SizeDelta: {x: 140, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2916413227421042425
 GameObject:
@@ -18984,7 +18989,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4211838205362938411}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.78, y: -0.79, z: 0}
+  m_LocalPosition: {x: -6.54, y: 0.12, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19026,7 +19031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96f6258f699c584fbf21761b9aa11fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 500
+  health: 3000
   maxHealth: 0
   healthLevel: 0
   healthRegen: 20
@@ -20061,6 +20066,10 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 7031284899430997475}
+    - target: {fileID: 5607822448656021621, guid: 349205ac27caeb742b766ca895fff38e, type: 3}
+      propertyPath: ItemObject
+      value: 
+      objectReference: {fileID: 607039361}
     - target: {fileID: 5607822448656021621, guid: 349205ac27caeb742b766ca895fff38e, type: 3}
       propertyPath: activeSlot
       value: 
@@ -22317,6 +22326,10 @@ PrefabInstance:
       propertyPath: inventory
       value: 
       objectReference: {fileID: 7031284899430997475}
+    - target: {fileID: 7911559964721147203, guid: 8a701e2ff1ab00d448fd59c81b8281f1, type: 3}
+      propertyPath: ItemObject
+      value: 
+      objectReference: {fileID: 930357872}
     - target: {fileID: 7911559964721147203, guid: 8a701e2ff1ab00d448fd59c81b8281f1, type: 3}
       propertyPath: activeSlot
       value: 
