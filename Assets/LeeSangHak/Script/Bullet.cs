@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -11,11 +10,15 @@ public class Bullet : MonoBehaviour
     [SerializeField] GameObject target;
     private PlayerController playerController;
     private Vector2 bfPosition;
-    [SerializeField] Animator animator;
+    private BulletAnim bAnim;
+    private bool check = false;
 
     private void Start()
     {
+        Destroy(gameObject, 10f);
         playerController = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+
+        bAnim = GetComponent<BulletAnim>();
 
         if (target != null)
         {
@@ -39,27 +42,23 @@ public class Bullet : MonoBehaviour
 
     private void OnDestroy()
     {
-            playerController.RemoveBullets(gameObject); // 탄환 제거 요청
+        playerController.RemoveBullets(gameObject); // 탄환 제거 요청
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (check)
+            return;
+
         if (collision.gameObject.tag == "Monster")
         {
-            if(animator != null)
-            {
-                animator.SetBool("isHit", true);
-            }            
+            check = true;
+
+            bAnim.PlayHitAnimation();
+            
             collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack;
-            if(gameObject.name== "Player_Flame(Clone)")
-            {
-                Debug.Log("2.9초뒤 삭제");
-                Destroy(gameObject, 0.8f);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }            
+            bAnim.DestroyTime(gameObject);
+
         }
     }
 
