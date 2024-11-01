@@ -83,11 +83,17 @@ public class Stage : MonoBehaviour
     //보스 스테이지 진입 여부
     private bool isBoss;
 
+    //일반 스테이지 클리어 여부
     private bool isStageClear;
+
+    //Player Skill CoolTime 초기화
+    private bool coolTimeReset;
+    public bool CoolTimeReset { get { return coolTimeReset; } }
 
     //보스 스테이지 클리어 여부
     private bool isBossClear;
 
+    //해당 스테이지 반복 여부
     private bool isLoop;
 
     //현재 중분류 난이도 체크 (임시 변수명)
@@ -106,10 +112,7 @@ public class Stage : MonoBehaviour
     private PlayerDataModel player;
     [SerializeField] private bool isPlayerLife = true;
 
-
     public bool IsWave { get { return isWave; } }
-
-
     private void Awake()
     {
         bossChallengeBtn.onClick.AddListener(BossChallenge);
@@ -135,12 +138,13 @@ public class Stage : MonoBehaviour
 
     private void Update()
     {
+         
         //Data를 받아오지 못한 상태면 Return
         if (csvParser.State.Count == 0)
         {
             return;
         }
-        Debug.Log($"파서 몇개?:{csvParser.State.Count}");
+
         //생성된 Wave 몬스터가 없을 경우
         if (!isWave && fieldWaveMonsterCount < 1)
         {
@@ -152,9 +156,6 @@ public class Stage : MonoBehaviour
         {
             isPlayerLife = false;
         }
-
-
-
 
         MonsterSafeZone();
         PlayerDeath();
@@ -218,7 +219,7 @@ public class Stage : MonoBehaviour
             }
             //스테이지 클리어 트리거
             isStageClear = true;
-
+            coolTimeReset = true;
         }
     }
 
@@ -299,6 +300,7 @@ public class Stage : MonoBehaviour
         if (parserIndex % waveCount >= 4)
         {
             isBoss = true;
+            coolTimeReset = true;
             bossObject.gameObject.SetActive(false);
         }
 
@@ -310,6 +312,7 @@ public class Stage : MonoBehaviour
         //Index 다중 증가 방지
         isWave = true;
         isStageClear = false;
+        coolTimeReset = false;
 
         //소분류 스테이지 
         curThirdClass = csvParser.State[parserIndex].Stage_thirdClass;
@@ -345,6 +348,8 @@ public class Stage : MonoBehaviour
         int prevWaveCount = 0;
         if (!isPlayerLife)
         {
+            coolTimeReset = true;
+
             //이전 Wave 인덱스
             prevIndex = parserIndex > 0 ? parserIndex - 1 : 0;
 
@@ -393,12 +398,12 @@ public class Stage : MonoBehaviour
         bossObject.gameObject.SetActive(false);
         bgAction?.Invoke();
     }
-
+ 
     /// <summary>
     /// 몬스터 생성 기능
     /// </summary>
     public void CreateMonster()
-    {
+    { 
         if (createCo == null)
         {
             createCo = StartCoroutine(CreateMonsterCo());
@@ -421,10 +426,13 @@ public class Stage : MonoBehaviour
         }
     }
 
-    int a = 0;
-    private IEnumerator CreateMonsterCo()
-    {
+    
+    int monsterNumber = 1;
+     
 
+
+    private IEnumerator CreateMonsterCo()
+    { 
         WaitForSeconds createWait = new WaitForSeconds(createTimer);
         WaitForSeconds cycleWait = new WaitForSeconds(cycleTimer);
         monsters = new MonsterModel[curWaveMonsterCount];
@@ -436,6 +444,12 @@ public class Stage : MonoBehaviour
 
         while (curWaveMonsterCount > createLimitCount)
         {
+            if (GameManager.Instance.IsOpenInventory)
+            {
+                //IsOpenInventory False가 될 때 까지 일시 중지
+                yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
+            }
+
             float xPos = UnityEngine.Random.Range(11f, 13f);
             float yPos = UnityEngine.Random.Range(2.5f, -3f);
             Vector3 offset = new Vector3(xPos, yPos, 0);
@@ -444,8 +458,8 @@ public class Stage : MonoBehaviour
             Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
             monsterCollider.enabled = false;
 
-            monsterInstance.gameObject.name = a.ToString() + "몬스터";
-            a++;
+            monsterInstance.gameObject.name = monsterNumber.ToString() + "몬스터";
+            monsterNumber++;
             monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
             createLimitCount++;
 
@@ -569,5 +583,7 @@ public class Stage : MonoBehaviour
         }
 
     }
+
+
 
 }

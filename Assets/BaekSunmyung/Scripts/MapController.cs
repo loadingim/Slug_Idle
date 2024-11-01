@@ -150,6 +150,11 @@ public class MapController : MonoBehaviour
  
         if (!isChange)
         {
+            if (GameManager.Instance.IsOpenInventory)
+            {
+                yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
+            }
+
             for (int i = 0; i < backGroundCount; i++)
             {
                 backgroundMaps[i].transform.position = new Vector3(endPosX * i, 0f, 0f);

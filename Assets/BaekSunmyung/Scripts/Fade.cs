@@ -53,7 +53,7 @@ public class Fade : MonoBehaviour
     private IEnumerator FadeInCo()
     {
 
-
+        
         float elapsedTime = 0;
 
         while (elapsedTime < fadeInTime)
