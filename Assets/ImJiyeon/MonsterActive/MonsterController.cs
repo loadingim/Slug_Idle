@@ -14,14 +14,10 @@ public class MonsterController : MonoBehaviour
     [SerializeField] PlayerDataModel PlayerDataModel; // 플레이어 모델 참조
 
     [Header("Bullet")]
-    [SerializeField] float CoolTime;            // 총알 발사에 걸리는 쿨타임
+             private bool isAttacked;           // 공격 상태 판단 유무
     [SerializeField] GameObject MonsterBullet;  // 몬스터 총알 오브젝트 (프리팹 자체 참조)
              private GameObject bullet;
     [SerializeField] Transform muzzlePoint;     // 몬스터의 총알이 나가는 기준점이 될 오브젝트
-             private bool isAttacked;           // 공격 상태 판단 유무
-
-    // 추후 플레이어 오브젝트에서 model을 GetComponent하여 참조 후, 재화 추가와 데미지 값을 입력받을 예정 
-    // 추후 스테이지 화면 구성 시, 화면에 화면 안밖을 구분하는 콜라이더를 참조하여 피격 여부를 확인할 예정
 
     #region State 클래스 선언
     private BaseState[] States = new BaseState[(int)MonsterState.Size];
@@ -33,12 +29,13 @@ public class MonsterController : MonoBehaviour
     [Header("Animation")]
     #region 애니메이션 Hash 선언
     [SerializeField] Animator monsterAnimator;
+    [SerializeField] Animator muzzlePointAnimator;
+
     private int curAniHash;
     private static int monsterMoveHash = Animator.StringToHash("MonsterMove");
-    private static int monsterAttackHash = Animator.StringToHash("MonsterAttack");
+    private static int monsterAttackHash = Animator.StringToHash("MonsterAtk");
     private static int monsterDeadHash = Animator.StringToHash("MonsterDead");
     #endregion
-
 
     private void Awake()
     {
@@ -99,9 +96,7 @@ public class MonsterController : MonoBehaviour
             Monster.transform.position = Vector2.MoveTowards(Monster.transform.position, Monster.Player.transform.position, Model.MonsterMoveSpeed * Time.deltaTime);
 
             // 다른 상태로 전환
-            // 몬스터의 체력이 0 이하일 경우, 몬스터는 삭제된다.
             if (Model.MonsterHP < 0.01f) { Monster.ChangeState(MonsterState.Dead); }
-            // 일정 거리에 플레이어가 존재할 경우, 몬스터는 공격을 개시한다.
             else if (Vector2.Distance(Monster.transform.position, Monster.Player.transform.position) < Model.AttackRange) { Monster.ChangeState(MonsterState.Attack); }
         }
     }
@@ -122,7 +117,7 @@ public class MonsterController : MonoBehaviour
             if (Monster.isAttacked == false)
             {
                 Monster.isAttacked = true;
-                Monster.shot();
+                Monster.StartCoroutine(Monster.WaitingShot());
             }
 
             // 다른 상태로 전환
@@ -131,25 +126,23 @@ public class MonsterController : MonoBehaviour
     }
 
     #region 발사 코루틴
-    void shot()
-    {
-        StartCoroutine(WaitingShot());
-    }
-
     IEnumerator WaitingShot()
     {
         while (isAttacked)
         {
-            Debug.Log("몬스터 총알 발사");
             AnimatorPlay();
-            bullet = Instantiate(MonsterBullet, muzzlePoint.transform.position, muzzlePoint.transform.rotation);
-
-            MonsterShotBullet bulletScript = bullet.GetComponent<MonsterShotBullet>();
-            bulletScript.Damage = monsterModel.MonsterAttack;
-            bulletScript.Speed = monsterModel.MonsterAttackSpeed;
-
-            yield return new WaitForSeconds(CoolTime);     
+            yield return null;
         }
+    }
+
+    void shot()
+    {
+        Debug.Log("몬스터 총알 발사");
+        bullet = Instantiate(MonsterBullet, muzzlePoint.transform.position, muzzlePoint.transform.rotation);
+
+        MonsterShotBullet bulletScript = bullet.GetComponent<MonsterShotBullet>();
+        bulletScript.Damage = monsterModel.MonsterAttack;
+        bulletScript.Speed = monsterModel.MonsterAttackSpeed;
     }
     #endregion
 
@@ -168,27 +161,18 @@ public class MonsterController : MonoBehaviour
             Monster.AnimatorPlay();
             // 코인이 UI를 향해 빨려가는 애니메이션 재생
             Monster.PlayerDataModel.Money += Model.DropGold;
-            Destroy(Monster.gameObject); // 몬스터 자체를 오브젝트 풀 패턴을 보관하고 있어도 좋을듯
+            Destroy(Monster.gameObject); // 몬스터 자체를 오브젝트 풀 패턴으로 보관하고 있어도 좋을듯
         }
     }
 
     //====================================================
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        // 콜라이더에 닿은 게임 오브젝트가 플레이어의 총알이었을 때,
-        if (collision.gameObject.tag == "Player")
-        {
-            Debug.Log("몬스터가 플레이어 총알에 닿음");
-            monsterModel.MonsterHP -= PlayerDataModel.Attack;
-        }
-    }
-
-    // ==============================================
 
     void AnimatorPlay()
     {
         int checkAniHash;
+        monsterAnimator.SetFloat("MoveSpeed", 0.2f * monsterModel.MonsterMoveSpeed);
+        monsterAnimator.SetFloat("AtkSpeed", 0.25f * monsterModel.MonsterAttackSpeed);
 
         // Dead 상태
         if (monsterModel.MonsterHP < 0.01f) { checkAniHash = monsterDeadHash; }
@@ -197,11 +181,12 @@ public class MonsterController : MonoBehaviour
         // Move 상태
         else { checkAniHash = monsterMoveHash; }
 
-
         if (curAniHash != checkAniHash)
         {
             curAniHash = checkAniHash;
             monsterAnimator.Play(curAniHash);
         }
     }
+
+    void MuzzlePointAni() { muzzlePointAnimator.Play("BulletStart"); }
 }
