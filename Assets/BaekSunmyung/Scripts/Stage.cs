@@ -68,7 +68,7 @@ public class Stage : MonoBehaviour
     private float killRate;
 
     //Stage 관련 변수
-    private MiddleMap curSecondClass = MiddleMap.First;     //스테이지 난이도 변수
+    private int curSecondClass;     //스테이지 난이도 변수
     private int curThirdClass;          //현재 스테이지의 위치
     private int curWaveMonsterCount;    //현재 Wave에서 생성될 몬스터 수
     private int curWaveKillCount;       //이전 스테이지 이동 시 진행률에서 빼줄 값
@@ -211,6 +211,12 @@ public class Stage : MonoBehaviour
             //스테이지 클리어 트리거
             isStageClear = true;
             coolTimeReset = true;
+
+            //배경, 하늘 이미지 전달 
+            curSecondClass = csvParser.State[parserIndex].Stage_secondClass; 
+            mapController.BackGroundSpriteChange(curSecondClass);
+            mapController.SkySpriteChange(curSecondClass);
+
         }
     }
 
@@ -222,17 +228,6 @@ public class Stage : MonoBehaviour
     private void NextStage()
     {
         SetDifficult();
-
-        //똑같은 배경 이미지 지속적으로 전달 방지
-        //추후 BG Sprite 전달 받을 경우 사용 예정
-        if (bgSecondClsIndex != (csvParser.State[parserIndex].Stage_secondClass))
-        {
-            bgSecondClsIndex = csvParser.State[parserIndex].Stage_secondClass;
-            //배경, 하늘 이미지 전달
-            mapController.BackGroundSpriteChange(bgSecondClsIndex);
-            mapController.SkySpriteChange(bgSecondClsIndex);
-        }
-
         bgAction?.Invoke();
     }
 
@@ -585,9 +580,9 @@ public class Stage : MonoBehaviour
 
             killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
 
-            bgSecondClsIndex = csvParser.State[parserIndex].Stage_secondClass;
-            mapController.BackGroundSpriteChange(bgSecondClsIndex);
-            mapController.SkySpriteChange(bgSecondClsIndex);
+            curSecondClass = csvParser.State[parserIndex].Stage_secondClass;
+            mapController.BackGroundSpriteChange(curSecondClass);
+            mapController.SkySpriteChange(curSecondClass);
 
             parserIndex--; 
         }

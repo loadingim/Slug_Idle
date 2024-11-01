@@ -163,7 +163,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.82036, y: 6.2388663}
+  m_Size: {x: 44.01629, y: 15.41}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -248,7 +248,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.82036, y: 6.2388663}
+  m_Size: {x: 44.01629, y: 15.41}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -332,7 +332,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.833334, y: 4.4074073}
+  m_Size: {x: 9.63, y: 2.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -416,7 +416,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.833334, y: 4.4074073}
+  m_Size: {x: 9.63, y: 2.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -472,7 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37b1bf7e52b1d1d4fbcbaf7123eb1751, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
+  stage: {fileID: 0}
   mapData:
   - {fileID: 11400000, guid: f757c1d97bcce714b8f35d0d665fd8b5, type: 2}
   - {fileID: 11400000, guid: 8920fd6750b9e874e8babb51aff79b01, type: 2}
@@ -820,7 +820,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.82036, y: 6.2388663}
+  m_Size: {x: 44.01629, y: 15.41}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -904,7 +904,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 17.833334, y: 4.4074073}
+  m_Size: {x: 9.63, y: 2.38}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

@@ -61,7 +61,7 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
-
+        Debug.Log($"third index {thirdIndex}");
         TranslateBackGround();
         RePositionBackGround();
 
@@ -122,45 +122,39 @@ public class MapController : MonoBehaviour
     }
 
     /// <summary>
-    /// Map Data의 맵 배경 Sprite 변경
-    /// 
+    /// Map Data의 맵 배경 Sprite 변경 
     /// </summary>
-    /// <param name="index">맵 단계별 받아올 인덱스</param>
+    /// <param name="index">대분루 별 맵 인덱스</param>
     public void BackGroundSpriteChange(int index)
     {
-        //배경 이미지 리스트로 교체?
-        //인덱스를 받아와야 하나
-
-        Debug.Log($"넘어온 인덱스 {index}");  
-         
         for (int i = 0; i < backGroundCount; i++)
         {
             SpriteRenderer render = backgroundMaps[i].GetComponent<SpriteRenderer>();
-             
+ 
             if (index == 4)
-            {
-                //초반 0 ~ 1
-                //중반 2 ~ 3
-                //후반보스 4
-                if (thirdIndex < 2)
+            { 
+                if (thirdIndex <= 1)
                 {
+                    Debug.Log("1 여기 실행됨");
                     render.sprite = mapData[index - 1].BackGroundSprite[0];
                 }
-                else if (thirdIndex < 4)
+                else if (thirdIndex <= 3)
                 {
+                    Debug.Log("2 여기 실행됨");
                     render.sprite = mapData[index - 1].BackGroundSprite[1];
                 }
                 else
                 {
+                    Debug.Log("3 여기 실행됨");
                     render.sprite = mapData[index - 1].BackGroundSprite[2];
-                } 
+                }
             }
             else
             {
+                Debug.Log("4 여기 실행됨");
+                render.sprite = mapData[index - 1].BackGroundSprite[0];
 
-                render.sprite = mapData[index-1].BackGroundSprite[0];
-
-            } 
+            }
         }
     }
 
@@ -176,16 +170,35 @@ public class MapController : MonoBehaviour
         {
             SpriteRenderer skyRen = backgroundMaps[i].transform.GetChild(0).GetComponent<SpriteRenderer>();
 
-            //sky != null 일 때 할당 
-            if (mapData[index - 1].SkySprite[0] != null)
+            if (index == 4)
             {
-                skyRen.sprite = mapData[index - 1].SkySprite[0];
+                if (thirdIndex <= 1)
+                {
+
+                    skyRen.sprite = mapData[index - 1].SkySprite[0];
+
+                }
+                else if (thirdIndex <= 3)
+                {
+                    skyRen.sprite = mapData[index - 1].SkySprite[1];
+                }
+                else
+                {
+                    skyRen.sprite = null;
+                }
             }
             else
             {
-                skyRen.sprite = null;
-            }
-             
+                if (mapData[index - 1].SkySprite != null)
+                {
+                    skyRen.sprite = mapData[index - 1].SkySprite[0];
+                }
+                else
+                {
+
+                    skyRen.sprite = null;
+                }
+            } 
         }
     }
 

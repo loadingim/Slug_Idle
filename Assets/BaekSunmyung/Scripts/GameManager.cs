@@ -5,15 +5,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    [SerializeField] private bool isOpenInventory;
-    [SerializeField] private float thisTimeScale;
-
+    private bool isOpenInventory;
     public bool IsOpenInventory
     {
         get { return isOpenInventory; }
         set { isOpenInventory = value; }
     }
-
 
     private void Awake()
     {
@@ -26,13 +23,4 @@ public class GameManager : MonoBehaviour
             Destroy(Instance);
         }
     }
-
-
-    /*
-     *  if (GameManager.Instance.IsOpenInventory)
-        {
-            yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
-        }
-     */
-
 }
