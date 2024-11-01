@@ -5,8 +5,10 @@ public class MonsterShotBullet : MonoBehaviour
     [SerializeField] GameObject Player;
     [SerializeField] Rigidbody2D rigid;
     [SerializeField] PlayerDataModel playerDataModel;
+
     [SerializeField] float returnTime;
              private float remainTime;
+
 
     private int damage;
     public int Damage { get { return damage; } set { damage = value; } }
