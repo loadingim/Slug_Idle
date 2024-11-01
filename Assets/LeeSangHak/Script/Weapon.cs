@@ -9,15 +9,61 @@ public class Weapon : MonoBehaviour
     public int level;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] PlayerController player;
+    [SerializeField] TeamContorller teamPlayer;
+    [SerializeField] SlugController slugPlayer;
+
+    private BulletManager bulletManager;
+
+    private void Start()
+    {
+        bulletManager = FindObjectOfType<BulletManager>();
+    }
+
     private void OnEnable()
     {
-        player.SwapWeapon(gameObject);
+        if (player != null)
+            player.SwapWeapon(gameObject);
     }
+
     public void shot()
     {
-            GameObject bulletGameObj = Instantiate(bulletPrefab, player.muzzlePoint.transform.position, transform.rotation);
+        if (teamPlayer != null)
+        {
+            GameObject bulletGameObj = Instantiate(bulletPrefab, teamPlayer.muzzlePoint.transform.position, transform.rotation);
+            if (bulletManager != null)
+            {
+                bulletManager.AddBullet(bulletGameObj);
+            }
+
             Bullet bullet = bulletGameObj.GetComponent<Bullet>();
-            player.bullets.Add(bulletGameObj);
-            bullet.SetTarget(player.targetMonster);            
+            bullet.SetTarget(teamPlayer.targetMonster);
+        }
+
+        if (player != null)
+        {
+            GameObject bulletGameObj = Instantiate(bulletPrefab, player.muzzlePoint.transform.position, transform.rotation);
+            if (bulletManager != null)
+            {
+                bulletManager.AddBullet(bulletGameObj);
+            }
+
+            Bullet bullet = bulletGameObj.GetComponent<Bullet>();
+            bullet.SetTarget(player.targetMonster);
+        }
+
+        if (slugPlayer != null)
+        {
+            GameObject bulletGameObj = Instantiate(bulletPrefab, slugPlayer.muzzlePoint.transform.position, transform.rotation);
+            if (bulletManager != null)
+            {
+                bulletManager.AddBullet(bulletGameObj);
+            }
+
+            Bullet bullet = bulletGameObj.GetComponent<Bullet>();
+            bullet.SetTarget(slugPlayer.targetMonster);
+        }
+
+
+
     }
 }
