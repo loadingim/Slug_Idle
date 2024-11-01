@@ -282,25 +282,25 @@ public class PlayerDataModel : MonoBehaviour
     public UnityAction<int> OnMoneyChanged;
 
     [Tooltip("플레이어가 보유한 동료 슬러그 강화 재화 (편의상, 크리스탈로 명칭)")]
-    [SerializeField] private int crystal;
-    public int Crystal
+    [SerializeField] private int jewel;
+    public int Jewel
     {
-        get { return crystal; }
+        get { return jewel; }
         set
         {
             // 크리스탈의 예외상황 처리
             if (value < 0)
             {
-                crystal = 0;
+                jewel = 0;
             }
             else
             {
-                crystal = value;
+                jewel = value;
             }
-            OnCrystalChanged?.Invoke(crystal);
+            OnJewelChanged?.Invoke(jewel);
         }
     }
-    public UnityAction<int> OnCrystalChanged;
+    public UnityAction<int> OnJewelChanged;
 
     /// <summary>
     /// 스킬 해금 여부 판단하기 위한 플래그 열거형 타입 선언
