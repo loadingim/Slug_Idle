@@ -7337,6 +7337,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 124bc97a4a8666a4986759db17808b3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOpenInventory: 0
+  thisTimeScale: 1
 --- !u!4 &1877241171
 Transform:
   m_ObjectHideFlags: 0
