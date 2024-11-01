@@ -42,7 +42,7 @@ public class StatView : MonoBehaviour
         {
             case PlayerStatStoreData.Health:
                 textView.LevelText?.SetText($"{textView.prefixLevelText}: {PlayerDataModel.Instance.HealthLevel}");
-                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.Health}");
+                textView.StatText?.SetText($"{textView.prefixStatText}: {PlayerDataModel.Instance.MaxHealth}"); //최대 체력을 표기
                 textView.BuyText?.SetText($"{textView.prefixBuyText}: {statStore.health.upValue}");
                 break;
 
