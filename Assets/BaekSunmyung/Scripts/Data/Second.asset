@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7968aca8343bfc342878d103ba0fe498, type: 3}
-  m_Name: Two
+  m_Name: Second
   m_EditorClassIdentifier: 
   middleStage: 1
   maxSmallStage: 5
