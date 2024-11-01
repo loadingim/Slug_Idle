@@ -19,6 +19,7 @@ public class StatStore : MonoBehaviour
         public T upValue;
         public int curCost;
         public Button buyButton;
+        public Image inActiveImage;
     }
 
     [Header("스탯 설정")]
@@ -54,6 +55,13 @@ public class StatStore : MonoBehaviour
         PlayerDataModel.Instance.OnMoneyChanged += UpdateTouchAttackBuyState;
         // 소지금 변화에 따라 공격속도 버튼 상태 업데이트
         PlayerDataModel.Instance.OnMoneyChanged += UpdateAttackSpeedBuyState;
+
+        // 초기 업데이트 진행
+        UpdateHealthBuyState(PlayerDataModel.Instance.Money);
+        UpdateHealthRegenBuyState(PlayerDataModel.Instance.Money);
+        UpdateAttackBuyState(PlayerDataModel.Instance.Money);
+        UpdateTouchAttackBuyState(PlayerDataModel.Instance.Money);
+        UpdateAttackSpeedBuyState(PlayerDataModel.Instance.Money);
     }
 
     private void OnDisable()
@@ -98,10 +106,12 @@ public class StatStore : MonoBehaviour
         if (newMoney - health.curCost < 0)
         {
             health.buyButton.interactable = false;
+            health.inActiveImage.gameObject.SetActive(true);
         }
         else
         {
             health.buyButton.interactable = true;
+            health.inActiveImage.gameObject.SetActive(false);
         }
     }
     #endregion
@@ -137,10 +147,12 @@ public class StatStore : MonoBehaviour
         if (newMoney - healthRegen.curCost < 0)
         {
             healthRegen.buyButton.interactable = false;
+            healthRegen.inActiveImage.gameObject.SetActive(true);
         }
         else
         {
             healthRegen.buyButton.interactable = true;
+            healthRegen.inActiveImage.gameObject.SetActive(false);
         }
     }
     #endregion
@@ -176,10 +188,12 @@ public class StatStore : MonoBehaviour
         if (newMoney - attack.curCost < 0)
         {
             attack.buyButton.interactable = false;
+            attack.inActiveImage.gameObject.SetActive(true);
         }
         else
         {
             attack.buyButton.interactable = true;
+            attack.inActiveImage.gameObject.SetActive(false);
         }
     }
     #endregion
@@ -215,10 +229,12 @@ public class StatStore : MonoBehaviour
         if (newMoney - touchAttack.curCost < 0)
         {
             touchAttack.buyButton.interactable = false;
+            touchAttack.inActiveImage.gameObject.SetActive(true);
         }
         else
         {
             touchAttack.buyButton.interactable = true;
+            touchAttack.inActiveImage.gameObject.SetActive(false);
         }
     }
     #endregion
@@ -254,10 +270,12 @@ public class StatStore : MonoBehaviour
         if (newMoney - attackSpeed.curCost < 0)
         {
             attackSpeed.buyButton.interactable = false;
+            attackSpeed.inActiveImage.gameObject.SetActive(true);
         }
         else
         {
             attackSpeed.buyButton.interactable = true;
+            attackSpeed.inActiveImage.gameObject.SetActive(false);
         }
     }
     #endregion

@@ -12,7 +12,7 @@ public class InventoryItem : MonoBehaviour/*, IBeginDragHandler, IDragHandler, I
 {
     [Header("인벤토리 아이템 기본 설정")]
     [Tooltip("실제 아이템 오브젝트")]
-    [SerializeField] private GameObject ItemObject;
+    public GameObject ItemObject;
     [Tooltip("인벤토리 아이템의 버튼")]
     [SerializeField] private Button button;
     [Tooltip("활성화 슬롯")]

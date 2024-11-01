@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class PlayerController : MonoBehaviour
+public class TeamContorller : MonoBehaviour
 {
     public GameObject targetMonster = null;
     public float attackCooldown = 0f;
-    [SerializeField] GameObject bulletPrefab;
     [SerializeField] GameObject weaponPrefab;
     public int attackRange;
     [SerializeField] float times;
@@ -16,13 +16,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator upperAnim;
     [SerializeField] Animator lowerAnim;
     private float attackSpeed;
-    private bool respawn;
-    private BulletManager bulletManager;
+
 
     private void Start()
     {
-        bulletManager = FindObjectOfType<BulletManager>();
-
         // 모델 데이터 : 공격 속도 및 사거리
         attackSpeed = 1f;
         attackRange = 20;
@@ -46,22 +43,6 @@ public class PlayerController : MonoBehaviour
         {
             Attack();
         }
-
-        if (PlayerDataModel.Instance.Health <= 0)
-        {
-            Death();
-        }
-
-        if (weaponPrefab != null)
-        {
-            upperAnim.SetBool("isWeapon", true);
-        }
-
-        if (respawn == true)
-        {
-            StopCoroutine(Respawn());
-            respawn = false;
-        }
         //  }
 
     }
@@ -74,8 +55,6 @@ public class PlayerController : MonoBehaviour
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
 
-
-
         float closestDistance = Mathf.Infinity;
 
         foreach (GameObject monster in monsters)
@@ -87,12 +66,6 @@ public class PlayerController : MonoBehaviour
                 targetMonster = monster;
             }
         }
-    }
-
-
-    public void TakeHit(int damage)
-    {
-        PlayerDataModel.Instance.Health -= damage;
     }
 
     public void Attack()
@@ -109,69 +82,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void RemoveBullets(GameObject bullet)
-    {
-        if (bulletManager != null)
-        {
-            bulletManager.RemoveBullet(bullet);
-        }
-    }
-
-
-    public void Death()
-    {
-        StartCoroutine(Respawn());
-    }
-
-    public void SwapWeapon(GameObject weapon)
-    {
-        if (weaponPrefab != null)
-        {
-            weaponPrefab.gameObject.SetActive(false);
-        }
-
-        weaponPrefab = weapon;
-        weaponPrefab.gameObject.SetActive(true);
-
-    }
-
     private void ShootBullet()
     {
-        if (weaponPrefab == null)
-        {
-            GameObject bulletGameObj = Instantiate(bulletPrefab, muzzlePoint.transform.position, transform.rotation);
 
-            // 생성된 탄환을 BulletManager에 추가
-            if (bulletManager != null)
-            {
-                bulletManager.AddBullet(bulletGameObj);
-            }
+        weaponPrefab.GetComponent<Weapon>().shot();
 
-            Bullet bullet = bulletGameObj.GetComponent<Bullet>();
-            bullet.SetTarget(targetMonster);
-        }
-        else
-        {
-            weaponPrefab.GetComponent<Weapon>().shot();
-        }
     }
-
-    IEnumerator Respawn()
-    {
-        upperAnim.SetBool("Death", true);
-        lowerAnim.gameObject.SetActive(false);
-
-        if (bulletManager != null)
-        {
-            bulletManager.ClearAllBullets();
-        }
-
-        PlayerDataModel.Instance.Health = 500;
-        yield return new WaitForSeconds(1f);
-        upperAnim.SetBool("Death", false);
-        lowerAnim.gameObject.SetActive(true);
-
-        respawn = true;
-    }
-
 }
