@@ -83,7 +83,12 @@ public class Stage : MonoBehaviour
     //보스 스테이지 진입 여부
     private bool isBoss;
 
+    //일반 스테이지 클리어 여부
     private bool isStageClear;
+
+    //Player Skill CoolTime 초기화
+    private bool coolTimeReset;
+    public bool CoolTimeReset { get { return coolTimeReset; } }
 
     //보스 스테이지 클리어 여부
     private bool isBossClear;
@@ -214,7 +219,7 @@ public class Stage : MonoBehaviour
             }
             //스테이지 클리어 트리거
             isStageClear = true;
-
+            coolTimeReset = true;
         }
     }
 
@@ -295,6 +300,7 @@ public class Stage : MonoBehaviour
         if (parserIndex % waveCount >= 4)
         {
             isBoss = true;
+            coolTimeReset = true;
             bossObject.gameObject.SetActive(false);
         }
 
@@ -306,6 +312,7 @@ public class Stage : MonoBehaviour
         //Index 다중 증가 방지
         isWave = true;
         isStageClear = false;
+        coolTimeReset = false;
 
         //소분류 스테이지 
         curThirdClass = csvParser.State[parserIndex].Stage_thirdClass;
@@ -341,6 +348,8 @@ public class Stage : MonoBehaviour
         int prevWaveCount = 0;
         if (!isPlayerLife)
         {
+            coolTimeReset = true;
+
             //이전 Wave 인덱스
             prevIndex = parserIndex > 0 ? parserIndex - 1 : 0;
 
