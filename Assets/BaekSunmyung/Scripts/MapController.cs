@@ -133,21 +133,16 @@ public class MapController : MonoBehaviour
  
             if (index == 4)
             { 
-                if (thirdIndex <= 1)
+                if (thirdIndex <= 3)
                 {
                     Debug.Log("1 ¿©±â ½ÇÇàµÊ");
                     render.sprite = mapData[index - 1].BackGroundSprite[0];
                 }
-                else if (thirdIndex <= 3)
+                else 
                 {
                     Debug.Log("2 ¿©±â ½ÇÇàµÊ");
                     render.sprite = mapData[index - 1].BackGroundSprite[1];
-                }
-                else
-                {
-                    Debug.Log("3 ¿©±â ½ÇÇàµÊ");
-                    render.sprite = mapData[index - 1].BackGroundSprite[2];
-                }
+                } 
             }
             else
             {

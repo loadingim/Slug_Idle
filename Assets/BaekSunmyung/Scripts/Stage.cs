@@ -531,34 +531,23 @@ public class Stage : MonoBehaviour
     /// Stage Test Mode
     /// </summary>
     public void TestMode()
-    { 
+    {
         if (isTestMode)
-        {
-
-            while (true)
+        { 
+            if (createCo != null)
             {
-                bool isCheck = false;
-                foreach (MonsterModel model in monsters)
-                {
-                    if (model != null)
-                    {
-                        Destroy(model.gameObject); 
-                    }
-                    else
-                    {
-                        isCheck = true;
-                    } 
-                }
-
-                //몬스터 저장 배열 클리어
-                Array.Clear(monsters, 0, monsters.Length);
-                if (isCheck)
-                {
-                    break;
-                }
-
+                StopedCoroutine();
             }
-             
+
+            foreach (MonsterModel model in monsters)
+            {
+                if (model != null)
+                {
+                    Destroy(model.gameObject);
+                } 
+            }
+            Array.Clear(monsters, 0, monsters.Length);
+
             isWave = false;
             fieldWaveMonsterCount = 0;
             parserIndex = testStageIndex;
@@ -585,11 +574,7 @@ public class Stage : MonoBehaviour
             mapController.SkySpriteChange(curSecondClass);
 
             parserIndex--; 
-        }
-        else
-        {
-            parserIndex = 0;
-        }
+        } 
 
     }
 
