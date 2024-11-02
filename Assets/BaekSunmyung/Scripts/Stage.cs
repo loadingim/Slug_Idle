@@ -70,11 +70,11 @@ public class Stage : MonoBehaviour
     //Stage 관련 변수
     private int curSecondClass;     //스테이지 난이도 변수
     private int curThirdClass;          //현재 스테이지의 위치
-    private int curWaveMonsterCount;    //현재 Wave에서 생성될 몬스터 수
-    private int curWaveKillCount;       //이전 스테이지 이동 시 진행률에서 빼줄 값
-    private int fieldWaveMonsterCount;  //현재 필드위에 남은 몬스터 수
-    private int killMonsterCount;       //현재까지 잡은 몬스터 수
-    private int ThirdClassMonsterCount; //현재 스테이지의 소환될 총 몬스터 수
+    [SerializeField] private int curWaveMonsterCount;    //현재 Wave에서 생성될 몬스터 수
+    [SerializeField] private int curWaveKillCount;       //이전 스테이지 이동 시 진행률에서 빼줄 값
+    [SerializeField] private int fieldWaveMonsterCount;  //현재 필드위에 남은 몬스터 수
+    [SerializeField] private int killMonsterCount;       //현재까지 잡은 몬스터 수
+    [SerializeField] private int ThirdClassMonsterCount; //현재 스테이지의 소환될 총 몬스터 수
 
 
     //Wave 생성 여부
@@ -102,8 +102,8 @@ public class Stage : MonoBehaviour
     //몬스터 생성 코루틴 카운트 변수
     private int createLimitCount = 0;
 
-    //몬스터 생성 코루틴
-    private Coroutine createCo;
+    //코루틴 이름
+    private string createCoroutineName = "CreateMonster";
 
     //생성된 몬스터 저장 배열
     [SerializeField] MonsterModel[] monsters;
@@ -145,21 +145,16 @@ public class Stage : MonoBehaviour
             //Wave 호출
             Wave();
         }
-
+         
         if (player.Health < 1)
         {
             isPlayerLife = false;
         }
 
-        
         MonsterSafeZone();
         PlayerDeath();
-        StageClear();
-        StopedCoroutine();
+        StageClear(); 
         MonsterRemover();
-
-        //BG 받기전까지만 Update 에서 사용
-        //bgSecondClsIndex = parserIndex / stageSecondClass;
         SetStageText(); 
 
         //스테이지 진행률 UI 연동 
@@ -175,6 +170,7 @@ public class Stage : MonoBehaviour
     {
         if (!isPlayerLife)
         {
+ 
             //플레이어 사망 시 소환된 모든 몬스터 삭제
             foreach (MonsterModel model in monsters)
             {
@@ -185,7 +181,7 @@ public class Stage : MonoBehaviour
             }
 
             //몬스터 저장 배열 클리어
-            Array.Clear(monsters, 0, monsters.Length);
+            Array.Clear(monsters, 0, monsters.Length); 
             isPlayerLife = true;
             player.Health = 3000;
         }
@@ -320,14 +316,7 @@ public class Stage : MonoBehaviour
         if (parserIndex % waveCount == 3 && isBoss && !isBossClear)
         {
             bossObject.gameObject.SetActive(true);
-        }
-
-        //보스 클리어 확인
-        if (isBossClear)
-        {
-            Debug.Log("보스 클리어");
-        }
-
+        } 
     }
 
     public void PlayerDeath()
@@ -360,8 +349,7 @@ public class Stage : MonoBehaviour
                 {
                     parserIndex--;
                     isLoop = true;
-                }
-
+                } 
             }
             else
             {
@@ -391,53 +379,23 @@ public class Stage : MonoBehaviour
     /// 몬스터 생성 기능
     /// </summary>
     public void CreateMonster()
-    { 
-        if (createCo == null)
-        {
-            createCo = StartCoroutine(CreateMonsterCo());
-        }
-
-    }
-
-    public void StopedCoroutine()
     {
-        //Wave 생상 완료됐으면
-        if ((curWaveMonsterCount <= createLimitCount && createCo != null))
-        {
-            //코루틴 중지
-            StopCoroutine(createCo);
-            createCo = null;
-            //Wave False로 변경
-            isWave = false;
-
-            isPlayerLife = true;
-        }
+        CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName); 
     }
 
-    
-    int monsterNumber = 1;
-     
-
-
+    int monsterNumber = 1; 
     private IEnumerator CreateMonsterCo()
     { 
         WaitForSeconds createWait = new WaitForSeconds(createTimer);
         WaitForSeconds cycleWait = new WaitForSeconds(cycleTimer);
         monsters = new MonsterModel[curWaveMonsterCount];
 
-        //시간값으로 대기할 지 준비 상태로 할지 생각 필요
         yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
 
         while (curWaveMonsterCount > createLimitCount)
         {
-            if (GameManager.Instance.IsOpenInventory)
-            {
-                //IsOpenInventory False가 될 때 까지 일시 중지
-                yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
-            }
-
             float xPos = UnityEngine.Random.Range(11f, 13f);
             float yPos = UnityEngine.Random.Range(2.5f, -3f);
             Vector3 offset = new Vector3(xPos, yPos, 0);
@@ -450,8 +408,13 @@ public class Stage : MonoBehaviour
             monsterNumber++;
             monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
             createLimitCount++;
-
+             
             yield return createWait;
+        }
+
+        if (curWaveMonsterCount <= createLimitCount)
+        {
+            isWave = false;
         }
 
         yield break;
@@ -516,7 +479,6 @@ public class Stage : MonoBehaviour
     public void BackGroundResetAction(Action action)
     {
         bgAction = action;
-
     }
      
 
@@ -530,24 +492,33 @@ public class Stage : MonoBehaviour
     /// <summary>
     /// Stage Test Mode
     /// </summary>
+
     public void TestMode()
     {
+        bool isCheck = false;
+
         if (isTestMode)
-        { 
-            if (createCo != null)
-            {
-                StopedCoroutine();
-            }
+        {
+            CoroutineManager.Instance.ManagerCoroutineStop(createCoroutineName);
 
-            foreach (MonsterModel model in monsters)
+            while (true)
             {
-                if (model != null)
+                foreach (MonsterModel model in monsters)
                 {
-                    Destroy(model.gameObject);
-                } 
-            }
-            Array.Clear(monsters, 0, monsters.Length);
+                    if (model != null)
+                    {
+                        Destroy(model.gameObject);
+                    }
+                    else
+                    {
+                        isCheck = true;
+                    } 
+                }
+                Array.Clear(monsters, 0, monsters.Length);
 
+                if (isCheck)
+                    break;
+            }
             isWave = false;
             fieldWaveMonsterCount = 0;
             parserIndex = testStageIndex;

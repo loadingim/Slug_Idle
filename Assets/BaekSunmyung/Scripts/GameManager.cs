@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    private bool isOpenInventory;
+    [SerializeField] private bool isOpenInventory;
     public bool IsOpenInventory
     {
         get { return isOpenInventory; }
         set { isOpenInventory = value; }
     }
 
+    
     private void Awake()
     {
         if (Instance == null)
@@ -23,4 +25,8 @@ public class GameManager : MonoBehaviour
             Destroy(Instance);
         }
     }
+     
+    
+
+
 }

@@ -61,7 +61,6 @@ public class MapController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"third index {thirdIndex}");
         TranslateBackGround();
         RePositionBackGround();
 
@@ -135,18 +134,15 @@ public class MapController : MonoBehaviour
             { 
                 if (thirdIndex <= 3)
                 {
-                    Debug.Log("1 ¿©±â ½ÇÇàµÊ");
                     render.sprite = mapData[index - 1].BackGroundSprite[0];
                 }
                 else 
                 {
-                    Debug.Log("2 ¿©±â ½ÇÇàµÊ");
                     render.sprite = mapData[index - 1].BackGroundSprite[1];
                 } 
             }
             else
             {
-                Debug.Log("4 ¿©±â ½ÇÇàµÊ");
                 render.sprite = mapData[index - 1].BackGroundSprite[0];
 
             }
