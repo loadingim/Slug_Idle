@@ -150,7 +150,6 @@ public class BaseUIContorller : MonoBehaviour
     // 유저 아이콘이 바뀌는 이벤트 처리 함수
     void ChangeUserIcon(Sprite newSprite)
     {
-        print("Change");
         // 유저 이미지의 아이콘 변경
         if (userIconImage != null)
         {
