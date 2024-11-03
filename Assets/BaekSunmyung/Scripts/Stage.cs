@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using TMPro;
@@ -8,11 +9,15 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
 public class Stage : MonoBehaviour
 {
+    [Header("스테이지 난이도 능력치")]
+    [SerializeField] private StageDifficult stageDifficult;
+
     [Header("맵 스테이지 데이터")]
     [SerializeField] private List<MapData> mapData = new List<MapData>();
     [SerializeField] private MapController mapController;
@@ -40,11 +45,18 @@ public class Stage : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI stageInfoText;
 
-    [Header("Test Mode On")]
+    [Header("Test Mode")]
+    [SerializeField] private GameObject testSet;
     [SerializeField] private Button testModeButton;
     [SerializeField] private bool isTestMode;
-    [Tooltip("Input Data Table Index")]
-    [SerializeField] private int testStageIndex;
+    [SerializeField] private TMP_InputField textIndex;
+    [SerializeField] private Canvas canvas;
+    private GraphicRaycaster ray;
+    private PointerEventData ped = new PointerEventData(EventSystem.current);
+    private List<RaycastResult> results = new List<RaycastResult>();
+
+
+
 
     //임시 보스
     [SerializeField] private GameObject bossObject;
@@ -113,22 +125,26 @@ public class Stage : MonoBehaviour
     [SerializeField] private bool isPlayerLife = true;
 
     public bool IsWave { get { return isWave; } }
+
+
+
     private void Awake()
     {
         bossChallengeBtn.onClick.AddListener(BossChallenge);
-        testModeButton.onClick.AddListener(TestMode);
+        testModeButton.onClick.AddListener(TestMode); 
+        ray = canvas.GetComponent<GraphicRaycaster>();
     }
 
     private void Start()
     {
-        csvParser = StageCSV.Instance;   
+        csvParser = StageCSV.Instance;
         monsters = new MonsterModel[5];
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
         bossObject.gameObject.SetActive(false);
 
     }
-
+ 
 
     private void Update()
     {
@@ -145,22 +161,24 @@ public class Stage : MonoBehaviour
             //Wave 호출
             Wave();
         }
-         
+
         if (player.Health < 1)
         {
             isPlayerLife = false;
         }
+        TestActive();
 
         MonsterSafeZone();
         PlayerDeath();
-        StageClear(); 
+        StageClear();
         MonsterRemover();
-        SetStageText(); 
+        SetStageText();
 
         //스테이지 진행률 UI 연동 
         foreGround.fillAmount = killRate * 0.01f;
 
     }
+
 
 
     /// <summary>
@@ -170,18 +188,18 @@ public class Stage : MonoBehaviour
     {
         if (!isPlayerLife)
         {
- 
+
             //플레이어 사망 시 소환된 모든 몬스터 삭제
             foreach (MonsterModel model in monsters)
             {
                 if (model != null)
-                {
-                    Destroy(model.gameObject);
+                { 
+                    Destroy(model.gameObject); 
                 }
             }
 
             //몬스터 저장 배열 클리어
-            Array.Clear(monsters, 0, monsters.Length); 
+            Array.Clear(monsters, 0, monsters.Length);
             isPlayerLife = true;
             player.Health = 3000;
         }
@@ -209,7 +227,7 @@ public class Stage : MonoBehaviour
             coolTimeReset = true;
 
             //배경, 하늘 이미지 전달 
-            curSecondClass = csvParser.State[parserIndex].Stage_secondClass; 
+            curSecondClass = csvParser.State[parserIndex].Stage_secondClass;
             mapController.BackGroundSpriteChange(curSecondClass);
             mapController.SkySpriteChange(curSecondClass);
 
@@ -306,6 +324,7 @@ public class Stage : MonoBehaviour
 
         //몬스터 생성 제한 수
         createLimitCount = 0;
+        stageDifficult.GetStageIndex(parserIndex);
         CreateMonster();
 
     }
@@ -316,7 +335,7 @@ public class Stage : MonoBehaviour
         if (parserIndex % waveCount == 3 && isBoss && !isBossClear)
         {
             bossObject.gameObject.SetActive(true);
-        } 
+        }
     }
 
     public void PlayerDeath()
@@ -349,7 +368,7 @@ public class Stage : MonoBehaviour
                 {
                     parserIndex--;
                     isLoop = true;
-                } 
+                }
             }
             else
             {
@@ -374,18 +393,18 @@ public class Stage : MonoBehaviour
         bossObject.gameObject.SetActive(false);
         bgAction?.Invoke();
     }
- 
+
     /// <summary>
     /// 몬스터 생성 기능
     /// </summary>
     public void CreateMonster()
     {
-        CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName); 
+        CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName);
     }
 
-    int monsterNumber = 1; 
+    int monsterNumber = 1;
     private IEnumerator CreateMonsterCo()
-    { 
+    {
         WaitForSeconds createWait = new WaitForSeconds(createTimer);
         WaitForSeconds cycleWait = new WaitForSeconds(cycleTimer);
         monsters = new MonsterModel[curWaveMonsterCount];
@@ -407,8 +426,10 @@ public class Stage : MonoBehaviour
             monsterInstance.gameObject.name = monsterNumber.ToString() + "몬스터";
             monsterNumber++;
             monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
+
+            stageDifficult.GetMonsterInstance(monsters[createLimitCount]);
             createLimitCount++;
-             
+
             yield return createWait;
         }
 
@@ -480,25 +501,44 @@ public class Stage : MonoBehaviour
     {
         bgAction = action;
     }
-     
+
 
     public void SetStageText()
     {
         int curWave = csvParser.State[parserIndex].Stage_wave;
 
-        stageInfoText.text = curDifficult.ToString() + " Stage " + curThirdClass.ToString() + " - " + curWave.ToString(); 
+        stageInfoText.text = curDifficult.ToString() + " Stage " + curThirdClass.ToString() + " - " + curWave.ToString();
+    }
+
+    public void TestActive()
+    {
+        ped.position = Input.mousePosition;
+        results.Clear();
+        ray.Raycast(ped, results);
+
+        if (results.Count > 0)
+        {
+            if (results[0].gameObject.name == "TestSet")
+            {
+                if (Input.GetMouseButtonDown(0))
+                {
+                    testSet.gameObject.SetActive(true);
+                }
+            }
+        }
     }
 
     /// <summary>
     /// Stage Test Mode
-    /// </summary>
-
+    /// </summary> 
     public void TestMode()
     {
         bool isCheck = false;
 
         if (isTestMode)
         {
+            
+
             CoroutineManager.Instance.ManagerCoroutineStop(createCoroutineName);
 
             while (true)
@@ -512,7 +552,7 @@ public class Stage : MonoBehaviour
                     else
                     {
                         isCheck = true;
-                    } 
+                    }
                 }
                 Array.Clear(monsters, 0, monsters.Length);
 
@@ -520,12 +560,12 @@ public class Stage : MonoBehaviour
                     break;
             }
             isWave = false;
-            fieldWaveMonsterCount = 0;
-            parserIndex = testStageIndex;
+            fieldWaveMonsterCount = 0; 
+            parserIndex = int.Parse(textIndex.text);
             killMonsterCount = 0;
 
             int startIndex = parserIndex - (parserIndex % waveCount);
-             
+
             for (int i = startIndex; i < parserIndex; i++)
             {
                 killMonsterCount += csvParser.State[i].Stage_monsterNum;
@@ -544,8 +584,8 @@ public class Stage : MonoBehaviour
             mapController.BackGroundSpriteChange(curSecondClass);
             mapController.SkySpriteChange(curSecondClass);
 
-            parserIndex--; 
-        } 
+            parserIndex--;
+        }
 
     }
 

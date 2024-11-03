@@ -804,6 +804,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+--- !u!114 &1274100763 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1274100763, guid: 889b0157bf0a7494b9cb2b9d17d032ef, type: 3}
+  m_PrefabInstance: {fileID: 7870435540165700419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2da0c512f12947e489f739169773d7ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1433287626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -961,17 +972,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1698196102 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7870435540617118149, guid: 889b0157bf0a7494b9cb2b9d17d032ef, type: 3}
-  m_PrefabInstance: {fileID: 7870435540165700419}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1708458364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1018,6 +1018,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!223 &1763726132 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 6952163804589647729, guid: 889b0157bf0a7494b9cb2b9d17d032ef, type: 3}
+  m_PrefabInstance: {fileID: 7870435540165700419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1869507237
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1311,6 +1316,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2076808981 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7870435540707387863, guid: 889b0157bf0a7494b9cb2b9d17d032ef, type: 3}
+  m_PrefabInstance: {fileID: 7870435540165700419}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2097414273 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5488228819951240578, guid: 889b0157bf0a7494b9cb2b9d17d032ef, type: 3}
+  m_PrefabInstance: {fileID: 7870435540165700419}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &772246522681402629
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1561,7 +1582,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5746778641990326332, guid: 364030e871b8dd344846faf6d66a6a2a, type: 3}
       propertyPath: isOpenInventory
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5746778641990326333, guid: 364030e871b8dd344846faf6d66a6a2a, type: 3}
       propertyPath: m_RootOrder
@@ -2667,6 +2688,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 1763726132}
+    - target: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
+      propertyPath: testSet
+      value: 
+      objectReference: {fileID: 2076808981}
+    - target: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
+      propertyPath: textIndex
+      value: 
+      objectReference: {fileID: 1274100763}
+    - target: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
       propertyPath: bossObject
       value: 
       objectReference: {fileID: 511533613}
@@ -2685,7 +2718,7 @@ PrefabInstance:
     - target: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
       propertyPath: testModeButton
       value: 
-      objectReference: {fileID: 1698196102}
+      objectReference: {fileID: 2097414273}
     - target: {fileID: 8383165403889244442, guid: 5287ba6be6f8c3b47b5bdb261abf31e5, type: 3}
       propertyPath: bossChallengeBtn
       value: 
