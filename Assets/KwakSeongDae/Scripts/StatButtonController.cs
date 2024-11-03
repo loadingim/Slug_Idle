@@ -25,22 +25,16 @@ public class StatButtonController : MonoBehaviour
     [Header("클릭 시 실행할 이벤트")]
     [SerializeField] UnityEvent onClick;
 
-    private Coroutine coroutine;
+    private string refeatButtonClickRoutine = "refeatButtonClick";
     public void ButtonDown()
     {
-        if (coroutine == null)
-        {
-            coroutine = StartCoroutine(RefeatTriggerRoutine());
-        }
+        // CoroutinManager가 존재하는 경우에 작동, 기존 코루틴 작동 여부는 해당 함수에서 체크
+        CoroutineManager.Instance.ManagerCoroutineStart(RefeatTriggerRoutine(), refeatButtonClickRoutine);
     }
 
     public void ButtonUp()
     {
-        if (coroutine != null)
-        {
-            StopCoroutine(coroutine);
-            coroutine = null;
-        }
+        CoroutineManager.Instance.ManagerCoroutineStop(refeatButtonClickRoutine);
     }
 
     IEnumerator RefeatTriggerRoutine()
