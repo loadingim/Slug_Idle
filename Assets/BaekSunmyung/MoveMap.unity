@@ -582,7 +582,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afd1810816a076f4aa4e11ab4f1e29e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stage: {fileID: 449667399}
 --- !u!4 &1211075473
 Transform:
   m_ObjectHideFlags: 0
@@ -1443,6 +1442,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5746778641990326332, guid: 364030e871b8dd344846faf6d66a6a2a, type: 3}
+      propertyPath: stage
+      value: 
+      objectReference: {fileID: 449667399}
     - target: {fileID: 5746778641990326333, guid: 364030e871b8dd344846faf6d66a6a2a, type: 3}
       propertyPath: m_RootOrder
       value: 7

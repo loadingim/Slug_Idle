@@ -281,32 +281,21 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void Wave()
     {
-
-        //스테이지 새로 진입 
-        //if (parserIndex % waveCount == 0)
-        //{
-        //    Debug.Log($"Wave Index {parserIndex}");
-        //    GameManager.Instance.stageIndex = parserIndex;
-        //    CalculateMonsterSpawn();
-        //}
-
         //스테이지 클리어 한 상태에서만 Index 증가
         if (isStageClear)
         {
             parserIndex++;
-            //if(parserIndex % waveCount == 0)
-            //{
-            //    GameManager.Instance.stageIndex = parserIndex;
-            //}
-
+             
             curWaveKillCount = 0;
         }
+
+        //스테이지 새로 진입 
         if (parserIndex % waveCount == 0)
         {
-            Debug.Log($"Wave Index {parserIndex}");
-            StageManager.Instance.StageIndex = parserIndex;
+            PlayerPrefs.SetFloat("StageIndex", parserIndex);
             CalculateMonsterSpawn();
         }
+
         mapController.ThirdIndex = parserIndex % waveCount;
 
         //보스 스테이지 진입 단계
@@ -405,12 +394,17 @@ public class Stage : MonoBehaviour
         bgAction?.Invoke();
     }
 
+
+    Coroutine createRoutine;
     /// <summary>
     /// 몬스터 생성 기능
     /// </summary>
     public void CreateMonster()
     {
         CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName);
+
+        //createRoutine = StartCoroutine(CreateMonsterCo());
+        //CoroutineManager.Instance.ManagerCoroutineStart(createRoutine, this);
     }
 
     int monsterNumber = 1;
@@ -484,30 +478,34 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void SetDifficult()
     {
+
         switch (stageCSV.State[parserIndex].Stage_firstClass)
         {
-            case "쉬움":
+            case Difficutly.Easy:
                 curDifficult = Difficutly.Easy;
                 break;
 
-            case "보통":
+            case Difficutly.Normal:
                 curDifficult = Difficutly.Normal;
                 break;
 
-            case "어려움":
+            case Difficutly.Hard:
                 curDifficult = Difficutly.Hard;
                 break;
 
-            case "지옥1":
+            case Difficutly.Hell1:
                 curDifficult = Difficutly.Hell1;
                 break;
-            case "지옥2":
+
+            case Difficutly.Hell2:
                 curDifficult = Difficutly.Hell2;
                 break;
-            case "지옥3":
+
+            case Difficutly.Hell3:
                 curDifficult = Difficutly.Hell3;
                 break;
         }
+
     }
 
     /// <summary>

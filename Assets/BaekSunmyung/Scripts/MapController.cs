@@ -175,6 +175,7 @@ public class MapController : MonoBehaviour
             } 
         }
     }
+     
 
     private IEnumerator MapResetCoroutine()
     {

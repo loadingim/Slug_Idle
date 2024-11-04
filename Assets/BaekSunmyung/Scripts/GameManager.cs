@@ -1,25 +1,24 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
-   [SerializeField] private bool isOpenInventory;
+    [SerializeField] private bool isOpenInventory;
     public bool IsOpenInventory
     {
         get { return isOpenInventory; }
         set { isOpenInventory = value; }
     }
-    
 
-    [SerializeField] private TimeSpan offlineTime;   
-    [SerializeField] private TimeSpan onlineTime;
+    public Stage StageInstance;
 
-    [SerializeField] private double offline;
-    [SerializeField] private float spanTime;
+    [SerializeField] DateTime exitTime;
+    [SerializeField] DateTime startTime;
+    [SerializeField] private double totalTime;
 
 
     private void Awake()
@@ -33,15 +32,9 @@ public class GameManager : MonoBehaviour
             Destroy(Instance);
         }
 
-        onlineTime = DateTime.UtcNow - DateTime.UnixEpoch;
-         
-
-        var now = DateTime.Now.ToLocalTime();
-        var spanTime = (now - DateTime.UnixEpoch); 
-        
-        
+        //LoadData();
     }
- 
+
     private void Update()
     {
         if (isOpenInventory)
@@ -52,23 +45,39 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-         
+
+
+
+        /* 방치 재화 시스템 Holding
         if (Input.GetMouseButtonDown(0))
         {
 #if UNITY_EDITOR
-            PlayerPrefs.SetInt("StageIndex",StageManager.Instance.StageIndex);
-
-            offlineTime = (DateTime.UtcNow - DateTime.UnixEpoch); 
-            offline = (double)offlineTime.TotalSeconds;
-
-            Debug.Log($"유니티 종료:{offline}");
+            SaveData();
             UnityEditor.EditorApplication.isPlaying = false;
 #endif
             Application.Quit();
         }
-         
-
     }
 
 
+    public void SaveData()
+    {
+        exitTime = DateTime.Now;
+        PlayerPrefs.SetString("ExitTime", exitTime.ToString());
+    }
+
+    public void LoadData()
+    {
+        startTime = DateTime.Now;
+        string saveStr = PlayerPrefs.GetString("ExitTime");
+        DateTime saveData;
+
+        if (DateTime.TryParse(saveStr, out saveData))
+        {
+            TimeSpan diffTime = (startTime - saveData);
+            totalTime = diffTime.TotalSeconds;
+        }
+    }
+        */
+    }
 }

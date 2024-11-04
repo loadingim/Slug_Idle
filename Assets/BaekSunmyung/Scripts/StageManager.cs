@@ -6,7 +6,6 @@ public class StageManager : MonoBehaviour
 {
     public static StageManager Instance { get; private set; }
 
-    public Stage stage;
     private int stageIndex = 0;
     public int StageIndex { get { return stageIndex; } set { stageIndex = value; } }
 
