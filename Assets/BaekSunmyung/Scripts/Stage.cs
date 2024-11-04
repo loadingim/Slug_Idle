@@ -126,9 +126,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private bool isPlayerLife = true;
 
     public bool IsWave { get { return isWave; } }
-
-
-
+     
     private void Awake()
     {
         bossChallengeBtn.onClick.AddListener(BossChallenge);
@@ -143,13 +141,11 @@ public class Stage : MonoBehaviour
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
         bossObject.gameObject.SetActive(false);
-
     }
 
 
     private void Update()
     {
-
         //Data를 받아오지 못한 상태면 Return
         if (stageCSV.State.Count == 0)
         {
@@ -206,12 +202,15 @@ public class Stage : MonoBehaviour
             //플레이어가 살아있을 때 몬스터 제거 작업
             foreach (MonsterModel model in monsters)
             {
+                
+
                 if (model != null && model.MonsterHP < 1)
                 {
                     for (int i = 0; i < monsters.Length; i++)
                     {
                         if (model == monsters[i])
                         {
+                            Debug.Log("몬스터 제거 완료");
                             curWaveKillCount++;
                             monsters[i] = null;
                             killMonsterCount++;
@@ -322,7 +321,7 @@ public class Stage : MonoBehaviour
 
         //몬스터 생성 제한 수
         createLimitCount = 0;
-        stageDifficult.GetStageIndex(parserIndex);
+        stageDifficult.GetStageIndex(parserIndex, waveCount);
         CreateMonster();
 
     }
@@ -410,7 +409,7 @@ public class Stage : MonoBehaviour
         yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
-
+         
         while (curWaveMonsterCount > createLimitCount)
         {
             float xPos = UnityEngine.Random.Range(11f, 13f);
@@ -426,10 +425,13 @@ public class Stage : MonoBehaviour
             monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
 
             stageDifficult.GetMonsterInstance(monsters[createLimitCount]);
+            stageDifficult.MonsterIncreaseAbility();
+             
             createLimitCount++;
 
             yield return createWait;
         }
+        
 
         if (curWaveMonsterCount <= createLimitCount)
         {
@@ -556,7 +558,7 @@ public class Stage : MonoBehaviour
 
         Array.Clear(monsters, 0, monsters.Length);
 
-        isWave = false; 
+        isWave = false;  
         parserIndex = int.Parse(textIndex.text);
         killMonsterCount = 0;
 
