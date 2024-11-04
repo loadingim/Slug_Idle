@@ -142,7 +142,6 @@ MonoBehaviour:
   monsterModel: {fileID: 4098501971568774392}
   Player: {fileID: 0}
   PlayerDataModel: {fileID: 0}
-  CoolTime: 1
   MonsterBullet: {fileID: 8567523358615718062, guid: 01bb78560a9bb914e81f0f62b04d7b24, type: 3}
   muzzlePoint: {fileID: 4098501972914077559}
   moveState:
@@ -155,6 +154,7 @@ MonoBehaviour:
     Monster: {fileID: 4098501971568774393}
     Model: {fileID: 4098501971568774392}
   monsterAnimator: {fileID: 4098501971568774398}
+  muzzlePointAnimator: {fileID: 0}
 --- !u!114 &4098501971568774392
 MonoBehaviour:
   m_ObjectHideFlags: 0

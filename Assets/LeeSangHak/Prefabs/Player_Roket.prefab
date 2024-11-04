@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: -4154248064288833516}
   - component: {fileID: -5050924886982404940}
   - component: {fileID: 6520192929775807966}
+  - component: {fileID: 9023499671660629874}
   m_Layer: 0
   m_Name: Player_Roket
   m_TagString: Untagged
@@ -185,3 +186,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &9023499671660629874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3306471569424342834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fa2fcee75bb464da5cdebdcd14077b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffect: {fileID: 1591330919996156894, guid: 90016562d247d924581fc3b81c5733e4, type: 3}

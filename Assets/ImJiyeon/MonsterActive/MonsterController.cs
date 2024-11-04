@@ -57,7 +57,13 @@ public class MonsterController : MonoBehaviour
     #region Start, OnDestroy, Update ÇÔ¼ö
     private void Start()
     {
+        Debug.Log(monsterModel.MonsterHP);
+        monsterModel.MonsterHP = 3000;
+        Debug.Log(monsterModel.MonsterHP);
         States[(int)CurMonsterState].Enter();
+        Debug.Log(monsterModel.MonsterHP);
+
+
     }
 
     private void OnDestroy()

@@ -66,12 +66,13 @@ public class WeaponCSV : MonoBehaviour
             weaponData.Weapon_iD = int.Parse(values[1]);
             Enum.TryParse(values[2], out weaponData.weapon_Type);
             weaponData.Weapon_level = int.Parse(values[3]);
-            weaponData.Weapon_per = float.Parse(values[4]);
-            weaponData.Weapon_priceGoldNum = float.Parse(values[5]);
-            weaponData.Weapon_priceGoldUnit = int.Parse(values[6]);
-            weaponData.Weapon_priceDiaNum = int.Parse(values[7]);
-            weaponData.Weapon_diaPer = float.Parse(values[8]);
-            weaponData.Weapon_diaNum = int.Parse(values[9]);
+            weaponData.Weapon_diaPer = float.Parse(values[4]);
+            weaponData.Weapon_diaNum = int.Parse(values[5]);
+            weaponData.Weapon_per = float.Parse(values[6]);
+            weaponData.Weapon_priceGoldNum = float.Parse(values[7]);
+            weaponData.Weapon_priceGoldUnit = int.Parse(values[8]);
+            weaponData.Weapon_priceDiaNum = int.Parse(values[9]);
+            
 
             Weapon.Add(weaponData);
         }

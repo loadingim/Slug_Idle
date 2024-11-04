@@ -132,9 +132,9 @@ public class Stage : MonoBehaviour
      
     private void Awake()
     {
-        bossChallengeBtn.onClick.AddListener(BossChallenge);
-        testModeButton.onClick.AddListener(TestMode);
-        ray = canvas.GetComponent<GraphicRaycaster>();
+       // bossChallengeBtn.onClick.AddListener(BossChallenge);
+       // testModeButton.onClick.AddListener(TestMode);
+       // ray = canvas.GetComponent<GraphicRaycaster>();
     }
 
     private void Start()
@@ -144,7 +144,7 @@ public class Stage : MonoBehaviour
         parserIndex = StageManager.Instance.StageIndex;
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
-        bossObject.gameObject.SetActive(false);
+      //  bossObject.gameObject.SetActive(false);
     }
 
     
@@ -168,7 +168,7 @@ public class Stage : MonoBehaviour
         {
             isPlayerLife = false;
         }
-        TestActive();
+        //TestActive();
 
         MonsterSafeZone();
         PlayerDeath();
@@ -413,13 +413,14 @@ public class Stage : MonoBehaviour
         WaitForSeconds createWait = new WaitForSeconds(createTimer);
         WaitForSeconds cycleWait = new WaitForSeconds(cycleTimer);
         monsters = new MonsterModel[curWaveMonsterCount];
-
+        
         yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
          
         while (curWaveMonsterCount > createLimitCount)
         {
+            
             float xPos = UnityEngine.Random.Range(11f, 13f);
             float yPos = UnityEngine.Random.Range(2.5f, -3f);
             Vector3 offset = new Vector3(xPos, yPos, 0);

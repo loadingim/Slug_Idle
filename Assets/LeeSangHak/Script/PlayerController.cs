@@ -76,7 +76,7 @@ public class PlayerController : MonoBehaviour
     {
         upperAnim.SetBool("isAtk", false);
         lowerAnim.SetBool("isMove", true);
-
+        upperAnim.SetBool("isWeapon", false);
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
 
