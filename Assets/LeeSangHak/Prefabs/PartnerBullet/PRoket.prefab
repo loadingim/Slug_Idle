@@ -9,14 +9,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6930231620274951244}
-  - component: {fileID: 9089832504319144166}
+  - component: {fileID: 6879147907377482097}
   m_Layer: 0
-  m_Name: Roket
+  m_Name: PRoket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &6930231620274951244
 Transform:
   m_ObjectHideFlags: 0
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9089832504319144166
+--- !u!114 &6879147907377482097
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,12 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 6291279932545369110}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7fd30e2f82caab4e90ac66205a9c7fc, type: 3}
+  m_Script: {fileID: 11500000, guid: f9000cf62f3a07c448d0d43bb4dc9133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   name: Roket
   damage: 4
   attackSpeed: 5
-  level: 0
-  bulletPrefab: {fileID: 3306471569424342834, guid: ac932f5d4face4a45963fe6c0a3865d1, type: 3}
-  player: {fileID: 0}
+  level: 1
+  bulletPrefab: {fileID: 3306471569424342834, guid: 5f21a5249430a8f44add9649a7ff7da8, type: 3}
+  partnerPlayer: {fileID: 0}

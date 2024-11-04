@@ -48,5 +48,5 @@ MonoBehaviour:
   damage: 4
   attackSpeed: 4
   level: 0
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 3306471569424342834, guid: 71e13eada1644ce4b9540d2657478ea4, type: 3}
   player: {fileID: 0}

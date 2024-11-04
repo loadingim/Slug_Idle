@@ -29,21 +29,21 @@ public class SlugController : MonoBehaviour
 
     private void Update()
     {
-        // if (Time.timeScale == 0)
-        // {
-        times = Time.time;
-
-        // 타겟으로 지정된 몬스터가 비어있고 몬스터가 활성화가 아닐 시
-        if (targetMonster == null || !targetMonster.activeSelf)
+        if (!gameObject.activeSelf)
         {
-            FindTarget();
-        }
+            times = Time.time;
 
-        if (targetMonster != null && Time.time >= attackCooldown)
-        {
-            Attack();
+            // 타겟으로 지정된 몬스터가 비어있고 몬스터가 활성화가 아닐 시
+            if (targetMonster == null || !targetMonster.activeSelf)
+            {
+                FindTarget();
+            }
+
+            if (targetMonster != null && Time.time >= attackCooldown)
+            {
+                Attack();
+            }
         }
-        //  }
 
     }
 
@@ -54,7 +54,7 @@ public class SlugController : MonoBehaviour
         {
             slugsubAnim.gameObject.SetActive(true);
         }
-        
+
 
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
@@ -77,7 +77,7 @@ public class SlugController : MonoBehaviour
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
             slugAnim.SetBool("isMove", true);
-            
+
             if (slugsubAnim != null)
             {
                 slugsubAnim.gameObject.SetActive(false);

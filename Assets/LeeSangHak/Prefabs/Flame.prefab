@@ -47,3 +47,6 @@ MonoBehaviour:
   name: Flame
   damage: 3
   attackSpeed: 1
+  level: 0
+  bulletPrefab: {fileID: 3306471569424342834, guid: eee8851d2b1428c4986f7463e175fdc5, type: 3}
+  player: {fileID: 0}

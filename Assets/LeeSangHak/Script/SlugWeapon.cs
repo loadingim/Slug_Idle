@@ -8,6 +8,7 @@ public class SlugWeapon : MonoBehaviour
     public float damage;
     public int level;
     [SerializeField] GameObject bulletPrefab;
+    [SerializeField] GameObject MetalSmoke;
     [SerializeField] SlugController slugPlayer;
 
     private BulletManager bulletManager;
@@ -20,6 +21,7 @@ public class SlugWeapon : MonoBehaviour
     public void shot()
     {
         GameObject bulletGameObj = Instantiate(bulletPrefab, slugPlayer.muzzlePoint.transform.position, transform.rotation);
+
         if (bulletManager != null)
         {
             bulletManager.AddBullet(bulletGameObj);
