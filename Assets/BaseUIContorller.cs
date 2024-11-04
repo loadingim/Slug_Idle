@@ -92,10 +92,15 @@ public class BaseUIContorller : MonoBehaviour
             {
                 // 아이템의 개수가 인벤토리 슬롯보다 작은 경우는 인벤토리에 장착할 아이템이 없다고 판단
                 if (weapons.Length <= i) break;
+
+                var slot = weaponInventory.GetChild(0);
+
                 // 인벤토리 내에 사전에 설정한 InventoryItem이 없는 경우 스킵
-                if (weaponInventory.childCount < 1) continue;
-                if (weaponInventory.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
+                if (slot.childCount < 1) continue;
+
+                if (slot.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
                 // 사전에 설정한 실제 아이템을 인벤토리 아이템으로 장착
+                
                 inventoryItem.ItemObject = weapons[i];
             }
 
@@ -104,9 +109,11 @@ public class BaseUIContorller : MonoBehaviour
             {
                 // 아이템의 개수가 인벤토리 슬롯보다 작은 경우는 인벤토리에 장착할 아이템이 없다고 판단
                 if (partners.Length <= i) break;
+
+                var slot = partnerInventory.GetChild(0);
                 // 인벤토리 내에 사전에 설정한 InventoryItem이 없는 경우 스킵
-                if (partnerInventory.childCount < 1) continue;
-                if (partnerInventory.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
+                if (slot.childCount < 1) continue;
+                if (slot.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
                 // 사전에 설정한 실제 아이템을 인벤토리 아이템으로 장착
                 inventoryItem.ItemObject = partners[i];
             }
@@ -116,9 +123,12 @@ public class BaseUIContorller : MonoBehaviour
             {
                 // 아이템의 개수가 인벤토리 슬롯보다 작은 경우는 인벤토리에 장착할 아이템이 없다고 판단
                 if (slugs.Length <= i) break;
+
+                var slot = partnerInventory.GetChild(0);
+
                 // 인벤토리 내에 사전에 설정한 InventoryItem이 없는 경우 스킵
-                if (slugInventory.childCount < 1) continue;
-                if (slugInventory.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
+                if (slot.childCount < 1) continue;
+                if (slot.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
                 // 사전에 설정한 실제 아이템을 인벤토리 아이템으로 장착
                 inventoryItem.ItemObject = slugs[i];
             }
@@ -140,7 +150,6 @@ public class BaseUIContorller : MonoBehaviour
     // 유저 아이콘이 바뀌는 이벤트 처리 함수
     void ChangeUserIcon(Sprite newSprite)
     {
-        print("Change");
         // 유저 이미지의 아이콘 변경
         if (userIconImage != null)
         {
