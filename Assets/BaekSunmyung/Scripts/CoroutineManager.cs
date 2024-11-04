@@ -4,9 +4,14 @@ using UnityEngine;
 
 public class CoroutineManager : MonoBehaviour
 {
-    public static CoroutineManager Instance;
+    public static CoroutineManager Instance { get; private set; }
+
+
+    private Dictionary<MonoBehaviour, Coroutine> newCoList = new Dictionary<MonoBehaviour, Coroutine>();
 
     private Dictionary<string, IEnumerator> coList = new Dictionary<string, IEnumerator>();
+
+    public Dictionary<float, WaitForSeconds> _waitForSeconds = new Dictionary<float, WaitForSeconds>();
 
     private void Awake()
     {
@@ -20,11 +25,17 @@ public class CoroutineManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 코루틴 시작
-    /// </summary>
-    /// <param name="co">실행할 코루틴</param>
-    /// <param name="coName">코루틴 이름</param>
+    public WaitForSeconds GetWaitForSeconds(float time)
+    {
+        if (!_waitForSeconds.ContainsKey(time))
+        {
+            _waitForSeconds[time] = new WaitForSeconds(time);
+        }
+
+        return _waitForSeconds[time];
+    }
+
+
     public void ManagerCoroutineStart(IEnumerator co, string coName)
     {
         //동일한 이름이 존재하는지 Dictionary 검사
@@ -42,7 +53,30 @@ public class CoroutineManager : MonoBehaviour
         coList[coName] = co;
         StartCoroutine(StartMyCoroutine(co, coName));
     }
- 
+
+
+    /// <summary>
+    /// 코루틴 시작
+    /// </summary>
+    /// <param name="co">실행할 코루틴</param>
+    /// <param name="key">코루틴 이름</param>
+    //public void ManagerCoroutineStart(Coroutine co, MonoBehaviour key)
+    //{
+    //    //동일한 이름이 존재하는지 Dictionary 검사
+    //    if (newCoList.ContainsKey(key))
+    //    {
+    //        if(newCoList.TryGetValue(key, out Coroutine copy))
+    //        {
+    //            StopCoroutine(copy);
+    //            newCoList.Remove(key);
+    //        } 
+    //    }
+
+        
+    //    newCoList[key] = co;
+    //    co = StartCoroutine(StartMyCoroutine());
+    //}
+     
     /// <summary>
     /// 코루틴 강제 종료
     /// </summary>
@@ -55,19 +89,44 @@ public class CoroutineManager : MonoBehaviour
             coList.Remove(coName);
         }
     }
-  
+
+    //public IEnumerator StartMyCoroutine(MonoBehaviour key)
+    //{
+    //    //각 코루틴 조건별로 실행이 되고 있는 상태인지 확인
+    //    while (newCoList[key] != null)
+    //    {
+    //        //인벤토리가 열린 상태면 일시 중지
+    //        if (GameManager.Instance.IsOpenInventory)
+    //        {
+    //            yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
+    //        }
+    //        else
+    //        {
+    //            //현재 코루틴에서 사용중인 wait값으로 대기
+    //            yield return co.Current;
+    //        }
+    //    }
+
+    //    //코루틴이 종료됐으면 제거 
+    //    if (coList.ContainsKey(key))
+    //    {
+    //        coList.Remove(key);
+    //    }
+    //}
+
+
     public IEnumerator StartMyCoroutine(IEnumerator co, string coName)
-    { 
+    {
         //각 코루틴 조건별로 실행이 되고 있는 상태인지 확인
         while (co.MoveNext())
-        { 
+        {
             //인벤토리가 열린 상태면 일시 중지
             if (GameManager.Instance.IsOpenInventory)
             {
                 yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
             }
             else
-            { 
+            {
                 //현재 코루틴에서 사용중인 wait값으로 대기
                 yield return co.Current;
             }

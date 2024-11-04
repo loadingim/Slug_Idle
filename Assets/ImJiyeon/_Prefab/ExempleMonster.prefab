@@ -168,7 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isInside: 0
-  monsterHP: 500
+  monsterHP: 10
   monsterMoveSpeed: 5
   dropGold: 100
   monsterAttack: 10
