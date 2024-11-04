@@ -62,7 +62,8 @@ public class SkillUseManager : MonoBehaviour
         // 활성화 - 비활성화
         else if (AutoOnOff) { AutoOnOff = false; }
 
-        CoroutineManager.Instance.ManagerCoroutineStart(SkillAuto(), skillAutoCoroutineName);
+        StartCoroutine(SkillAuto());
+        //CoroutineManager.Instance.ManagerCoroutineStart(SkillAuto(), skillAutoCoroutineName);
     }
 
 
