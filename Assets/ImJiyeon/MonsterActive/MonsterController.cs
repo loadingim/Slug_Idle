@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading;
 using UnityEngine;
 
 public class MonsterController : MonoBehaviour
@@ -157,12 +158,18 @@ public class MonsterController : MonoBehaviour
         public override void Update()
         {
             // Dead 행동 구현
-            Debug.Log("몬스터 삭제됨");
             Monster.AnimatorPlay();
-            // 코인이 UI를 향해 빨려가는 애니메이션 재생
-            Monster.PlayerDataModel.Money += Model.DropGold;
-            Destroy(Monster.gameObject); // 몬스터 자체를 오브젝트 풀 패턴으로 보관하고 있어도 좋을듯
         }
+    }
+
+    void Dead()
+    {
+        Debug.Log("몬스터 삭제됨");
+
+        // 코인이 UI를 향해 빨려가는 애니메이션 재생
+        PlayerDataModel.Money += monsterModel.DropGold;
+        // 몬스터 자체를 오브젝트 풀 패턴으로 보관하고 있어도 좋을듯
+        Destroy(gameObject);
     }
 
     //====================================================
