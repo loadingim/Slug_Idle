@@ -48,7 +48,6 @@ public class Stage : MonoBehaviour
     [Header("Test Mode")]
     [SerializeField] private GameObject testSet;
     [SerializeField] private Button testModeButton;
-    [SerializeField] private bool isTestMode;
     [SerializeField] private TMP_InputField textIndex;
     [SerializeField] private Canvas canvas;
     private GraphicRaycaster ray;
@@ -71,7 +70,7 @@ public class Stage : MonoBehaviour
     private int bgSecondClsIndex = 0;
 
     //Data Table CSV 변수
-    private StageCSV csvParser;
+    private StageCSV stageCSV;
 
     //Data Table Index 변수
     private int parserIndex = 0;
@@ -81,6 +80,8 @@ public class Stage : MonoBehaviour
 
     //Stage 관련 변수
     private int curSecondClass;     //스테이지 난이도 변수
+    public int SecondClass { get { return curSecondClass; } }
+
     private int curThirdClass;          //현재 스테이지의 위치
     [SerializeField] private int curWaveMonsterCount;    //현재 Wave에서 생성될 몬스터 수
     [SerializeField] private int curWaveKillCount;       //이전 스테이지 이동 시 진행률에서 빼줄 값
@@ -88,12 +89,12 @@ public class Stage : MonoBehaviour
     [SerializeField] private int killMonsterCount;       //현재까지 잡은 몬스터 수
     [SerializeField] private int ThirdClassMonsterCount; //현재 스테이지의 소환될 총 몬스터 수
 
-
     //Wave 생성 여부
     private bool isWave;
 
     //보스 스테이지 진입 여부
     private bool isBoss;
+    public bool IsBoss { get { return isBoss; } }
 
     //일반 스테이지 클리어 여부
     private bool isStageClear;
@@ -131,26 +132,26 @@ public class Stage : MonoBehaviour
     private void Awake()
     {
         bossChallengeBtn.onClick.AddListener(BossChallenge);
-        testModeButton.onClick.AddListener(TestMode); 
+        testModeButton.onClick.AddListener(TestMode);
         ray = canvas.GetComponent<GraphicRaycaster>();
     }
 
     private void Start()
     {
-        csvParser = StageCSV.Instance;
+        stageCSV = StageCSV.Instance;
         monsters = new MonsterModel[5];
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
         bossObject.gameObject.SetActive(false);
 
     }
- 
+
 
     private void Update()
     {
-         
+
         //Data를 받아오지 못한 상태면 Return
-        if (csvParser.State.Count == 0)
+        if (stageCSV.State.Count == 0)
         {
             return;
         }
@@ -179,8 +180,6 @@ public class Stage : MonoBehaviour
 
     }
 
-
-
     /// <summary>
     /// 죽은 몬스터 확인
     /// </summary>
@@ -193,15 +192,14 @@ public class Stage : MonoBehaviour
             foreach (MonsterModel model in monsters)
             {
                 if (model != null)
-                { 
-                    Destroy(model.gameObject); 
+                {
+                    Destroy(model.gameObject);
                 }
             }
 
             //몬스터 저장 배열 클리어
             Array.Clear(monsters, 0, monsters.Length);
             isPlayerLife = true;
-            player.Health = 3000;
         }
         else
         {
@@ -227,7 +225,7 @@ public class Stage : MonoBehaviour
             coolTimeReset = true;
 
             //배경, 하늘 이미지 전달 
-            curSecondClass = csvParser.State[parserIndex].Stage_secondClass;
+            curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
             mapController.BackGroundSpriteChange(curSecondClass);
             mapController.SkySpriteChange(curSecondClass);
 
@@ -273,7 +271,7 @@ public class Stage : MonoBehaviour
 
         for (int i = parserIndex; i < parserIndex + waveCount; i++)
         {
-            ThirdClassMonsterCount += csvParser.State[i].Stage_monsterNum;
+            ThirdClassMonsterCount += stageCSV.State[i].Stage_monsterNum;
         }
     }
 
@@ -317,10 +315,10 @@ public class Stage : MonoBehaviour
         coolTimeReset = false;
 
         //소분류 스테이지 
-        curThirdClass = csvParser.State[parserIndex].Stage_thirdClass;
+        curThirdClass = stageCSV.State[parserIndex].Stage_thirdClass;
 
         //현재 웨이브 몬스터 수
-        curWaveMonsterCount = csvParser.State[parserIndex].Stage_monsterNum;
+        curWaveMonsterCount = stageCSV.State[parserIndex].Stage_monsterNum;
 
         //몬스터 생성 제한 수
         createLimitCount = 0;
@@ -350,7 +348,7 @@ public class Stage : MonoBehaviour
             prevIndex = parserIndex > 0 ? parserIndex - 1 : 0;
 
             //이전 Wave 몬스터 수
-            prevWaveCount = csvParser.State[prevIndex].Stage_monsterNum;
+            prevWaveCount = stageCSV.State[prevIndex].Stage_monsterNum;
 
             //현재 죽인 몬스터 수 - (이전 스테이지에서 생상된 몬스터 수 + 현재 스테이지에서 죽인 몬스터수)
             killMonsterCount = (killMonsterCount - (prevWaveCount + curWaveKillCount));
@@ -467,7 +465,7 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void SetDifficult()
     {
-        switch (csvParser.State[parserIndex].Stage_firstClass)
+        switch (stageCSV.State[parserIndex].Stage_firstClass)
         {
             case "쉬움":
                 curDifficult = Difficutly.Easy;
@@ -505,7 +503,7 @@ public class Stage : MonoBehaviour
 
     public void SetStageText()
     {
-        int curWave = csvParser.State[parserIndex].Stage_wave;
+        int curWave = stageCSV.State[parserIndex].Stage_wave;
 
         stageInfoText.text = curDifficult.ToString() + " Stage " + curThirdClass.ToString() + " - " + curWave.ToString();
     }
@@ -534,59 +532,56 @@ public class Stage : MonoBehaviour
     public void TestMode()
     {
         bool isCheck = false;
+         
+        CoroutineManager.Instance.ManagerCoroutineStop(createCoroutineName);
 
-        if (isTestMode)
+        while (true)
         {
-            
-
-            CoroutineManager.Instance.ManagerCoroutineStop(createCoroutineName);
-
-            while (true)
+            foreach (MonsterModel model in monsters)
             {
-                foreach (MonsterModel model in monsters)
+                if (model != null)
                 {
-                    if (model != null)
-                    {
-                        Destroy(model.gameObject);
-                    }
-                    else
-                    {
-                        isCheck = true;
-                    }
+                    isCheck = false;
+                    Destroy(model.gameObject);
                 }
-                Array.Clear(monsters, 0, monsters.Length);
-
-                if (isCheck)
-                    break;
-            }
-            isWave = false;
-            fieldWaveMonsterCount = 0; 
-            parserIndex = int.Parse(textIndex.text);
-            killMonsterCount = 0;
-
-            int startIndex = parserIndex - (parserIndex % waveCount);
-
-            for (int i = startIndex; i < parserIndex; i++)
-            {
-                killMonsterCount += csvParser.State[i].Stage_monsterNum;
+                else
+                {
+                    isCheck = true;
+                }
             }
 
-            int endIndex = waveCount - (parserIndex % waveCount);
-            ThirdClassMonsterCount = 0;
-            for (int i = startIndex; i < parserIndex + endIndex; i++)
-            {
-                ThirdClassMonsterCount += csvParser.State[i].Stage_monsterNum;
-            }
-
-            killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
-
-            curSecondClass = csvParser.State[parserIndex].Stage_secondClass;
-            mapController.BackGroundSpriteChange(curSecondClass);
-            mapController.SkySpriteChange(curSecondClass);
-
-            parserIndex--;
+            if (isCheck)
+                break;
         }
 
+        Array.Clear(monsters, 0, monsters.Length);
+
+        isWave = false; 
+        parserIndex = int.Parse(textIndex.text);
+        killMonsterCount = 0;
+
+        int startIndex = parserIndex - (parserIndex % waveCount);
+
+        for (int i = startIndex; i < parserIndex; i++)
+        {
+            killMonsterCount += stageCSV.State[i].Stage_monsterNum;
+        }
+
+        int endIndex = waveCount - (parserIndex % waveCount);
+        ThirdClassMonsterCount = 0;
+        for (int i = startIndex; i < parserIndex + endIndex; i++)
+        {
+            ThirdClassMonsterCount += stageCSV.State[i].Stage_monsterNum;
+        }
+
+        killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
+        fieldWaveMonsterCount = 0;
+
+        curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
+        mapController.BackGroundSpriteChange(curSecondClass);
+        mapController.SkySpriteChange(curSecondClass);
+        parserIndex--;
+ 
     }
 
 

@@ -19,8 +19,6 @@ public class CoroutineManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-     
-
 
     /// <summary>
     /// 코루틴 시작

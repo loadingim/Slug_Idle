@@ -109,7 +109,6 @@ MonoBehaviour:
   stageInfoText: {fileID: 0}
   testSet: {fileID: 0}
   testModeButton: {fileID: 0}
-  isTestMode: 1
   textIndex: {fileID: 0}
   canvas: {fileID: 0}
   bossObject: {fileID: 0}

@@ -98,12 +98,18 @@ public class MapController : MonoBehaviour
         //현재 맵 상에서 보이는 몬스터가 없을 경우에만 맵 이동 진행
         if (stage.FieldWaveMonsterCount == 0)
         {
-            for (int i = 0; i < backGroundCount; i++)
+            //대분류 기준 4번째 보스 스테이지 스크롤링 x
+            if (stage.SecondClass == 4 && stage.IsBoss)
             {
+                RePositionBackGround();
+                return;
+            }
+                 
+            for (int i = 0; i < backGroundCount; i++)
+            { 
                 backgroundMaps[i].transform.Translate(Vector3.left * mapTranslateSpeed * Time.deltaTime);
             }
-        }
-
+        } 
     }
 
     /// <summary>
@@ -137,7 +143,10 @@ public class MapController : MonoBehaviour
                     render.sprite = mapData[index - 1].BackGroundSprite[0];
                 }
                 else 
-                {
+                { 
+                    //
+                    if(i == 1)
+                        render.flipX = true;
                     render.sprite = mapData[index - 1].BackGroundSprite[1];
                 } 
             }
@@ -155,40 +164,16 @@ public class MapController : MonoBehaviour
     /// <param name="index">맵 단계별 받아올 인덱스</param>
     public void SkySpriteChange(int index)
     {
-        //4-2, 4-3 맵은 홀수 번째는 x 위치 반전?
-
         for (int i = 0; i < backGroundCount; i++)
         {
             SpriteRenderer skyRen = backgroundMaps[i].transform.GetChild(0).GetComponent<SpriteRenderer>();
-
-            if (index == 4)
+            if (mapData[index - 1].SkySprite != null)
             {
-                if (thirdIndex <= 1)
-                {
-
-                    skyRen.sprite = mapData[index - 1].SkySprite[0];
-
-                }
-                else if (thirdIndex <= 3)
-                {
-                    skyRen.sprite = mapData[index - 1].SkySprite[1];
-                }
-                else
-                {
-                    skyRen.sprite = null;
-                }
+                skyRen.sprite = mapData[index - 1].SkySprite[0];
             }
             else
-            {
-                if (mapData[index - 1].SkySprite != null)
-                {
-                    skyRen.sprite = mapData[index - 1].SkySprite[0];
-                }
-                else
-                {
-
-                    skyRen.sprite = null;
-                }
+            { 
+                skyRen.sprite = null;
             } 
         }
     }

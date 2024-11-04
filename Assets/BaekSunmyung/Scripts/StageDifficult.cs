@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class StageDifficult : MonoBehaviour
 {
+    private StageCSV stageCSV;
+     
     private MonsterModel monsterModel;
     private int curStageIndex = 0;
 
- 
+
+    private void Start()
+    {
+        stageCSV = StageCSV.Instance;
+    }
+
     /// <summary>
     /// 몬스터 모델 인스턴스를 받아옴
     /// </summary>
@@ -26,5 +33,12 @@ public class StageDifficult : MonoBehaviour
     {
         curStageIndex = stageIndex;
     }
+
+    public void IncreaseAbility()
+    {
+
+    }
+
+
 
 }
