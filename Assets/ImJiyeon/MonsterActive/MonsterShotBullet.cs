@@ -43,7 +43,7 @@ public class MonsterShotBullet : MonoBehaviour
     {
         // 총알 발사
         Vector3 dir = (Player.transform.position - transform.position).normalized;
-        rigid.velocity = new Vector2(dir.x * speed, dir.y * speed);
+        rigid.velocity = new Vector2(dir.x * 2f * speed, dir.y * 2f * speed);
 
         // 총알이 맞지 않고 일정 시간이 지났을 때, 자동으로 삭제된다.
         remainTime -= Time.deltaTime;
