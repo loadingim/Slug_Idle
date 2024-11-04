@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -50,11 +51,13 @@ public class Stage : MonoBehaviour
     [SerializeField] private Button testModeButton;
     [SerializeField] private TMP_InputField textIndex;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private TextMeshProUGUI atkText;
+    [SerializeField] private TextMeshProUGUI hpText;
     private GraphicRaycaster ray;
     private PointerEventData ped = new PointerEventData(EventSystem.current);
     private List<RaycastResult> results = new List<RaycastResult>();
 
-
+    
 
 
     //임시 보스
@@ -73,7 +76,7 @@ public class Stage : MonoBehaviour
     private StageCSV stageCSV;
 
     //Data Table Index 변수
-    private int parserIndex = 0;
+    private int parserIndex;
 
     //몬스터 소탕률
     private float killRate;
@@ -126,9 +129,7 @@ public class Stage : MonoBehaviour
     [SerializeField] private bool isPlayerLife = true;
 
     public bool IsWave { get { return isWave; } }
-
-
-
+     
     private void Awake()
     {
         bossChallengeBtn.onClick.AddListener(BossChallenge);
@@ -140,16 +141,16 @@ public class Stage : MonoBehaviour
     {
         stageCSV = StageCSV.Instance;
         monsters = new MonsterModel[5];
+        parserIndex = StageManager.Instance.StageIndex;
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
         bossObject.gameObject.SetActive(false);
-
     }
 
+    
 
     private void Update()
     {
-
         //Data를 받아오지 못한 상태면 Return
         if (stageCSV.State.Count == 0)
         {
@@ -186,8 +187,7 @@ public class Stage : MonoBehaviour
     private void MonsterRemover()
     {
         if (!isPlayerLife)
-        {
-
+        { 
             //플레이어 사망 시 소환된 모든 몬스터 삭제
             foreach (MonsterModel model in monsters)
             {
@@ -205,13 +205,14 @@ public class Stage : MonoBehaviour
         {
             //플레이어가 살아있을 때 몬스터 제거 작업
             foreach (MonsterModel model in monsters)
-            {
+            { 
                 if (model != null && model.MonsterHP < 1)
                 {
                     for (int i = 0; i < monsters.Length; i++)
                     {
                         if (model == monsters[i])
                         {
+                            Debug.Log("몬스터 제거 완료");
                             curWaveKillCount++;
                             monsters[i] = null;
                             killMonsterCount++;
@@ -280,18 +281,19 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void Wave()
     {
-
-        //스테이지 새로 진입 
-        if (parserIndex % waveCount == 0)
-        {
-            CalculateMonsterSpawn();
-        }
-
         //스테이지 클리어 한 상태에서만 Index 증가
         if (isStageClear)
         {
             parserIndex++;
+             
             curWaveKillCount = 0;
+        }
+
+        //스테이지 새로 진입 
+        if (parserIndex % waveCount == 0)
+        {
+            PlayerPrefs.SetFloat("StageIndex", parserIndex);
+            CalculateMonsterSpawn();
         }
 
         mapController.ThirdIndex = parserIndex % waveCount;
@@ -322,7 +324,7 @@ public class Stage : MonoBehaviour
 
         //몬스터 생성 제한 수
         createLimitCount = 0;
-        stageDifficult.GetStageIndex(parserIndex);
+        stageDifficult.GetStageIndex(parserIndex, waveCount);
         CreateMonster();
 
     }
@@ -392,12 +394,17 @@ public class Stage : MonoBehaviour
         bgAction?.Invoke();
     }
 
+
+    Coroutine createRoutine;
     /// <summary>
     /// 몬스터 생성 기능
     /// </summary>
     public void CreateMonster()
     {
         CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName);
+
+        //createRoutine = StartCoroutine(CreateMonsterCo());
+        //CoroutineManager.Instance.ManagerCoroutineStart(createRoutine, this);
     }
 
     int monsterNumber = 1;
@@ -410,7 +417,7 @@ public class Stage : MonoBehaviour
         yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
-
+         
         while (curWaveMonsterCount > createLimitCount)
         {
             float xPos = UnityEngine.Random.Range(11f, 13f);
@@ -426,10 +433,16 @@ public class Stage : MonoBehaviour
             monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
 
             stageDifficult.GetMonsterInstance(monsters[createLimitCount]);
+            stageDifficult.MonsterIncreaseAbility();
+             
             createLimitCount++;
 
             yield return createWait;
         }
+
+        //TestSet 정보창에서 현재 스테이지 몬스터 스탯을 보여줌
+        atkText.text = "ATK : " + stageDifficult.CurStageMonsterAtk().ToString();
+        hpText.text = "HP : " + stageDifficult.CurStageMonsterHP().ToString();
 
         if (curWaveMonsterCount <= createLimitCount)
         {
@@ -465,30 +478,34 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void SetDifficult()
     {
+
         switch (stageCSV.State[parserIndex].Stage_firstClass)
         {
-            case "쉬움":
+            case Difficutly.Easy:
                 curDifficult = Difficutly.Easy;
                 break;
 
-            case "보통":
+            case Difficutly.Normal:
                 curDifficult = Difficutly.Normal;
                 break;
 
-            case "어려움":
+            case Difficutly.Hard:
                 curDifficult = Difficutly.Hard;
                 break;
 
-            case "지옥1":
+            case Difficutly.Hell1:
                 curDifficult = Difficutly.Hell1;
                 break;
-            case "지옥2":
+
+            case Difficutly.Hell2:
                 curDifficult = Difficutly.Hell2;
                 break;
-            case "지옥3":
+
+            case Difficutly.Hell3:
                 curDifficult = Difficutly.Hell3;
                 break;
         }
+
     }
 
     /// <summary>
@@ -503,10 +520,10 @@ public class Stage : MonoBehaviour
 
     public void SetStageText()
     {
-        int curWave = stageCSV.State[parserIndex].Stage_wave;
-
+        int curWave = stageCSV.State[parserIndex].Stage_wave; 
         stageInfoText.text = curDifficult.ToString() + " Stage " + curThirdClass.ToString() + " - " + curWave.ToString();
     }
+
 
     public void TestActive()
     {
@@ -520,7 +537,7 @@ public class Stage : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    testSet.gameObject.SetActive(true);
+                    testSet.gameObject.SetActive(true); 
                 }
             }
         }
@@ -556,7 +573,7 @@ public class Stage : MonoBehaviour
 
         Array.Clear(monsters, 0, monsters.Length);
 
-        isWave = false; 
+        isWave = false;  
         parserIndex = int.Parse(textIndex.text);
         killMonsterCount = 0;
 
@@ -579,7 +596,7 @@ public class Stage : MonoBehaviour
 
         curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
         mapController.BackGroundSpriteChange(curSecondClass);
-        mapController.SkySpriteChange(curSecondClass);
+        mapController.SkySpriteChange(curSecondClass); 
         parserIndex--;
  
     }
