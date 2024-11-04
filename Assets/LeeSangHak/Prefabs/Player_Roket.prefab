@@ -104,7 +104,6 @@ MonoBehaviour:
   rigid: {fileID: -3971006961976530499}
   speed: 5
   target: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!50 &-3971006961976530499
 Rigidbody2D:
   serializedVersion: 4
@@ -164,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ca5ffdfc30e7a43a1b00f53a5b3b3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 6520192929775807966}
 --- !u!95 &6520192929775807966
 Animator:
   serializedVersion: 5

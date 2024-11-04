@@ -14,13 +14,14 @@ public class SlugController : MonoBehaviour
     [SerializeField] GameObject[] monsters;
     public GameObject muzzlePoint;
     [SerializeField] Animator slugAnim;
+    [SerializeField] Animator slugsubAnim;
     private float attackSpeed;
 
 
     private void Start()
     {
         // 모델 데이터 : 공격 속도 및 사거리
-        attackSpeed = 1f;
+        attackSpeed = 5f;
         attackRange = 20;
     }
 
@@ -48,7 +49,12 @@ public class SlugController : MonoBehaviour
 
     private void FindTarget()
     {
-
+        slugAnim.SetBool("isMove", false);
+        if (slugsubAnim != null)
+        {
+            slugsubAnim.gameObject.SetActive(true);
+        }
+        
 
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
@@ -70,18 +76,24 @@ public class SlugController : MonoBehaviour
     {
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
+            slugAnim.SetBool("isMove", true);
+            
+            if (slugsubAnim != null)
+            {
+                slugsubAnim.gameObject.SetActive(false);
+            }
 
 
             ShootBullet();
 
-            attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;
+            attackCooldown = Time.time + attackSpeed;
         }
     }
 
     private void ShootBullet()
     {
 
-        weaponPrefab.GetComponent<Weapon>().shot();
+        weaponPrefab.GetComponent<SlugWeapon>().shot();
 
     }
 }
