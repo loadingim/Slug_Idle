@@ -1,4 +1,3 @@
-using AYellowpaper.SerializedCollections;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +30,7 @@ public class MergeSystem : MonoBehaviour
     [SerializeField] private float mergeManufactureTime;
     [SerializeField] private bool IsAutoMerge;
 
-    public SerializedDictionary<int, List<MergeItem>> MergeItemDictionary;
+    public Dictionary<int, List<MergeItem>> MergeItemDictionary;
 
     // 머지 슬롯들
     private List<Transform> slots;
@@ -42,7 +41,7 @@ public class MergeSystem : MonoBehaviour
     private void Start()
     {
         // 초기화
-        MergeItemDictionary = new SerializedDictionary<int, List<MergeItem>>();
+        MergeItemDictionary = new Dictionary<int, List<MergeItem>>();
         slots = new List<Transform>();
         curMinLevel = 1;
 
@@ -76,7 +75,7 @@ public class MergeSystem : MonoBehaviour
             var obj = Instantiate(mergePrefab, slots[emptySlotIdx]);
 
             // 머지 레벨 갱신
-            if(obj.TryGetComponent<MergeItem>(out var item))
+            if (obj.TryGetComponent<MergeItem>(out var item))
             {
                 TopMergeLevel = item.MergeLevel;
 
@@ -119,7 +118,7 @@ public class MergeSystem : MonoBehaviour
     public void Merge(MergeItem origin, MergeItem draging)
     {
         if (origin == null || draging == null) return;
-        
+
         // draging 아이템 삭제
         Destroy(draging.gameObject);
 
@@ -160,7 +159,7 @@ public class MergeSystem : MonoBehaviour
                             // 2. 머지 진행
                             Merge(MergeItemDictionary[level][originMergeidx], MergeItemDictionary[level][i]);
                             // 레벨업된 딕셔너리에 추가
-                            AddItemMergeDictionary(level+1, MergeItemDictionary[level][originMergeidx]);
+                            AddItemMergeDictionary(level + 1, MergeItemDictionary[level][originMergeidx]);
                             originMergeidx = -1;
                         }
                     }
@@ -269,5 +268,5 @@ public class MergeSystem : MonoBehaviour
         // 레벨이 갱신 되면서 머지 레벨에 맞게 CSV 데이터 받아오기
         print("머지 레벨 갱신");
         // 머지 레벨에 맞는 능력치를 플레이어 데이터 모델에 갱신
-    }    
+    }
 }

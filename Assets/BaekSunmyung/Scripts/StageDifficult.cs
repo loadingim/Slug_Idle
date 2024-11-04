@@ -47,9 +47,9 @@ public class StageDifficult : MonoBehaviour
     { 
         float monsterHP = 0f;   
         int monsterAtk = 0; 
-        float statusIncNum = stageCSV.State[curStageIndex].Stage_statusIncNum;
-        float statusIncUnit = Mathf.Pow(10, stageCSV.State[curStageIndex].Stage_statusIncUnit);
-        float statusIncdistributionPer = 1f - stageCSV.State[curStageIndex].Stage_statusIncdistributionPer;
+        float statusIncNum = stageCSV.State[curStageIndex].Stage_AttackNum;
+        float statusIncUnit = Mathf.Pow(10, stageCSV.State[curStageIndex].Stage_attackUnit);
+        float statusIncdistributionPer = 1f - stageCSV.State[curStageIndex].Stage_hpNum;
 
         monsterAtk = (int)((statusIncNum * statusIncUnit) * statusIncdistributionPer * monsterModel.MonsterAttack);
         monsterModel.MonsterAttack = monsterAtk;

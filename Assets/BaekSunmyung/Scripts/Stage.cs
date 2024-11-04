@@ -152,7 +152,7 @@ public class Stage : MonoBehaviour
     private void Update()
     {
         //Data를 받아오지 못한 상태면 Return
-        if (stageCSV.Stage.Count == 0)
+        if (stageCSV.State.Count == 0)
         {
             return;
         }
@@ -226,7 +226,7 @@ public class Stage : MonoBehaviour
             coolTimeReset = true;
 
             //배경, 하늘 이미지 전달 
-            curSecondClass = stageCSV.Stage[parserIndex].Stage_secondClass;
+            curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
             mapController.BackGroundSpriteChange(curSecondClass);
             mapController.SkySpriteChange(curSecondClass);
 
@@ -272,7 +272,7 @@ public class Stage : MonoBehaviour
 
         for (int i = parserIndex; i < parserIndex + waveCount; i++)
         {
-            ThirdClassMonsterCount += stageCSV.Stage[i].Stage_monsterNum;
+            ThirdClassMonsterCount += stageCSV.State[i].Stage_monsterNum;
         }
     }
 
@@ -317,10 +317,10 @@ public class Stage : MonoBehaviour
         coolTimeReset = false;
 
         //소분류 스테이지 
-        curThirdClass = stageCSV.Stage[parserIndex].Stage_thirdClass;
+        curThirdClass = stageCSV.State[parserIndex].Stage_thirdClass;
 
         //현재 웨이브 몬스터 수
-        curWaveMonsterCount = stageCSV.Stage[parserIndex].Stage_monsterNum;
+        curWaveMonsterCount = stageCSV.State[parserIndex].Stage_monsterNum;
 
         //몬스터 생성 제한 수
         createLimitCount = 0;
@@ -350,7 +350,7 @@ public class Stage : MonoBehaviour
             prevIndex = parserIndex > 0 ? parserIndex - 1 : 0;
 
             //이전 Wave 몬스터 수
-            prevWaveCount = stageCSV.Stage[prevIndex].Stage_monsterNum;
+            prevWaveCount = stageCSV.State[prevIndex].Stage_monsterNum;
 
             //현재 죽인 몬스터 수 - (이전 스테이지에서 생상된 몬스터 수 + 현재 스테이지에서 죽인 몬스터수)
             killMonsterCount = (killMonsterCount - (prevWaveCount + curWaveKillCount));
@@ -478,30 +478,18 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void SetDifficult()
     {
-        switch (stageCSV.State[parserIndex].Stage_firstClass)
+        switch (stageCSV.State[parserIndex].stage_FirstClass)
         {
-            case Difficutly.Easy:
+            case StageData.Stage_firstClass.쉬움:
                 curDifficult = Difficutly.Easy;
                 break;
 
-            case Difficutly.Normal:
+            case StageData.Stage_firstClass.보통:
                 curDifficult = Difficutly.Normal;
                 break;
 
-            case Difficutly.Hard:
+            case StageData.Stage_firstClass.어려움:
                 curDifficult = Difficutly.Hard;
-                break;
-
-            case Difficutly.Hell1:
-                curDifficult = Difficutly.Hell1;
-                break;
-
-            case Difficutly.Hell2:
-                curDifficult = Difficutly.Hell2;
-                break;
-
-            case Difficutly.Hell3:
-                curDifficult = Difficutly.Hell3;
                 break;
         }
 
@@ -581,20 +569,20 @@ public class Stage : MonoBehaviour
 
         for (int i = startIndex; i < parserIndex; i++)
         {
-            killMonsterCount += stageCSV.Stage[i].Stage_monsterNum;
+            killMonsterCount += stageCSV.State[i].Stage_monsterNum;
         }
 
         int endIndex = waveCount - (parserIndex % waveCount);
         ThirdClassMonsterCount = 0;
         for (int i = startIndex; i < parserIndex + endIndex; i++)
         {
-            ThirdClassMonsterCount += stageCSV.Stage[i].Stage_monsterNum;
+            ThirdClassMonsterCount += stageCSV.State[i].Stage_monsterNum;
         }
 
         killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
         fieldWaveMonsterCount = 0;
 
-        curSecondClass = stageCSV.Stage[parserIndex].Stage_secondClass;
+        curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
         mapController.BackGroundSpriteChange(curSecondClass);
         mapController.SkySpriteChange(curSecondClass); 
         parserIndex--;
