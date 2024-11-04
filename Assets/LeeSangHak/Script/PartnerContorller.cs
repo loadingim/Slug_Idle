@@ -29,7 +29,7 @@ public class PartnerContorller : MonoBehaviour
 
     private void Update()
     {
-        if (!gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             times = Time.time;
 
@@ -47,8 +47,8 @@ public class PartnerContorller : MonoBehaviour
 
     private void FindTarget()
     {
-        upperAnim.SetBool("Atk", false);
-        lowerAnim.SetBool("Walk", true);
+        upperAnim.SetBool("isAtk", false);
+        lowerAnim.SetBool("isMove", true);
 
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
@@ -70,9 +70,9 @@ public class PartnerContorller : MonoBehaviour
     {
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
-            // lowerAnim.SetBool("Walk", false);
-            // upperAnim.SetBool("Atk", true);
-            // upperAnim.SetFloat("speed", attackSpeed + (PlayerDataModel.Instance.AttackSpeedLevel * 0.01f));
+            lowerAnim.SetBool("isMove", false);
+            upperAnim.SetBool("isAtk", true);
+            upperAnim.SetFloat("speed", attackSpeed + (PlayerDataModel.Instance.AttackSpeedLevel * 0.01f));
 
             ShootBullet();
 

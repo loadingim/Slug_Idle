@@ -29,7 +29,7 @@ public class SlugController : MonoBehaviour
 
     private void Update()
     {
-        if (!gameObject.activeSelf)
+        if (gameObject.activeSelf)
         {
             times = Time.time;
 

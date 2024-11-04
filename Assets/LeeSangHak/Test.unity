@@ -1645,11 +1645,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6875535116894929191, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
   m_PrefabInstance: {fileID: 171560758}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1249326124 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6968527087190989117, guid: f98cfa6cebb01624da5a6565dccd029c, type: 3}
-  m_PrefabInstance: {fileID: 1881908036}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1362109588 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3743979021236445538, guid: f98cfa6cebb01624da5a6565dccd029c, type: 3}
@@ -1764,8 +1759,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1818601613}
-  - component: {fileID: 1818601612}
-  - component: {fileID: 1818601611}
+  - component: {fileID: 1818601614}
   m_Layer: 0
   m_Name: CSV
   m_TagString: Untagged
@@ -1773,34 +1767,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1818601611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818601610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 341b131d0d47f7845988ab3d95009d17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  State: []
-  downloadCheck: 0
---- !u!114 &1818601612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1818601610}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc946941c2378744cb162b217faae556, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  monster: []
-  downloadCheck: 0
 --- !u!4 &1818601613
 Transform:
   m_ObjectHideFlags: 0
@@ -1816,6 +1782,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1818601614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818601610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f18de454ec9763043bb4f3d6ee9b8009, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Bullet: []
+  downloadCheck: 0
 --- !u!1 &1834440963
 GameObject:
   m_ObjectHideFlags: 0
@@ -2040,7 +2020,7 @@ PrefabInstance:
     - target: {fileID: 4940126353612385876, guid: f98cfa6cebb01624da5a6565dccd029c, type: 3}
       propertyPath: weaponPrefab
       value: 
-      objectReference: {fileID: 1249326124}
+      objectReference: {fileID: 0}
     - target: {fileID: 5529960526219950314, guid: f98cfa6cebb01624da5a6565dccd029c, type: 3}
       propertyPath: teamPlayer
       value: 

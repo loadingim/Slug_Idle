@@ -57,6 +57,12 @@ public class PlayerController : MonoBehaviour
             upperAnim.SetBool("isWeapon", true);
         }
 
+        if (weaponPrefab == null)
+        {
+            upperAnim.SetBool("isWeapon", false);
+        }
+
+
         if (respawn == true)
         {
             StopCoroutine(Respawn());
@@ -68,8 +74,8 @@ public class PlayerController : MonoBehaviour
 
     private void FindTarget()
     {
-        upperAnim.SetBool("Atk", false);
-        lowerAnim.SetBool("Walk", true);
+        upperAnim.SetBool("isAtk", false);
+        lowerAnim.SetBool("isMove", true);
 
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
@@ -99,8 +105,8 @@ public class PlayerController : MonoBehaviour
     {
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
-            lowerAnim.SetBool("Walk", false);
-            upperAnim.SetBool("Atk", true);
+            lowerAnim.SetBool("isMove", false);
+            upperAnim.SetBool("isAtk", true);
             upperAnim.SetFloat("speed", attackSpeed + (PlayerDataModel.Instance.AttackSpeedLevel * 0.01f));
 
             ShootBullet();
