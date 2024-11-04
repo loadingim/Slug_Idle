@@ -252,6 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActived: 0
+  SetCoolTimeCoroutineName: SetCoolTime
   LookCoolTime: {fileID: 2412648197224689531}
   CoolTime: 10
 --- !u!1 &2412648196561586438
@@ -566,7 +567,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 288, y: -288}
+  m_AnchoredPosition: {x: 290, y: -280}
   m_SizeDelta: {x: 1245, y: 300}
   m_Pivot: {x: 0, y: 0}
 --- !u!222 &2412648196876672308
@@ -726,6 +727,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActived: 0
+  SetCoolTimeCoroutineName: SetCoolTime
   LookCoolTime: {fileID: 2412648198190242225}
   CoolTime: 1
 --- !u!1 &2412648196994218647
@@ -1034,7 +1036,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 131.4, y: -385.3}
+  m_AnchoredPosition: {x: 110, y: -385}
   m_SizeDelta: {x: 120, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2412648197217050103
@@ -2034,6 +2036,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActived: 0
+  SetCoolTimeCoroutineName: SetCoolTime
   LookCoolTime: {fileID: 2412648197489470644}
   CoolTime: 5
 --- !u!1 &2412648198444653505
@@ -2185,5 +2188,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActived: 0
+  SetCoolTimeCoroutineName: SetCoolTime
   LookCoolTime: {fileID: 2412648197723475239}
   CoolTime: 3

@@ -18,6 +18,6 @@ public class SkillActive_Two : Skill
         // 스킬 코드 작성 예정
         Debug.Log("두번째 스킬 사용됨");
 
-        StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
+        CoroutineManager.Instance.ManagerCoroutineStart(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()), SetCoolTimeCoroutineName);
     }
 }

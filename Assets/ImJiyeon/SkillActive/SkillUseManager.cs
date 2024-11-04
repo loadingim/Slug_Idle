@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillUseManager : MonoBehaviour
 {
     [SerializeField] List<Skill> ActiveSkill = new();
+    private string skillAutoCoroutineName = "SkillAuto";
 
     [Header("Auto")]
     [SerializeField] bool AutoOnOff;
@@ -62,7 +62,7 @@ public class SkillUseManager : MonoBehaviour
         // 활성화 - 비활성화
         else if (AutoOnOff) { AutoOnOff = false; }
 
-        StartCoroutine(SkillAuto());
+        CoroutineManager.Instance.ManagerCoroutineStart(SkillAuto(), skillAutoCoroutineName);
     }
 
 

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public abstract class Skill : MonoBehaviour
 {
     public bool isActived;
+    public string SetCoolTimeCoroutineName = "SetCoolTime";
 
 
     private void Start()

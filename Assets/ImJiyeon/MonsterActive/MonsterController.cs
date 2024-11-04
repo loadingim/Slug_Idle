@@ -20,6 +20,8 @@ public class MonsterController : MonoBehaviour
              private GameObject bullet;
     [SerializeField] Transform muzzlePoint;     // 몬스터의 총알이 나가는 기준점이 될 오브젝트
 
+    private string monsterWaitShotCoroutineName = "MonsterWaitShot";
+
     #region State 클래스 선언
     private BaseState[] States = new BaseState[(int)MonsterState.Size];
     [SerializeField] MoveState moveState;
@@ -118,7 +120,7 @@ public class MonsterController : MonoBehaviour
             if (Monster.isAttacked == false)
             {
                 Monster.isAttacked = true;
-                Monster.StartCoroutine(Monster.WaitingShot());
+                CoroutineManager.Instance.ManagerCoroutineStart(Monster.WaitingShot(), Monster.monsterWaitShotCoroutineName);
             }
 
             // 다른 상태로 전환
