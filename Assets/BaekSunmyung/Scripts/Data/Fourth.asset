@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7968aca8343bfc342878d103ba0fe498, type: 3}
   m_Name: Fourth
   m_EditorClassIdentifier: 
-  middleStage: 0
-  maxSmallStage: 0
-  backGroundSprite: {fileID: 0}
-  skySprite: {fileID: 0}
+  backGroundSprite:
+  - {fileID: 21300000, guid: 7075b62dbdbc3154d9b96bb99e129a14, type: 3}
+  - {fileID: 21300000, guid: eef43f96cce791340b3c37a4858bdc3d, type: 3}
+  skySprite:
+  - {fileID: 21300000, guid: 5ab2afe5eb38dd74d9f982317cc23d3c, type: 3}
+  - {fileID: 21300000, guid: 5083751e5ded401468b3334e43b85b04, type: 3}

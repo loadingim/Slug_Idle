@@ -8,21 +8,13 @@ using System;
 public class MapData : ScriptableObject
 {
     [Header("맵 데이터")]
-    [Tooltip("현재 중분류 맵")]
-    [SerializeField] private MiddleMap middleStage;
-    public MiddleMap MiddleStage { get { return middleStage; } }
-
-    [Tooltip("소분류 최대 단계")]
-    [SerializeField] private int maxSmallStage;
-    public int MaxSmallStage { get { return maxSmallStage; } }
-
     [Tooltip("중분류 맵에 사용할 배경 이미지")]
-    [SerializeField] private Sprite backGroundSprite;
-    public Sprite BackGroundSprite { get { return backGroundSprite; } }
+    [SerializeField] private List<Sprite> backGroundSprite = new List<Sprite>();
+    public List<Sprite> BackGroundSprite { get { return backGroundSprite; } }
 
-    [Tooltip("중분류 맵에 사용할 바닥 이미지")]
-    [SerializeField] private Sprite skySprite;
-    public Sprite SkySprite { get { return skySprite; } }
+    [Tooltip("중분류 맵에 사용할 하늘 이미지")]
+    [SerializeField] private List<Sprite> skySprite;
+    public List<Sprite> SkySprite { get { return skySprite; } }
     
 
 

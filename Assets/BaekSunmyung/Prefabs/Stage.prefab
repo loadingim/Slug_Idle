@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6465028180975693070
+--- !u!1 &676106211
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,52 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6465028180975693056}
-  - component: {fileID: 6465028180975693071}
+  - component: {fileID: 676106212}
+  - component: {fileID: 6969789681203919620}
+  m_Layer: 0
+  m_Name: StageDifficult
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &676106212
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676106211}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8383165402767636895}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6969789681203919620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 676106211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aecb5313916f15b4abe127c418cbc36c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8383165402767636892
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8383165402767636895}
+  - component: {fileID: 8383165403889244442}
   m_Layer: 0
   m_Name: Stage
   m_TagString: Untagged
@@ -17,34 +61,36 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6465028180975693056
+--- !u!4 &8383165402767636895
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465028180975693070}
+  m_GameObject: {fileID: 8383165402767636892}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 6465028181195824521}
+  - {fileID: 8383165403921991108}
+  - {fileID: 676106212}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6465028180975693071
+--- !u!114 &8383165403889244442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465028180975693070}
+  m_GameObject: {fileID: 8383165402767636892}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80d4962573035224cbebd5d7152fde03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stageDifficult: {fileID: 6969789681203919620}
   mapData:
   - {fileID: 11400000, guid: f757c1d97bcce714b8f35d0d665fd8b5, type: 2}
   - {fileID: 11400000, guid: 8920fd6750b9e874e8babb51aff79b01, type: 2}
@@ -57,14 +103,24 @@ MonoBehaviour:
   monsterPrefab: {fileID: 3367902095405666778, guid: 313ac3426a3b58242abfaef5f46dd80c, type: 3}
   cycleTimer: 1.5
   createTimer: 0.8
-  safeZone: {fileID: 6465028181195824521}
-  stageSecondClass: 50
+  safeZone: {fileID: 8383165403921991108}
+  stageSecondClass: 5
   waveCount: 5
+  stageInfoText: {fileID: 0}
+  testSet: {fileID: 0}
+  testModeButton: {fileID: 0}
+  textIndex: {fileID: 0}
+  canvas: {fileID: 0}
   bossObject: {fileID: 0}
   bossChallengeBtn: {fileID: 0}
+  curWaveMonsterCount: 0
+  curWaveKillCount: 0
+  fieldWaveMonsterCount: 0
+  killMonsterCount: 0
+  ThirdClassMonsterCount: 0
   monsters: []
   isPlayerLife: 1
---- !u!1 &6465028181195824520
+--- !u!1 &8383165403921991109
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -72,8 +128,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6465028181195824521}
-  - component: {fileID: 6465028181195824522}
+  - component: {fileID: 8383165403921991108}
+  - component: {fileID: 8383165403921991111}
   m_Layer: 0
   m_Name: SafeZone
   m_TagString: Untagged
@@ -81,28 +137,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6465028181195824521
+--- !u!4 &8383165403921991108
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465028181195824520}
+  m_GameObject: {fileID: 8383165403921991109}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 8.38, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 6465028180975693056}
+  m_Father: {fileID: 8383165402767636895}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &6465028181195824522
+--- !u!61 &8383165403921991111
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6465028181195824520}
+  m_GameObject: {fileID: 8383165403921991109}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
