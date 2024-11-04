@@ -16,10 +16,10 @@ using UnityEngine.UI;
 
 public class Stage : MonoBehaviour
 {
-    [Header("½ºÅ×ÀÌÁö ³­ÀÌµµ ´É·ÂÄ¡")]
+    [Header("ìŠ¤í…Œì´ì§€ ë‚œì´ë„ ëŠ¥ë ¥ì¹˜")]
     [SerializeField] private StageDifficult stageDifficult;
 
-    [Header("¸Ê ½ºÅ×ÀÌÁö µ¥ÀÌÅÍ")]
+    [Header("ë§µ ìŠ¤í…Œì´ì§€ ë°ì´í„°")]
     [SerializeField] private List<MapData> mapData = new List<MapData>();
     [SerializeField] private MapController mapController;
     [SerializeField] private Image foreGround;
@@ -39,9 +39,9 @@ public class Stage : MonoBehaviour
     [SerializeField] private Transform safeZone;
 
     [Header("Stage Data Variable")]
-    [Tooltip("´ëºĞ·ù ½ºÅ×ÀÌÁö °³¼ö")]
+    [Tooltip("ëŒ€ë¶„ë¥˜ ìŠ¤í…Œì´ì§€ ê°œìˆ˜")]
     [SerializeField] private int stageSecondClass;
-    [Tooltip("¼ÒºĞ·ù Wave °³¼ö")]
+    [Tooltip("ì†Œë¶„ë¥˜ Wave ê°œìˆ˜")]
     [SerializeField] private int waveCount;
 
     [SerializeField] private TextMeshProUGUI stageInfoText;
@@ -60,71 +60,71 @@ public class Stage : MonoBehaviour
     
 
 
-    //ÀÓ½Ã º¸½º
+    //ì„ì‹œ ë³´ìŠ¤
     [SerializeField] private GameObject bossObject;
     [SerializeField] private Button bossChallengeBtn;
 
     public int FieldWaveMonsterCount { get { return fieldWaveMonsterCount; } }
 
-    //¹è°æ ÀÌ¹ÌÁö ¸®¼Â
+    //ë°°ê²½ ì´ë¯¸ì§€ ë¦¬ì…‹
     public Action bgAction;
 
-    //¹è°æ ÀÌ¹ÌÁö ÀÎµ¦½º
+    //ë°°ê²½ ì´ë¯¸ì§€ ì¸ë±ìŠ¤
     private int bgSecondClsIndex = 0;
 
-    //Data Table CSV º¯¼ö
+    //Data Table CSV ë³€ìˆ˜
     private StageCSV stageCSV;
 
-    //Data Table Index º¯¼ö
+    //Data Table Index ë³€ìˆ˜
     private int parserIndex;
 
-    //¸ó½ºÅÍ ¼ÒÅÁ·ü
+    //ëª¬ìŠ¤í„° ì†Œíƒ•ë¥ 
     private float killRate;
 
-    //Stage °ü·Ã º¯¼ö
-    private int curSecondClass;     //½ºÅ×ÀÌÁö ³­ÀÌµµ º¯¼ö
+    //Stage ê´€ë ¨ ë³€ìˆ˜
+    private int curSecondClass;     //ìŠ¤í…Œì´ì§€ ë‚œì´ë„ ë³€ìˆ˜
     public int SecondClass { get { return curSecondClass; } }
 
-    private int curThirdClass;          //ÇöÀç ½ºÅ×ÀÌÁöÀÇ À§Ä¡
-    [SerializeField] private int curWaveMonsterCount;    //ÇöÀç Wave¿¡¼­ »ı¼ºµÉ ¸ó½ºÅÍ ¼ö
-    [SerializeField] private int curWaveKillCount;       //ÀÌÀü ½ºÅ×ÀÌÁö ÀÌµ¿ ½Ã ÁøÇà·ü¿¡¼­ »©ÁÙ °ª
-    [SerializeField] private int fieldWaveMonsterCount;  //ÇöÀç ÇÊµåÀ§¿¡ ³²Àº ¸ó½ºÅÍ ¼ö
-    [SerializeField] private int killMonsterCount;       //ÇöÀç±îÁö ÀâÀº ¸ó½ºÅÍ ¼ö
-    [SerializeField] private int ThirdClassMonsterCount; //ÇöÀç ½ºÅ×ÀÌÁöÀÇ ¼ÒÈ¯µÉ ÃÑ ¸ó½ºÅÍ ¼ö
+    private int curThirdClass;          //í˜„ì¬ ìŠ¤í…Œì´ì§€ì˜ ìœ„ì¹˜
+    [SerializeField] private int curWaveMonsterCount;    //í˜„ì¬ Waveì—ì„œ ìƒì„±ë  ëª¬ìŠ¤í„° ìˆ˜
+    [SerializeField] private int curWaveKillCount;       //ì´ì „ ìŠ¤í…Œì´ì§€ ì´ë™ ì‹œ ì§„í–‰ë¥ ì—ì„œ ë¹¼ì¤„ ê°’
+    [SerializeField] private int fieldWaveMonsterCount;  //í˜„ì¬ í•„ë“œìœ„ì— ë‚¨ì€ ëª¬ìŠ¤í„° ìˆ˜
+    [SerializeField] private int killMonsterCount;       //í˜„ì¬ê¹Œì§€ ì¡ì€ ëª¬ìŠ¤í„° ìˆ˜
+    [SerializeField] private int ThirdClassMonsterCount; //í˜„ì¬ ìŠ¤í…Œì´ì§€ì˜ ì†Œí™˜ë  ì´ ëª¬ìŠ¤í„° ìˆ˜
 
-    //Wave »ı¼º ¿©ºÎ
+    //Wave ìƒì„± ì—¬ë¶€
     private bool isWave;
 
-    //º¸½º ½ºÅ×ÀÌÁö ÁøÀÔ ¿©ºÎ
+    //ë³´ìŠ¤ ìŠ¤í…Œì´ì§€ ì§„ì… ì—¬ë¶€
     private bool isBoss;
     public bool IsBoss { get { return isBoss; } }
 
-    //ÀÏ¹İ ½ºÅ×ÀÌÁö Å¬¸®¾î ¿©ºÎ
+    //ì¼ë°˜ ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ ì—¬ë¶€
     private bool isStageClear;
 
-    //Player Skill CoolTime ÃÊ±âÈ­
+    //Player Skill CoolTime ì´ˆê¸°í™”
     private bool coolTimeReset;
     public bool CoolTimeReset { get { return coolTimeReset; } }
 
-    //º¸½º ½ºÅ×ÀÌÁö Å¬¸®¾î ¿©ºÎ
+    //ë³´ìŠ¤ ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ ì—¬ë¶€
     private bool isBossClear;
 
-    //ÇØ´ç ½ºÅ×ÀÌÁö ¹İº¹ ¿©ºÎ
+    //í•´ë‹¹ ìŠ¤í…Œì´ì§€ ë°˜ë³µ ì—¬ë¶€
     private bool isLoop;
 
-    //ÇöÀç ÁßºĞ·ù ³­ÀÌµµ Ã¼Å© (ÀÓ½Ã º¯¼ö¸í)
+    //í˜„ì¬ ì¤‘ë¶„ë¥˜ ë‚œì´ë„ ì²´í¬ (ì„ì‹œ ë³€ìˆ˜ëª…)
     private Difficutly curDifficult = Difficutly.Easy;
 
-    //¸ó½ºÅÍ »ı¼º ÄÚ·çÆ¾ Ä«¿îÆ® º¯¼ö
+    //ëª¬ìŠ¤í„° ìƒì„± ì½”ë£¨í‹´ ì¹´ìš´íŠ¸ ë³€ìˆ˜
     private int createLimitCount = 0;
 
-    //ÄÚ·çÆ¾ ÀÌ¸§
+    //ì½”ë£¨í‹´ ì´ë¦„
     private string createCoroutineName = "CreateMonster";
 
-    //»ı¼ºµÈ ¸ó½ºÅÍ ÀúÀå ¹è¿­
+    //ìƒì„±ëœ ëª¬ìŠ¤í„° ì €ì¥ ë°°ì—´
     [SerializeField] MonsterModel[] monsters;
 
-    //Player º¯¼ö
+    //Player ë³€ìˆ˜
     private PlayerDataModel player;
     [SerializeField] private bool isPlayerLife = true;
 
@@ -151,16 +151,16 @@ public class Stage : MonoBehaviour
 
     private void Update()
     {
-        //Data¸¦ ¹Ş¾Æ¿ÀÁö ¸øÇÑ »óÅÂ¸é Return
-        if (stageCSV.State.Count == 0)
+        //Dataë¥¼ ë°›ì•„ì˜¤ì§€ ëª»í•œ ìƒíƒœë©´ Return
+        if (stageCSV.Stage.Count == 0)
         {
             return;
         }
 
-        //»ı¼ºµÈ Wave ¸ó½ºÅÍ°¡ ¾øÀ» °æ¿ì
+        //ìƒì„±ëœ Wave ëª¬ìŠ¤í„°ê°€ ì—†ì„ ê²½ìš°
         if (!isWave && fieldWaveMonsterCount < 1)
         {
-            //Wave È£Ãâ
+            //Wave í˜¸ì¶œ
             Wave();
         }
 
@@ -176,19 +176,19 @@ public class Stage : MonoBehaviour
         MonsterRemover();
         SetStageText();
 
-        //½ºÅ×ÀÌÁö ÁøÇà·ü UI ¿¬µ¿ 
+        //ìŠ¤í…Œì´ì§€ ì§„í–‰ë¥  UI ì—°ë™ 
         foreGround.fillAmount = killRate * 0.01f;
 
     }
 
     /// <summary>
-    /// Á×Àº ¸ó½ºÅÍ È®ÀÎ
+    /// ì£½ì€ ëª¬ìŠ¤í„° í™•ì¸
     /// </summary>
     private void MonsterRemover()
     {
         if (!isPlayerLife)
         { 
-            //ÇÃ·¹ÀÌ¾î »ç¸Á ½Ã ¼ÒÈ¯µÈ ¸ğµç ¸ó½ºÅÍ »èÁ¦
+            //í”Œë ˆì´ì–´ ì‚¬ë§ ì‹œ ì†Œí™˜ëœ ëª¨ë“  ëª¬ìŠ¤í„° ì‚­ì œ
             foreach (MonsterModel model in monsters)
             {
                 if (model != null)
@@ -197,13 +197,13 @@ public class Stage : MonoBehaviour
                 }
             }
 
-            //¸ó½ºÅÍ ÀúÀå ¹è¿­ Å¬¸®¾î
+            //ëª¬ìŠ¤í„° ì €ì¥ ë°°ì—´ í´ë¦¬ì–´
             Array.Clear(monsters, 0, monsters.Length);
             isPlayerLife = true;
         }
         else
         {
-            //ÇÃ·¹ÀÌ¾î°¡ »ì¾ÆÀÖÀ» ¶§ ¸ó½ºÅÍ Á¦°Å ÀÛ¾÷
+            //í”Œë ˆì´ì–´ê°€ ì‚´ì•„ìˆì„ ë•Œ ëª¬ìŠ¤í„° ì œê±° ì‘ì—…
             foreach (MonsterModel model in monsters)
             { 
                 if (model != null && model.MonsterHP < 1)
@@ -212,7 +212,7 @@ public class Stage : MonoBehaviour
                     {
                         if (model == monsters[i])
                         {
-                            Debug.Log("¸ó½ºÅÍ Á¦°Å ¿Ï·á");
+                            Debug.Log("ëª¬ìŠ¤í„° ì œê±° ì™„ë£Œ");
                             curWaveKillCount++;
                             monsters[i] = null;
                             killMonsterCount++;
@@ -221,12 +221,12 @@ public class Stage : MonoBehaviour
                     }
                 }
             }
-            //½ºÅ×ÀÌÁö Å¬¸®¾î Æ®¸®°Å
+            //ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ íŠ¸ë¦¬ê±°
             isStageClear = true;
             coolTimeReset = true;
 
-            //¹è°æ, ÇÏ´Ã ÀÌ¹ÌÁö Àü´Ş 
-            curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
+            //ë°°ê²½, í•˜ëŠ˜ ì´ë¯¸ì§€ ì „ë‹¬ 
+            curSecondClass = stageCSV.Stage[parserIndex].Stage_secondClass;
             mapController.BackGroundSpriteChange(curSecondClass);
             mapController.SkySpriteChange(curSecondClass);
 
@@ -236,7 +236,7 @@ public class Stage : MonoBehaviour
 
 
     /// <summary>
-    /// ´ÙÀ½ ½ºÅ×ÀÌÁö ÀÌµ¿
+    /// ë‹¤ìŒ ìŠ¤í…Œì´ì§€ ì´ë™
     /// </summary>
     private void NextStage()
     {
@@ -245,7 +245,7 @@ public class Stage : MonoBehaviour
     }
 
     /// <summary>
-    /// ½ºÅ×ÀÌÁö Å¬¸®¾î
+    /// ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´
     /// </summary>
     private void StageClear()
     {
@@ -260,28 +260,28 @@ public class Stage : MonoBehaviour
     }
 
     /// <summary>
-    /// Data Table ThirdClass Column > ¼ÒÈ¯µÇ´Â ÃÑ ¸ó½ºÅÍ
+    /// Data Table ThirdClass Column > ì†Œí™˜ë˜ëŠ” ì´ ëª¬ìŠ¤í„°
     /// </summary>
     public void CalculateMonsterSpawn()
     {
-        //°¢ ½ºÅ×ÀÌÁö 1Wave ÁøÀÔ ½Ã Boss Å¬¸®¾î Àü »óÅÂ·Î º¯°æ 
+        //ê° ìŠ¤í…Œì´ì§€ 1Wave ì§„ì… ì‹œ Boss í´ë¦¬ì–´ ì „ ìƒíƒœë¡œ ë³€ê²½ 
         isBossClear = false;
 
-        //½ºÅ×ÀÌÁö ¼ÒÈ¯ ¸ó½ºÅÍ ¼ö ÃÊ±âÈ­
+        //ìŠ¤í…Œì´ì§€ ì†Œí™˜ ëª¬ìŠ¤í„° ìˆ˜ ì´ˆê¸°í™”
         ThirdClassMonsterCount = 0;
 
         for (int i = parserIndex; i < parserIndex + waveCount; i++)
         {
-            ThirdClassMonsterCount += stageCSV.State[i].Stage_monsterNum;
+            ThirdClassMonsterCount += stageCSV.Stage[i].Stage_monsterNum;
         }
     }
 
     /// <summary>
-    /// Stage Wave »ı¼º 
+    /// Stage Wave ìƒì„± 
     /// </summary>
     public void Wave()
     {
-        //½ºÅ×ÀÌÁö Å¬¸®¾î ÇÑ »óÅÂ¿¡¼­¸¸ Index Áõ°¡
+        //ìŠ¤í…Œì´ì§€ í´ë¦¬ì–´ í•œ ìƒíƒœì—ì„œë§Œ Index ì¦ê°€
         if (isStageClear)
         {
             parserIndex++;
@@ -289,7 +289,7 @@ public class Stage : MonoBehaviour
             curWaveKillCount = 0;
         }
 
-        //½ºÅ×ÀÌÁö »õ·Î ÁøÀÔ 
+        //ìŠ¤í…Œì´ì§€ ìƒˆë¡œ ì§„ì… 
         if (parserIndex % waveCount == 0)
         {
             PlayerPrefs.SetFloat("StageIndex", parserIndex);
@@ -298,7 +298,7 @@ public class Stage : MonoBehaviour
 
         mapController.ThirdIndex = parserIndex % waveCount;
 
-        //º¸½º ½ºÅ×ÀÌÁö ÁøÀÔ ´Ü°è
+        //ë³´ìŠ¤ ìŠ¤í…Œì´ì§€ ì§„ì… ë‹¨ê³„
         if (parserIndex % waveCount >= 4)
         {
             isBoss = true;
@@ -308,21 +308,21 @@ public class Stage : MonoBehaviour
 
         BossStage();
 
-        //½ºÅ×ÀÌÁö ÁøÇà·ü
+        //ìŠ¤í…Œì´ì§€ ì§„í–‰ë¥ 
         killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
 
-        //Index ´ÙÁß Áõ°¡ ¹æÁö
+        //Index ë‹¤ì¤‘ ì¦ê°€ ë°©ì§€
         isWave = true;
         isStageClear = false;
         coolTimeReset = false;
 
-        //¼ÒºĞ·ù ½ºÅ×ÀÌÁö 
-        curThirdClass = stageCSV.State[parserIndex].Stage_thirdClass;
+        //ì†Œë¶„ë¥˜ ìŠ¤í…Œì´ì§€ 
+        curThirdClass = stageCSV.Stage[parserIndex].Stage_thirdClass;
 
-        //ÇöÀç ¿şÀÌºê ¸ó½ºÅÍ ¼ö
-        curWaveMonsterCount = stageCSV.State[parserIndex].Stage_monsterNum;
+        //í˜„ì¬ ì›¨ì´ë¸Œ ëª¬ìŠ¤í„° ìˆ˜
+        curWaveMonsterCount = stageCSV.Stage[parserIndex].Stage_monsterNum;
 
-        //¸ó½ºÅÍ »ı¼º Á¦ÇÑ ¼ö
+        //ëª¬ìŠ¤í„° ìƒì„± ì œí•œ ìˆ˜
         createLimitCount = 0;
         stageDifficult.GetStageIndex(parserIndex, waveCount);
         CreateMonster();
@@ -331,7 +331,7 @@ public class Stage : MonoBehaviour
 
     public void BossStage()
     {
-        //º¸½º ´Ü°è¿¡ ÁøÀÔÇÑ »óÅÂ¿¡¼­ ÇÃ·¹ÀÌ¾î »ç¸Á »óÅÂ
+        //ë³´ìŠ¤ ë‹¨ê³„ì— ì§„ì…í•œ ìƒíƒœì—ì„œ í”Œë ˆì´ì–´ ì‚¬ë§ ìƒíƒœ
         if (parserIndex % waveCount == 3 && isBoss && !isBossClear)
         {
             bossObject.gameObject.SetActive(true);
@@ -346,24 +346,24 @@ public class Stage : MonoBehaviour
         {
             coolTimeReset = true;
 
-            //ÀÌÀü Wave ÀÎµ¦½º
+            //ì´ì „ Wave ì¸ë±ìŠ¤
             prevIndex = parserIndex > 0 ? parserIndex - 1 : 0;
 
-            //ÀÌÀü Wave ¸ó½ºÅÍ ¼ö
-            prevWaveCount = stageCSV.State[prevIndex].Stage_monsterNum;
+            //ì´ì „ Wave ëª¬ìŠ¤í„° ìˆ˜
+            prevWaveCount = stageCSV.Stage[prevIndex].Stage_monsterNum;
 
-            //ÇöÀç Á×ÀÎ ¸ó½ºÅÍ ¼ö - (ÀÌÀü ½ºÅ×ÀÌÁö¿¡¼­ »ı»óµÈ ¸ó½ºÅÍ ¼ö + ÇöÀç ½ºÅ×ÀÌÁö¿¡¼­ Á×ÀÎ ¸ó½ºÅÍ¼ö)
+            //í˜„ì¬ ì£½ì¸ ëª¬ìŠ¤í„° ìˆ˜ - (ì´ì „ ìŠ¤í…Œì´ì§€ì—ì„œ ìƒìƒëœ ëª¬ìŠ¤í„° ìˆ˜ + í˜„ì¬ ìŠ¤í…Œì´ì§€ì—ì„œ ì£½ì¸ ëª¬ìŠ¤í„°ìˆ˜)
             killMonsterCount = (killMonsterCount - (prevWaveCount + curWaveKillCount));
 
-            //½ºÅ×ÀÌÁö ÁøÇà·ü Á¶Á¤
+            //ìŠ¤í…Œì´ì§€ ì§„í–‰ë¥  ì¡°ì •
             killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
             fieldWaveMonsterCount = 0;
             isStageClear = false;
 
-            //º¸½º ½ºÅ×ÀÌÁö ÁøÀÔ »óÅÂ
+            //ë³´ìŠ¤ ìŠ¤í…Œì´ì§€ ì§„ì… ìƒíƒœ
             if (isBoss)
             {
-                //º¸½º ÇÊµå ÁøÀÔ ÈÄ Á×À¸¸é -1 °¨¼Ò 
+                //ë³´ìŠ¤ í•„ë“œ ì§„ì… í›„ ì£½ìœ¼ë©´ -1 ê°ì†Œ 
                 if (!isLoop)
                 {
                     parserIndex--;
@@ -375,7 +375,7 @@ public class Stage : MonoBehaviour
                 parserIndex += parserIndex > 0 ? -1 : 0;
             }
 
-            //¹è°æ ¸®¼Â
+            //ë°°ê²½ ë¦¬ì…‹
             bgAction?.Invoke();
 
             curWaveKillCount = 0;
@@ -384,7 +384,7 @@ public class Stage : MonoBehaviour
     }
 
     /// <summary>
-    /// º¸½º ½ºÅ×ÀÌÁö ÀçµµÀü ±â´É
+    /// ë³´ìŠ¤ ìŠ¤í…Œì´ì§€ ì¬ë„ì „ ê¸°ëŠ¥
     /// </summary>
     public void BossChallenge()
     {
@@ -397,7 +397,7 @@ public class Stage : MonoBehaviour
 
     Coroutine createRoutine;
     /// <summary>
-    /// ¸ó½ºÅÍ »ı¼º ±â´É
+    /// ëª¬ìŠ¤í„° ìƒì„± ê¸°ëŠ¥
     /// </summary>
     public void CreateMonster()
     {
@@ -428,7 +428,7 @@ public class Stage : MonoBehaviour
             Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
             monsterCollider.enabled = false;
 
-            monsterInstance.gameObject.name = monsterNumber.ToString() + "¸ó½ºÅÍ";
+            monsterInstance.gameObject.name = monsterNumber.ToString() + "ëª¬ìŠ¤í„°";
             monsterNumber++;
             monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
 
@@ -440,7 +440,7 @@ public class Stage : MonoBehaviour
             yield return createWait;
         }
 
-        //TestSet Á¤º¸Ã¢¿¡¼­ ÇöÀç ½ºÅ×ÀÌÁö ¸ó½ºÅÍ ½ºÅÈÀ» º¸¿©ÁÜ
+        //TestSet ì •ë³´ì°½ì—ì„œ í˜„ì¬ ìŠ¤í…Œì´ì§€ ëª¬ìŠ¤í„° ìŠ¤íƒ¯ì„ ë³´ì—¬ì¤Œ
         atkText.text = "ATK : " + stageDifficult.CurStageMonsterAtk().ToString();
         hpText.text = "HP : " + stageDifficult.CurStageMonsterHP().ToString();
 
@@ -454,13 +454,13 @@ public class Stage : MonoBehaviour
 
 
     /// <summary>
-    /// ¸ó½ºÅÍ Collider On
+    /// ëª¬ìŠ¤í„° Collider On
     /// </summary>
     public void MonsterSafeZone()
     {
         for (int i = 0; i < monsters.Length; i++)
         {
-            //¸ó½ºÅÍ°¡ NullÀÌ ¾Æ´Ñ »óÅÂ¿¡¼­ SafeZoneÀ» Áö³µÀ» °æ¿ì Collider È°¼ºÈ­
+            //ëª¬ìŠ¤í„°ê°€ Nullì´ ì•„ë‹Œ ìƒíƒœì—ì„œ SafeZoneì„ ì§€ë‚¬ì„ ê²½ìš° Collider í™œì„±í™”
             if (monsters[i] != null)
             {
                 if (monsters[i].transform.position.x < safeZone.transform.position.x)
@@ -474,11 +474,10 @@ public class Stage : MonoBehaviour
 
 
     /// <summary>
-    /// ÇöÀç ÁßºĞ·ù ¸Ê¿¡¼­ ³­ÀÌµµ°¡ True ÀÎ °ªÀ» Ã£¾Æ¼­ ÇöÀç ³­ÀÌµµ¿¡ ÇÒ´ç
+    /// í˜„ì¬ ì¤‘ë¶„ë¥˜ ë§µì—ì„œ ë‚œì´ë„ê°€ True ì¸ ê°’ì„ ì°¾ì•„ì„œ í˜„ì¬ ë‚œì´ë„ì— í• ë‹¹
     /// </summary>
     public void SetDifficult()
     {
-
         switch (stageCSV.State[parserIndex].Stage_firstClass)
         {
             case Difficutly.Easy:
@@ -509,7 +508,7 @@ public class Stage : MonoBehaviour
     }
 
     /// <summary>
-    /// ¹é±×¶ó¿îµå ÀÌ¹ÌÁö À§Ä¡ ¸®¼Â ¾×¼Ç
+    /// ë°±ê·¸ë¼ìš´ë“œ ì´ë¯¸ì§€ ìœ„ì¹˜ ë¦¬ì…‹ ì•¡ì…˜
     /// </summary>
     /// <param name="action"></param>
     public void BackGroundResetAction(Action action)
@@ -521,6 +520,7 @@ public class Stage : MonoBehaviour
     public void SetStageText()
     {
         int curWave = stageCSV.State[parserIndex].Stage_wave; 
+
         stageInfoText.text = curDifficult.ToString() + " Stage " + curThirdClass.ToString() + " - " + curWave.ToString();
     }
 
@@ -581,20 +581,20 @@ public class Stage : MonoBehaviour
 
         for (int i = startIndex; i < parserIndex; i++)
         {
-            killMonsterCount += stageCSV.State[i].Stage_monsterNum;
+            killMonsterCount += stageCSV.Stage[i].Stage_monsterNum;
         }
 
         int endIndex = waveCount - (parserIndex % waveCount);
         ThirdClassMonsterCount = 0;
         for (int i = startIndex; i < parserIndex + endIndex; i++)
         {
-            ThirdClassMonsterCount += stageCSV.State[i].Stage_monsterNum;
+            ThirdClassMonsterCount += stageCSV.Stage[i].Stage_monsterNum;
         }
 
         killRate = ((float)killMonsterCount / ThirdClassMonsterCount) * 100f;
         fieldWaveMonsterCount = 0;
 
-        curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
+        curSecondClass = stageCSV.Stage[parserIndex].Stage_secondClass;
         mapController.BackGroundSpriteChange(curSecondClass);
         mapController.SkySpriteChange(curSecondClass); 
         parserIndex--;

@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fd30e2f82caab4e90ac66205a9c7fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Laser
+  name: Roket
   damage: 4
   attackSpeed: 5
   level: 0
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 3306471569424342834, guid: ac932f5d4face4a45963fe6c0a3865d1, type: 3}
   player: {fileID: 0}

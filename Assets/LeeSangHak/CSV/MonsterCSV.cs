@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +7,25 @@ using UnityEngine.Networking;
 [System.Serializable]
 public struct MonsterData
 {
-    public int Enemy_iD, Enemy_hp, Enemy_atk;
-    public float Enemy_atkSpeed;
-    public string eName, Enemy_nameEng, Enemy_nameKor, Enemy_atkAnimation, Enemy_moveAnimation, Enemy_deadAnimation, Enemy_atkSound, Enemy_deadSound;
+    public enum Enemy_type 
+    {
+        모덴군, 일반몬스터1, 일반몬스터2, 일반몬스터3, 일반몬스터4, 일반몬스터5, 일반몬스터6,
+        일반몬스터7, 일반몬스터8, 일반몬스터9, 일반몬스터10, 보스몬스터1, 보스몬스터2, 보스몬스터3, 보스몬스터4,
+        보스몬스터5, 보스몬스터6, 보스몬스터7, 보스몬스터8, 보스몬스터9, 보스몬스터10
+    }
+
+    public int Enemy_iD, Enemy_atk, Enemy_hp;
+    public float Enemy_atkSpd;
+    public string eName, Enemy_name;
+
+    public Enemy_type enemy_Type;
+
 }
 
 public class MonsterCSV : MonoBehaviour
 {
-    const string monsterPath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1087246424&format=csv";
-    [SerializeField] List<MonsterData> monster;
+    const string monsterPath = "https://docs.google.com/spreadsheets/d/1yrhRkrB5UQH2JDYT2_vz9RW6yRzVaYv2/export?gid=206694631&format=csv";
+    [SerializeField] List<MonsterData> Monster;
     public static MonsterCSV Instance;
     public bool downloadCheck;
 
@@ -49,7 +60,7 @@ public class MonsterCSV : MonoBehaviour
         Debug.Log(receiveText);
 
         string[] lines = receiveText.Split('\n');
-        for (int y = 4; y < lines.Length; y++)
+        for (int y = 5; y < lines.Length; y++)
         {
             MonsterData monsterData = new MonsterData();
 
@@ -57,20 +68,15 @@ public class MonsterCSV : MonoBehaviour
 
             monsterData.eName = values[0];
             monsterData.Enemy_iD = int.Parse(values[1]);
-            monsterData.Enemy_nameEng = values[2];
-            monsterData.Enemy_nameKor = values[3];
+            monsterData.Enemy_name = values[2];
+            Enum.TryParse(values[3], out monsterData.enemy_Type);
             monsterData.Enemy_hp = int.Parse(values[4]);
             monsterData.Enemy_atk = int.Parse(values[5]);
-            monsterData.Enemy_atkSpeed = float.Parse(values[6]);
-            monsterData.Enemy_atkAnimation = values[7];
-            monsterData.Enemy_moveAnimation = values[8];
-            monsterData.Enemy_deadAnimation = values[9];
-            monsterData.Enemy_atkSound = values[10];
-            monsterData.Enemy_deadSound = values[11];
+            monsterData.Enemy_atkSpd = float.Parse(values[6]);
 
-            monster.Add(monsterData);
+            Monster.Add(monsterData);
         }
 
-        downloadCheck = false;
+        downloadCheck = true;
     }
 }

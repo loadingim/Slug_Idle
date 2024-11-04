@@ -39,23 +39,29 @@ public class BulletAnim : MonoBehaviour
 
         if (gameObject.name == "Player_Shotgun(Clone)")
         {
-            Destroy(gameObject, 0.9f);
+            Destroy(gameObject, 0.8f);
         }
 
-        if (gameObject.name == "JetBullet(Clone)")
+        if (gameObject.name == "Partner_Flame(Clone)")
         {
-            Destroy(gameObject, 0.5f);
+            Destroy(gameObject, 0.8f);
         }
 
-        if (gameObject.name == "JetBullet(Clone)1")
+        if (gameObject.name == "Partner_Heavy(Clone)")
         {
-            Destroy(gameObject, 0.9f);
+            Destroy(gameObject);
         }
 
-        if (gameObject.name == "JetBullet(Clone)2")
+        if (gameObject.name == "Partner_Roket(Clone)")
         {
-            Destroy(gameObject, 0.9f);
+            Destroy(gameObject);
         }
+
+        if (gameObject.name == "Partner_Shotgun(Clone)")
+        {
+            Destroy(gameObject, 0.8f); ;
+        }
+
     }
 
 }

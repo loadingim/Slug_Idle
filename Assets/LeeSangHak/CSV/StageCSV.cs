@@ -3,21 +3,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
+using static StageData;
 
 [System.Serializable]
 public struct StageData
 {
-    public enum Difficutly { Easy, Normal, Hard, Hell1, Hell2, Hell3 }
+    public enum Stage_firstClass { 쉬움, 보통, 어려움 }
 
-    public int Stage_ID, Stage_secondClass, Stage_thirdClass, Stage_wave, Stage_monsterNum,
-                Stage_monsterCategory, Stage_statusIncUnit, Stage_goldUnit;
-    public float Stage_statusIncNum, Stage_statusIncdistributionPer, Stage_goldNum;
-    public string eName, Stage_firstClass;
+    public int Stage_iD, Stage_secondClass, Stage_thirdClass, Stage_wave, Stage_monsterNum,
+                Stage_monsterCategory, Stage_attackUnit, Stage_hpUnit, Stage_goldUnit;
+    public float Stage_AttackNum, Stage_hpNum, Stage_goldNum;
+    public string eName;
+    public Stage_firstClass stage_FirstClass;
+
 }
 
 public class StageCSV : MonoBehaviour
 {
-    const string stagePath = "https://docs.google.com/spreadsheets/d/16tlgiV3qBJWd1WSHFwBYkwnP0dFQkOJm/export?gid=1337676358&format=csv";
+    const string stagePath = "https://docs.google.com/spreadsheets/d/1yrhRkrB5UQH2JDYT2_vz9RW6yRzVaYv2/export?gid=28064368&format=csv";
     public List<StageData> State;
     public static StageCSV Instance;
     public bool downloadCheck;
@@ -53,29 +56,30 @@ public class StageCSV : MonoBehaviour
         Debug.Log(receiveText);
 
         string[] lines = receiveText.Split('\n');
-        for (int y = 4; y < 250; y++)
+        for (int y = 5; y < lines.Length; y++)
         {
             StageData stageData = new StageData();
 
             string[] values = lines[y].Split(',', '\t');
 
             stageData.eName = values[0];
-            stageData.Stage_ID = int.Parse(values[1]);
-            stageData.Stage_firstClass = values[2];
+            stageData.Stage_iD = int.Parse(values[1]);
+            Enum.TryParse(values[2], out stageData.stage_FirstClass);
             stageData.Stage_secondClass = int.Parse(values[3]);
             stageData.Stage_thirdClass = int.Parse(values[4]);
             stageData.Stage_wave = int.Parse(values[5]);
             stageData.Stage_monsterNum = int.Parse(values[6]);
             stageData.Stage_monsterCategory = int.Parse(values[7]);
-            stageData.Stage_statusIncNum = float.Parse(values[8]);
-            stageData.Stage_statusIncUnit = int.Parse(values[9]);
-            stageData.Stage_statusIncdistributionPer = float.Parse(values[10]);
-            stageData.Stage_goldNum = float.Parse(values[11]);
-            stageData.Stage_goldUnit = int.Parse(values[12]);
+            stageData.Stage_AttackNum = float.Parse(values[8]);
+            stageData.Stage_attackUnit = int.Parse(values[9]);
+            stageData.Stage_hpNum = float.Parse(values[10]);
+            stageData.Stage_hpUnit = int.Parse(values[11]);
+            stageData.Stage_goldNum = float.Parse(values[12]);
+            stageData.Stage_goldUnit = int.Parse(values[13]);
 
             State.Add(stageData);
         }
 
-        downloadCheck = false;
+        downloadCheck = true;
     }
 }

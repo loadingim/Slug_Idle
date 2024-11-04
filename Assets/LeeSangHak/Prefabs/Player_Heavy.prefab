@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -3971006961976530499}
   - component: {fileID: -4154248064288833516}
   - component: {fileID: -5149530230878177865}
+  - component: {fileID: 8935782902112329389}
   m_Layer: 0
   m_Name: Player_Heavy
   m_TagString: Untagged
@@ -103,7 +104,6 @@ MonoBehaviour:
   rigid: {fileID: -3971006961976530499}
   speed: 5
   target: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!50 &-3971006961976530499
 Rigidbody2D:
   serializedVersion: 4
@@ -164,3 +164,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 0}
+--- !u!114 &8935782902112329389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3306471569424342834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fa2fcee75bb464da5cdebdcd14077b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitEffect: {fileID: 1591330919996156894, guid: 90016562d247d924581fc3b81c5733e4, type: 3}

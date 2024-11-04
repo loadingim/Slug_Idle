@@ -4,7 +4,7 @@ using System.Threading;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
-public class TeamContorller : MonoBehaviour
+public class PartnerContorller : MonoBehaviour
 {
     public GameObject targetMonster = null;
     public float attackCooldown = 0f;
@@ -21,7 +21,7 @@ public class TeamContorller : MonoBehaviour
     private void Start()
     {
         // 모델 데이터 : 공격 속도 및 사거리
-        attackSpeed = 1f;
+        attackSpeed = 5f;
         attackRange = 20;
     }
 
@@ -29,28 +29,26 @@ public class TeamContorller : MonoBehaviour
 
     private void Update()
     {
-        // if (Time.timeScale == 0)
-        // {
-        times = Time.time;
-
-        // 타겟으로 지정된 몬스터가 비어있고 몬스터가 활성화가 아닐 시
-        if (targetMonster == null || !targetMonster.activeSelf)
+        if (gameObject.activeSelf)
         {
-            FindTarget();
-        }
+            times = Time.time;
 
-        if (targetMonster != null && Time.time >= attackCooldown)
-        {
-            Attack();
-        }
-        //  }
+            if (targetMonster == null || !targetMonster.activeSelf)
+            {
+                FindTarget();
+            }
 
+            if (targetMonster != null && Time.time >= attackCooldown)
+            {
+                Attack();
+            }
+        }
     }
 
     private void FindTarget()
     {
-        upperAnim.SetBool("Atk", false);
-        lowerAnim.SetBool("Walk", true);
+        upperAnim.SetBool("isAtk", false);
+        lowerAnim.SetBool("isMove", true);
 
 
         monsters = GameObject.FindGameObjectsWithTag("Monster");
@@ -72,20 +70,20 @@ public class TeamContorller : MonoBehaviour
     {
         if (targetMonster != null && Vector2.Distance(transform.position, targetMonster.transform.position) < attackRange)
         {
-            lowerAnim.SetBool("Walk", false);
-            upperAnim.SetBool("Atk", true);
+            lowerAnim.SetBool("isMove", false);
+            upperAnim.SetBool("isAtk", true);
             upperAnim.SetFloat("speed", attackSpeed + (PlayerDataModel.Instance.AttackSpeedLevel * 0.01f));
 
             ShootBullet();
 
-            attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;
+            attackCooldown = Time.time + attackSpeed;
         }
     }
 
     private void ShootBullet()
     {
 
-        weaponPrefab.GetComponent<Weapon>().shot();
+        weaponPrefab.GetComponent<PartnerWeapon>().shot();
 
     }
 }
