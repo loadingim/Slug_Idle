@@ -72,15 +72,7 @@ public class MapController : MonoBehaviour
             if (isChange)
             {
                 CoroutineManager.Instance.ManagerCoroutineStop(coroutineName);
-            }
-
-            //if (isChange && resetRoutine != null)
-            //{
-            //    StopCoroutine(resetRoutine);
-            //    resetRoutine = null;
-            //    isChange = false;
-            //}
-
+            } 
         }
     }
 
@@ -91,7 +83,7 @@ public class MapController : MonoBehaviour
     public void ResetBackGround()
     {
         fade.FadeOut();
-        CoroutineManager.Instance.ManagerCoroutineStart(ResetCo(), coroutineName);
+        CoroutineManager.Instance.ManagerCoroutineStart(MapResetCoroutine(), coroutineName);
     }
 
 
@@ -160,6 +152,7 @@ public class MapController : MonoBehaviour
                 render.sprite = mapData[index - 1].BackGroundSprite[0];
 
             }
+            
         }
     }
 
@@ -183,7 +176,7 @@ public class MapController : MonoBehaviour
         }
     }
 
-    private IEnumerator ResetCo()
+    private IEnumerator MapResetCoroutine()
     {
         WaitForSeconds resetWait = new WaitForSeconds(backGroundResetSpeed);
 

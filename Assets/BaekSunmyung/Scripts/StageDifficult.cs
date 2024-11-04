@@ -64,5 +64,16 @@ public class StageDifficult : MonoBehaviour
             monsterHP = (statusIncNum * statusIncUnit) * statusIncdistributionPer * monsterModel.MonsterHP * bossValue;
             monsterModel.MonsterHP = monsterHP;
         }  
-    } 
+    }
+
+    public float CurStageMonsterHP()
+    {
+        return monsterModel.MonsterHP;
+    }
+
+    public int CurStageMonsterAtk()
+    {
+        return monsterModel.MonsterAttack;
+    }
+
 }

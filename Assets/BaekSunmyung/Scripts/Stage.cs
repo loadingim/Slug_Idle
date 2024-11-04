@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
@@ -50,11 +51,13 @@ public class Stage : MonoBehaviour
     [SerializeField] private Button testModeButton;
     [SerializeField] private TMP_InputField textIndex;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private TextMeshProUGUI atkText;
+    [SerializeField] private TextMeshProUGUI hpText;
     private GraphicRaycaster ray;
     private PointerEventData ped = new PointerEventData(EventSystem.current);
     private List<RaycastResult> results = new List<RaycastResult>();
 
-
+    
 
 
     //임시 보스
@@ -73,7 +76,7 @@ public class Stage : MonoBehaviour
     private StageCSV stageCSV;
 
     //Data Table Index 변수
-    private int parserIndex = 0;
+    private int parserIndex;
 
     //몬스터 소탕률
     private float killRate;
@@ -138,11 +141,13 @@ public class Stage : MonoBehaviour
     {
         stageCSV = StageCSV.Instance;
         monsters = new MonsterModel[5];
+        parserIndex = StageManager.Instance.StageIndex;
 
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
         bossObject.gameObject.SetActive(false);
     }
 
+    
 
     private void Update()
     {
@@ -182,8 +187,7 @@ public class Stage : MonoBehaviour
     private void MonsterRemover()
     {
         if (!isPlayerLife)
-        {
-
+        { 
             //플레이어 사망 시 소환된 모든 몬스터 삭제
             foreach (MonsterModel model in monsters)
             {
@@ -201,9 +205,7 @@ public class Stage : MonoBehaviour
         {
             //플레이어가 살아있을 때 몬스터 제거 작업
             foreach (MonsterModel model in monsters)
-            {
-                
-
+            { 
                 if (model != null && model.MonsterHP < 1)
                 {
                     for (int i = 0; i < monsters.Length; i++)
@@ -281,18 +283,30 @@ public class Stage : MonoBehaviour
     {
 
         //스테이지 새로 진입 
-        if (parserIndex % waveCount == 0)
-        {
-            CalculateMonsterSpawn();
-        }
+        //if (parserIndex % waveCount == 0)
+        //{
+        //    Debug.Log($"Wave Index {parserIndex}");
+        //    GameManager.Instance.stageIndex = parserIndex;
+        //    CalculateMonsterSpawn();
+        //}
 
         //스테이지 클리어 한 상태에서만 Index 증가
         if (isStageClear)
         {
             parserIndex++;
+            //if(parserIndex % waveCount == 0)
+            //{
+            //    GameManager.Instance.stageIndex = parserIndex;
+            //}
+
             curWaveKillCount = 0;
         }
-
+        if (parserIndex % waveCount == 0)
+        {
+            Debug.Log($"Wave Index {parserIndex}");
+            StageManager.Instance.StageIndex = parserIndex;
+            CalculateMonsterSpawn();
+        }
         mapController.ThirdIndex = parserIndex % waveCount;
 
         //보스 스테이지 진입 단계
@@ -431,7 +445,10 @@ public class Stage : MonoBehaviour
 
             yield return createWait;
         }
-        
+
+        //TestSet 정보창에서 현재 스테이지 몬스터 스탯을 보여줌
+        atkText.text = "ATK : " + stageDifficult.CurStageMonsterAtk().ToString();
+        hpText.text = "HP : " + stageDifficult.CurStageMonsterHP().ToString();
 
         if (curWaveMonsterCount <= createLimitCount)
         {
@@ -505,10 +522,10 @@ public class Stage : MonoBehaviour
 
     public void SetStageText()
     {
-        int curWave = stageCSV.State[parserIndex].Stage_wave;
-
+        int curWave = stageCSV.State[parserIndex].Stage_wave; 
         stageInfoText.text = curDifficult.ToString() + " Stage " + curThirdClass.ToString() + " - " + curWave.ToString();
     }
+
 
     public void TestActive()
     {
@@ -522,7 +539,7 @@ public class Stage : MonoBehaviour
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    testSet.gameObject.SetActive(true);
+                    testSet.gameObject.SetActive(true); 
                 }
             }
         }
@@ -581,7 +598,7 @@ public class Stage : MonoBehaviour
 
         curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
         mapController.BackGroundSpriteChange(curSecondClass);
-        mapController.SkySpriteChange(curSecondClass);
+        mapController.SkySpriteChange(curSecondClass); 
         parserIndex--;
  
     }

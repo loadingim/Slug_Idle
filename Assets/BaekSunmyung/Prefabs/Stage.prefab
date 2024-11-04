@@ -112,6 +112,8 @@ MonoBehaviour:
   testModeButton: {fileID: 0}
   textIndex: {fileID: 0}
   canvas: {fileID: 0}
+  atkText: {fileID: 0}
+  hpText: {fileID: 0}
   bossObject: {fileID: 0}
   bossChallengeBtn: {fileID: 0}
   curWaveMonsterCount: 0

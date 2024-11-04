@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CoroutineManager : MonoBehaviour
 {
-    public static CoroutineManager Instance;
+    public static CoroutineManager Instance { get; private set; }
 
     private Dictionary<string, IEnumerator> coList = new Dictionary<string, IEnumerator>();
 
