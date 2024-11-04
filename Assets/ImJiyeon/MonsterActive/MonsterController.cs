@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SocialPlatforms;
 
 public class MonsterController : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class MonsterController : MonoBehaviour
     [SerializeField] GameObject MonsterBullet;  // 몬스터 총알 오브젝트 (프리팹 자체 참조)
              private GameObject bullet;
     [SerializeField] Transform muzzlePoint;     // 몬스터의 총알이 나가는 기준점이 될 오브젝트
+
 
     #region State 클래스 선언
     private BaseState[] States = new BaseState[(int)MonsterState.Size];
@@ -113,12 +115,14 @@ public class MonsterController : MonoBehaviour
         private Rigidbody2D rigid;
         private Transform TargetPlayer;
 
+
         public override void Update()
         {
             if (Monster.isAttacked == false)
             {
                 Monster.isAttacked = true;
                 Monster.StartCoroutine(Monster.WaitingShot());
+                //CoroutineManager.Instance.ManagerCoroutineStart(Monster.WaitingShot(), );
             }
 
             // 다른 상태로 전환
@@ -174,7 +178,6 @@ public class MonsterController : MonoBehaviour
 
     //====================================================
 
-
     void AnimatorPlay()
     {
         int checkAniHash;
@@ -187,6 +190,7 @@ public class MonsterController : MonoBehaviour
         else if (Vector2.Distance(transform.position, Player.transform.position) < monsterModel.AttackRange) { checkAniHash = monsterAttackHash; }
         // Move 상태
         else { checkAniHash = monsterMoveHash; }
+
 
         if (curAniHash != checkAniHash)
         {

@@ -4,11 +4,15 @@ using UnityEngine.UI;
 
 public abstract class Skill : MonoBehaviour
 {
+    private GameManager gameManager;
+
     public bool isActived;
+    public string SetCoolTimeCoroutineName = "SetCoolTime";
 
 
     private void Start()
     {
+        gameManager = GameManager.Instance.GetComponent<GameManager>();
         isActived = true;
     }
 
@@ -34,6 +38,10 @@ public abstract class Skill : MonoBehaviour
 
                 yield return new WaitForFixedUpdate();
             }
+            //while (gameManager.StageInstance.CoolTimeReset)
+            //{
+            //    yield return null;
+            //}
 
             LookCoolTime.gameObject.SetActive(false);
             skillButton.interactable = true;
