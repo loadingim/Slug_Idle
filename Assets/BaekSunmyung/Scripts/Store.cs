@@ -19,142 +19,252 @@ public class Store : MonoBehaviour
     [SerializeField] private Button shotgunBtn;
 
 
+    [Header("강화 정보")]
+    [SerializeField] private TextMeshProUGUI enhanceNum;
+    [SerializeField] private Image itemIconImageInfo;
+    [SerializeField] private TextMeshProUGUI curAttackTextInfo;
+    [SerializeField] private Button priceBtn; 
+
     [Header("Buy Popup")]
     [SerializeField] private GameObject buyPopup;
     [SerializeField] private Button BuyBtn;
-    [SerializeField] private TextMeshProUGUI curAttackText;
+    [SerializeField] private TextMeshProUGUI curAttackTextBuy;
     [SerializeField] private TextMeshProUGUI descText;
-    [SerializeField] private Image iconImage;
-
+    [SerializeField] private Image itemIconImageBuy;
+    [SerializeField] private List<ShopData> shopData = new List<ShopData>(); 
+    private TextMeshProUGUI buyText;
 
     //WeaponInfo 자리
     private Test weaponInfoData;
     private PlayerDataModel playerDataModel;
-
-    private bool[] weaponBools = new bool[4];
+    
+    [Header("Store Button List")]
+    [SerializeField] private List<Button> buttonList = new List<Button>();
+    private bool[] weaponBools;
 
     private string itemName = "";
     private int itemPrice = 0;
 
+    private Color tureColor = new Color(1f, 1f, 1f, 1f);
+    private ShopData curShopData;
+    private int shopIndex = 0;
 
     private void Awake()
     {
-        heavyBtn.onClick.AddListener(HeavyUpgrade);
-        flameBtn.onClick.AddListener(FlameUpgrade);
-        roketBtn.onClick.AddListener(RoketUpgrade);
-        shotgunBtn.onClick.AddListener(ShotGutUpgrade);
+
+        //weaponInfodATA = weaponinfoData.Instace
+        weaponInfoData = Test.Instance;
+
+        heavyBtn.onClick.AddListener(Heavy);
+        flameBtn.onClick.AddListener(Flame);
+        roketBtn.onClick.AddListener(Roket);
+        shotgunBtn.onClick.AddListener(ShotGun);
+        BuyBtn.onClick.AddListener(ItemBuy);
+        priceBtn.onClick.AddListener(UpGrade);
     }
 
     private void Start()
-    {
+    { 
+  
+        for (int i = 0; i < buttonList.Count; i++)
+        {
+            buttonList[i].image.sprite = shopData[i].IconImage;
+
+            //현재 구매한 아이템은 활성화 표시
+            if (shopData[i].IsBuy)
+            { 
+                buttonList[i].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
+            } 
+        }
+         
+        buyText = BuyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         weaponInfoData = GetComponent<Test>();
-
+        playerDataModel = FindObjectOfType<PlayerDataModel>();
     }
 
-
-    private void HeavyUpgrade()
+    private void Update()
     {
-        weaponBools[0] = weaponInfoData.a;
+        curShopData = shopData[shopIndex];
+    }
 
-        if (weaponBools[0])
+    private void Heavy()
+    {
+        shopIndex = 0;
+
+        if (shopData[shopIndex].IsBuy)
         {
-            weaponInfoData.Heavy_Level++;
+            ShowInfoEnhance(shopData[shopIndex]);
         }
         else
         {
-            //무기 구매 팝업 활성화
-            //구매 여부 True
-            buyPopup.SetActive(true);
-            itemName = "헤비";
-            curAttackText.text = playerDataModel.Attack.ToString();
-            descText.text = "나는 헤비";
-            itemPrice = 100;
+            ItemBuyPopup(shopData[shopIndex]);
         }
     }
-
-    private void FlameUpgrade()
+     
+    private void Flame()
     {
-        weaponBools[1] = weaponInfoData.b;
+        shopIndex = 1;
 
-        if (weaponBools[1])
+        if (shopData[shopIndex].IsBuy)
         {
-            weaponInfoData.Flame_Level++;
+            ShowInfoEnhance(shopData[shopIndex]);
         }
         else
         {
-            buyPopup.SetActive(true);
-            itemName = "플레임";
-            curAttackText.text = playerDataModel.Attack.ToString();
-            descText.text = "나는 플레임";
-            itemPrice = 150;
-
+            ItemBuyPopup(shopData[shopIndex]);
         }
     }
 
-    private void RoketUpgrade()
+    private void Roket()
     {
-        weaponBools[2] = weaponInfoData.c;
-        if (weaponBools[2])
+        shopIndex = 2;
+
+        if (shopData[shopIndex].IsBuy)
         {
-            weaponInfoData.Roket_Level++;
+            ShowInfoEnhance(shopData[shopIndex]);
         }
         else
         {
-            buyPopup.SetActive(true);
-            itemName = "로켓";
-            curAttackText.text = playerDataModel.Attack.ToString();
-            descText.text = "나는 로켓";
-            itemPrice = 200;
+            ItemBuyPopup(shopData[shopIndex]);
         }
     }
 
-    private void ShotGutUpgrade()
+    private void ShotGun()
     {
-        weaponBools[3] = weaponInfoData.d;
-        if (weaponBools[3])
+        shopIndex = 3;
+
+
+        if (shopData[shopIndex].IsBuy)
         {
-            weaponInfoData.Shotgun_Level++;
+            ShowInfoEnhance(shopData[shopIndex]);
         }
         else
         {
-            buyPopup.SetActive(true);
-            itemName = "샷건";
-            curAttackText.text = playerDataModel.Attack.ToString();
-            descText.text = "나는 샷건";
-            itemPrice = 250;
+            ItemBuyPopup(shopData[shopIndex]);
         }
     }
 
 
+
+    /// <summary>
+    /// 타입 별 아이템 업그레이드
+    /// </summary>
+    private void UpGrade()
+    {
+
+        //기획 문의
+        switch (curShopData.CurStoreType)
+        {
+            case StoreType.Weapon:
+                Debug.Log("무기 강화 성공");
+                curShopData.CurEnhance++;
+                curShopData.IncAttack++;
+                curShopData.EnhancePrice += 20;  
+                //PlayerDataModel.Attack = curShopData.Inattack;
+
+                break;
+
+            case StoreType.Partner:
+
+                break;
+
+            case StoreType.Slug:
+
+                break;
+
+            case StoreType.Skill:
+
+                break;
+        }
+
+        InfoUpdate();
+    }
+
+    /// <summary>
+    /// 아이템 강화 후 정보 업데이트
+    /// </summary>
+    private void InfoUpdate()
+    {
+        enhanceNum.text = "+" + curShopData.CurEnhance.ToString() + " " + curShopData.ItenName;
+        curAttackTextInfo.text = curShopData.IncAttack.ToString();
+        TextMeshProUGUI priceText = priceBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        priceText.text = curShopData.EnhancePrice.ToString();
+    }
+
+    /// <summary>
+    /// 선택한 아이템 강화 정보 
+    /// </summary>
+    /// <param name="shopData"></param>
+    private void ShowInfoEnhance(ShopData shopData)
+    {
+        curShopData = shopData; 
+        enhanceNum.text = "+" + shopData.CurEnhance.ToString() + " " + shopData.ItenName;
+        itemIconImageInfo.sprite = shopData.IconImage;
+
+        //PlayerModel.Attack Change
+        curAttackTextInfo.text = shopData.IncAttack.ToString();
+        TextMeshProUGUI priceText = priceBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        priceText.text = shopData.EnhancePrice.ToString();
+    }
+
+
+    /// <summary>
+    /// 아이템 구매 팝업 정보
+    /// </summary>
+    /// <param name="shopData"></param>
+    private void ItemBuyPopup(ShopData shopData)
+    {
+         
+        buyPopup.SetActive(true);
+        itemName = shopData.ItenName;
+        curAttackTextBuy.text = shopData.IncAttack.ToString();
+        descText.text = shopData.Desc;
+        itemIconImageBuy.sprite = shopData.IconImage;
+        itemPrice = shopData.Pirce;
+        buyText.text = itemPrice.ToString() + " Buy";
+
+        //PlayerDataModel.Money < itemPrice
+        //Item Price > ShopData.ItemPrice
+        if (3000 < itemPrice)
+        {
+            BuyBtn.interactable = false;
+        }
+        else
+        {
+            BuyBtn.interactable = true;
+        }
+
+    }
+
+    /// <summary>
+    /// 아이템 미소지 상태에서 아이템 구매 처리
+    /// </summary>
     private void ItemBuy()
     {
-        playerDataModel.Money -= itemPrice;
-        
-
+        //playerDataModel.Money -= itemPrice;
+ 
+        //구매한 아이템 확인 후 아이콘 활성화 표시
+        //아이템 구매 상태 전환
         switch (itemName)
         {
-            case "헤비":
-                weaponInfoData.a = true;
-                Color heavyColor = heavyBtn.image.GetComponent<Color>();
-                heavyColor = new Color(1f, 1f, 1f, 1f);
+            case "Heavy":
+                curShopData.IsBuy = true;
+                buttonList[0].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 break;
 
-            case "플레임":
-                weaponInfoData.b = true;
-                Color flameColor = flameBtn.image.GetComponent<Color>();
-                flameColor = new Color(1f, 1f, 1f, 1f);
+            case "Flame":
+                curShopData.IsBuy = true;
+                buttonList[1].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 break;
 
-            case "로켓":
-                weaponInfoData.c = true;
-                Color roketColor = roketBtn.image.GetComponent<Color>();
-                roketColor = new Color(1f, 1f, 1f, 1f);
+            case "Roket":
+                curShopData.IsBuy = true;
+                buttonList[2].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 break;
 
-            case "샷건":
-                weaponInfoData.d = true;
-                Color shotgunColor = shotgunBtn.image.GetComponent<Color>();
-                shotgunColor = new Color(1f, 1f, 1f, 1f);
+            case "ShotGun":
+                curShopData.IsBuy = true;
+                buttonList[3].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
                 break; 
         }
 
