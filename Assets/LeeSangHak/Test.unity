@@ -1941,31 +1941,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: attackMaxIndex
-      value: 5000
+      value: 4999
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: healthMaxIndex
-      value: 10300
+      value: 10299
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: healthMinIndex
-      value: 5301
-      objectReference: {fileID: 0}
-    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
-      propertyPath: attackSpeedMaxIndex
       value: 5300
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: attackSpeedMaxIndex
+      value: 5299
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: attackSpeedMinIndex
-      value: 5001
+      value: 5000
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: healthRegenMaxIndex
-      value: 15300
+      value: 15299
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: healthRegenMinIndex
-      value: 10301
+      value: 10300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}

@@ -293,21 +293,22 @@ public class StatStore : MonoBehaviour
     int UpdateDemicalStat(int level, int minIndex, int maxIndex, ref DemicalStatChangeAmount stat)
     {
         int nextLevel = level + 1;
-        int currentIndex = minIndex + nextLevel - 1;
-
-        if (currentIndex + 1 > maxIndex)
+        int curIndex = minIndex + level - 1;
+        print(StoreCSV.Instance.Store[minIndex].StatusStore_priceGoldNum);
+        // 레벨이 이미 최대 레벨이면 현재 레벨을 반환
+        if (curIndex + 1 > maxIndex)
         {
             stat.upValue = -1;
             stat.curCost = -1;
-            return nextLevel;
+            return level;
         }
         else
         {
             var store = StoreCSV.Instance.Store;
             // 현재 스탯과 다음 스탯과의 증가량 계산
-            long curUpStat = (long)(store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit));
-            long nxtUpStat = (long)(store[currentIndex + 1].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex + 1].StatusStore_satatusUnit));
-            long nxtPriceGold = (long)(store[currentIndex + 1].StatusStore_priceGoldNum * Mathf.Pow(10, store[currentIndex + 1].StatusStore_priceGoldUnit));
+            long curUpStat = (long)(store[curIndex].StatusStore_satatusNum * Mathf.Pow(10, store[curIndex].StatusStore_satatusUnit));
+            long nxtUpStat = (long)(store[curIndex+1].StatusStore_satatusNum * Mathf.Pow(10, store[curIndex+1].StatusStore_satatusUnit));
+            long nxtPriceGold = (long)(store[curIndex].StatusStore_priceGoldNum * Mathf.Pow(10, store[curIndex].StatusStore_priceGoldUnit));
 
             stat.upValue = nxtUpStat - curUpStat;
             stat.curCost = nxtPriceGold;
