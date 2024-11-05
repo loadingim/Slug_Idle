@@ -491,6 +491,10 @@ MonoBehaviour:
   Flame: {fileID: 308036475}
   Roket: {fileID: 1364162794}
   Shotgun: {fileID: 1364162796}
+  a: 0
+  b: 0
+  c: 0
+  d: 0
   Heavy_Level: 0
   Flame_Level: 0
   Roket_Level: 0
@@ -1934,6 +1938,34 @@ PrefabInstance:
     - target: {fileID: 587107352751694216, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: attackMaxIndex
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: healthMaxIndex
+      value: 10300
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: healthMinIndex
+      value: 5301
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: attackSpeedMaxIndex
+      value: 5300
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: attackSpeedMinIndex
+      value: 5001
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: healthRegenMaxIndex
+      value: 15300
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: healthRegenMinIndex
+      value: 10301
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
