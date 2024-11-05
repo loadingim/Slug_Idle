@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public abstract class Skill : MonoBehaviour
 {
     private GameObject player;
+
     protected PlayerDataModel playerDataModel;
     protected GameManager gameManager;
 
@@ -44,22 +45,16 @@ public abstract class Skill : MonoBehaviour
 
             while (Cool > 0.1f)
             {
-                //if (GameManager.Instance.IsOpenInventory)
-                //{
-                //    yield return new WaitUntil(() => GameManager.Instance.IsOpenInventory == true);
-                //}
-                //else if (gameManager.StageInstance.CoolTimeReset)
-                //{
-                //    yield break;
-                //}
-                //else
-
                 Cool -= Time.deltaTime;
                 LookCoolTime.fillAmount = (Cool / MaxCool);
 
+                if (GameManager.Instance.StageInstance.CoolTimeReset)
+                {
+                    Cool = 0.1f;
+                }
+
                 yield return new WaitForFixedUpdate();
             }
-
 
             LookCoolTime.gameObject.SetActive(false);
             skillButton.interactable = true;

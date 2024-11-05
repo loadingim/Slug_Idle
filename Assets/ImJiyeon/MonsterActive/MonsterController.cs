@@ -123,8 +123,6 @@ public class MonsterController : MonoBehaviour
             {
                 Monster.isAttacked = true;
                 Monster.StartCoroutine(Monster.WaitingShot());
-
-
             }
 
             // 다른 상태로 전환

@@ -14,11 +14,14 @@ public class SkillActive_One : Skill
 
         Debug.Log("첫번째 스킬 사용됨");
 
-        //for (int i = 0; i < gameManager.StageInstance.Monsters.Length; i++)
-        //{
-        //    gameManager.StageInstance.Monsters[i].MonsterHP -= SkillAttack;
-        //}
+        for (int i = 0; i < gameManager.StageInstance.Monsters.Length; i++)
+        {
+            if (gameManager.StageInstance.Monsters[i] != null)
+            {
+                gameManager.StageInstance.Monsters[i].MonsterHP -= SkillAttack;
+            }
+        }
 
-        StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
+        CoroutineManager.Instance.ManagerCoroutineStart(StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>())), this);
     }
 }

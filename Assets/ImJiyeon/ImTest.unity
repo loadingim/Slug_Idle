@@ -3786,6 +3786,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1327192634893488884, guid: ba8637553a06523499ea2e385d92edbb, type: 3}
+      propertyPath: AutoSkillCheckButton
+      value: 
+      objectReference: {fileID: 2916413226121161842}
+    - target: {fileID: 1327192634893488884, guid: ba8637553a06523499ea2e385d92edbb, type: 3}
       propertyPath: ActiveSkill.Array.data[0]
       value: 
       objectReference: {fileID: 6253272653792137037}
