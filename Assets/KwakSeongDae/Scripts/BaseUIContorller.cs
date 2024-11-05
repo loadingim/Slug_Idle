@@ -105,8 +105,8 @@ public class BaseUIContorller : MonoBehaviour
             InventoryItem[] inventorySlugs = slugInventory.GetComponentsInChildren<InventoryItem>();
             for (int i = 0; i < inventorySlugs.Length; i++)
             {
-                if (partners.Length <= i) break;
-                inventorySlugs[i].ItemObject = partners[i];
+                if (slugs.Length <= i) break;
+                inventorySlugs[i].ItemObject = slugs[i];
                 inventorySlugs[i].SlotCheck();
             }
         }
