@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public string name;
     public float damage, attackSpeed;
-    public int level;
+    public int level, index;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] PlayerController player;
 
@@ -14,6 +14,13 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
+        if (gameObject.name == "Heavy")
+        {
+            level = 1;
+            index = 0;
+            damage = PlayerDataModel.Instance.Attack;
+        }
+
         bulletManager = FindObjectOfType<BulletManager>();
     }
 
