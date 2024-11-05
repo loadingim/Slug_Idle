@@ -19,14 +19,6 @@ public class Store : MonoBehaviour
     [SerializeField] private PointerEventData ped = new PointerEventData(EventSystem.current);
     private List<RaycastResult> results = new List<RaycastResult>();
 
-
-    [Header("Weapon")]
-    [SerializeField] private Button heavyBtn;
-    [SerializeField] private Button flameBtn;
-    [SerializeField] private Button roketBtn;
-    [SerializeField] private Button shotgunBtn;
-
-
     [Header("강화 정보")]
     [SerializeField] private TextMeshProUGUI enhanceNum;
     [SerializeField] private Image itemIconImageInfo;
@@ -49,7 +41,6 @@ public class Store : MonoBehaviour
 
     [Header("Store Button List")]
     [SerializeField] private List<Button> buttonList = new List<Button>();
-    private bool[] weaponBools;
 
     private string itemName = "";
     private int itemPrice = 0;
@@ -257,7 +248,6 @@ public class Store : MonoBehaviour
     {
 
         buyPopup.SetActive(true);
-        itemName = curShopData.ItenName;
         curAttackTextBuy.text = curShopData.IncAttack.ToString();
         descText.text = curShopData.Desc;
         itemIconImageBuy.sprite = curShopData.IconImage;

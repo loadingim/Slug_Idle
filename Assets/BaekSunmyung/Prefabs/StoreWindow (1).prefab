@@ -2447,10 +2447,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
-  heavyBtn: {fileID: 5421544147218410056}
-  flameBtn: {fileID: 5421544147437768098}
-  roketBtn: {fileID: 5421544145811180202}
-  shotgunBtn: {fileID: 5421544147287478716}
   enhanceNum: {fileID: 5421544146863940355}
   itemIconImageInfo: {fileID: 5421544146544689256}
   curAttackTextInfo: {fileID: 5421544145844244570}
