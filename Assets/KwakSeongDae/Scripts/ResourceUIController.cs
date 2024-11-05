@@ -44,12 +44,12 @@ public class ResourceUIController : MonoBehaviour
         }
     }
 
-    void UpdateMoney(int newMoney)
+    void UpdateMoney(long newMoney)
     {
         moneyText?.SetText(newMoney.ToString());
     }
 
-    void UpdateJewel(int newJewel)
+    void UpdateJewel(long newJewel)
     {
         jewelText?.SetText(newJewel.ToString());
     }

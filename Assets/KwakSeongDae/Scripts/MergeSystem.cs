@@ -18,7 +18,8 @@ public class MergeSystem : MonoBehaviour
             if (topMergeLevel < value)
             {
                 topMergeLevel = value;
-                ChangeLevel();
+                if (PlayerDataModel.Instance != null)
+                    PlayerDataModel.Instance.BulletLevel = topMergeLevel;
             }
         }
     }
@@ -261,12 +262,5 @@ public class MergeSystem : MonoBehaviour
             if (slots[i].childCount < 1) return i;
         }
         return -1;
-    }
-
-    void ChangeLevel()
-    {
-        // 레벨이 갱신 되면서 머지 레벨에 맞게 CSV 데이터 받아오기
-        print("머지 레벨 갱신");
-        // 머지 레벨에 맞는 능력치를 플레이어 데이터 모델에 갱신
     }
 }

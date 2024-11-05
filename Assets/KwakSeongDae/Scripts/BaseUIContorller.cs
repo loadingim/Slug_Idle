@@ -88,49 +88,26 @@ public class BaseUIContorller : MonoBehaviour
         if (weaponInventory != null && partnerInventory != null && slugInventory != null)
         {
             // 각 슬롯에 인벤토리 아이템 장착
-            for (int i = 0; i < weaponInventory.childCount; i++)
+            InventoryItem[] inventoryWeapons = weaponInventory.GetComponentsInChildren<InventoryItem>();
+            for (int i = 0; i < inventoryWeapons.Length; i++)
             {
-                // 아이템의 개수가 인벤토리 슬롯보다 작은 경우는 인벤토리에 장착할 아이템이 없다고 판단
                 if (weapons.Length <= i) break;
-
-                var slot = weaponInventory.GetChild(0);
-
-                // 인벤토리 내에 사전에 설정한 InventoryItem이 없는 경우 스킵
-                if (slot.childCount < 1) continue;
-
-                if (slot.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
-                // 사전에 설정한 실제 아이템을 인벤토리 아이템으로 장착
-                
-                inventoryItem.ItemObject = weapons[i];
+                inventoryWeapons[i].ItemObject = weapons[i];
+                inventoryWeapons[i].SlotCheck();
             }
-
-            // 각 슬롯에 인벤토리 아이템 장착
-            for (int i = 0; i < partnerInventory.childCount; i++)
+            InventoryItem[] inventoryPartners = partnerInventory.GetComponentsInChildren<InventoryItem>();
+            for (int i = 0; i < inventoryPartners.Length; i++)
             {
-                // 아이템의 개수가 인벤토리 슬롯보다 작은 경우는 인벤토리에 장착할 아이템이 없다고 판단
                 if (partners.Length <= i) break;
-
-                var slot = partnerInventory.GetChild(0);
-                // 인벤토리 내에 사전에 설정한 InventoryItem이 없는 경우 스킵
-                if (slot.childCount < 1) continue;
-                if (slot.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
-                // 사전에 설정한 실제 아이템을 인벤토리 아이템으로 장착
-                inventoryItem.ItemObject = partners[i];
+                inventoryPartners[i].ItemObject = partners[i];
+                inventoryPartners[i].SlotCheck();
             }
-
-            // 각 슬롯에 인벤토리 아이템 장착
-            for (int i = 0; i < slugInventory.childCount; i++)
+            InventoryItem[] inventorySlugs = slugInventory.GetComponentsInChildren<InventoryItem>();
+            for (int i = 0; i < inventorySlugs.Length; i++)
             {
-                // 아이템의 개수가 인벤토리 슬롯보다 작은 경우는 인벤토리에 장착할 아이템이 없다고 판단
-                if (slugs.Length <= i) break;
-
-                var slot = partnerInventory.GetChild(0);
-
-                // 인벤토리 내에 사전에 설정한 InventoryItem이 없는 경우 스킵
-                if (slot.childCount < 1) continue;
-                if (slot.GetChild(0).TryGetComponent<InventoryItem>(out var inventoryItem) == false) continue;
-                // 사전에 설정한 실제 아이템을 인벤토리 아이템으로 장착
-                inventoryItem.ItemObject = slugs[i];
+                if (partners.Length <= i) break;
+                inventorySlugs[i].ItemObject = partners[i];
+                inventorySlugs[i].SlotCheck();
             }
         }
 
