@@ -153,7 +153,7 @@ public class PlayerDataModel : MonoBehaviour
                 // 공격력 계산 시스템
                 var attackStat = DemicalDataFromStoreCSV(AttackLevel, attackMinIndex, attackMaxIndex);
                 var bulletStat = FloatDataFromBulletCSV(BulletLevel, bulletMinIndex, bulletMaxIndex);
-                attack = attackStat + (long)bulletStat;
+                attack = (attackStat + (long)bulletStat);
                 print((long)bulletStat);
             }
             OnAttackChanged?.Invoke(attack);
@@ -382,6 +382,12 @@ public class PlayerDataModel : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        HealthLevel = 1;
+        HealthRegenLevel = 1;
+        AttackLevel = 1;
+        AttackSpeedLevel = 1;
+        BulletLevel = 1;
     }
 
     long DemicalDataFromStoreCSV(int level, int minIndex, int maxIndex)
