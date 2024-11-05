@@ -66,8 +66,8 @@ public class StatView : MonoBehaviour
 
             case PlayerStatStoreData.AttackSpeed:
                 textView.LevelText?.SetText($"{textView.prefixLevelText} {PlayerDataModel.Instance.AttackSpeedLevel}");
-                textView.StatText?.SetText($"{textView.prefixStatText} {PlayerDataModel.Instance.AttackSpeed.ToString("F2")}");
-                textView.StatUpText?.SetText($"{textView.prefixStatUpText} {statStore.attackSpeed.upValue.ToString("F2")}");
+                textView.StatText?.SetText($"{textView.prefixStatText} {PlayerDataModel.Instance.AttackSpeed.ToString("F4")}");
+                textView.StatUpText?.SetText($"{textView.prefixStatUpText} {statStore.attackSpeed.upValue.ToString("F4")}");
                 textView.BuyText?.SetText($"{textView.prefixBuyText} {statStore.attackSpeed.curCost}");
                 break;
         }

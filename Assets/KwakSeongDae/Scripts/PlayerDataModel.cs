@@ -151,9 +151,8 @@ public class PlayerDataModel : MonoBehaviour
             {
                 attack = value;
                 // 공격력 계산 시스템
-                var attackStat = DemicalDataFromStoreCSV(AttackLevel, attackMinIndex, attackMaxIndex);
-                var bulletStat = FloatDataFromBulletCSV(BulletLevel, bulletMinIndex, bulletMaxIndex);
-                attack = (attackStat + (long)bulletStat);
+                var attackStat = DemicalDataFromStoreCSV(attackLevel, attackMinIndex, attackMaxIndex);
+                attack = attackStat + (long)BulletAttack;
             }
             OnAttackChanged?.Invoke(attack);
         }
@@ -176,11 +175,8 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 attackLevel = value;
-                if (StoreCSV.Instance != null && StoreCSV.Instance.downloadCheck == true)
-                {
-                    long stat = DemicalDataFromStoreCSV(attackLevel, attackMinIndex, attackMaxIndex);
-                    Attack = stat;
-                }
+                // 공격력 갱신
+                Attack = Attack;
             }
             OnAttackLevelChanged?.Invoke(attackLevel);
         }
@@ -226,7 +222,7 @@ public class PlayerDataModel : MonoBehaviour
                 attackSpeedLevel = value;
                 if (StoreCSV.Instance != null && StoreCSV.Instance.downloadCheck == true)
                 {
-                    float stat = FloatDataFromStoreCSV(AttackSpeedLevel, attackSpeedMinIndex, attackSpeedMaxIndex);
+                    float stat = FloatDataFromStoreCSV(attackSpeedLevel, attackSpeedMinIndex, attackSpeedMaxIndex);
                     AttackSpeed = stat;
                 }
             }
@@ -234,6 +230,28 @@ public class PlayerDataModel : MonoBehaviour
         }
     }
     public UnityAction<int> OnAttackSpeedLevelChanged;
+
+    [Header("플레이어 총알 공격력")]
+    [Tooltip("플레이어 기본 공격속도")]
+    [SerializeField] private float bulletAttack;
+    public float BulletAttack
+    {
+        get { return bulletAttack; }
+        set
+        {
+            // 공격속도의 예외상황 처리
+            if (value < 0)
+            {
+                bulletAttack = 0;
+            }
+            else
+            {
+                bulletAttack = value;
+            }
+            OnBulletAttackChanged?.Invoke(attackSpeed);
+        }
+    }
+    public UnityAction<float> OnBulletAttackChanged;
 
     [Tooltip("플레이어 총알 최고 레벨")]
     [SerializeField] private int bulletLevel;
@@ -250,6 +268,11 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 bulletLevel = value;
+                if (StoreCSV.Instance != null && StoreCSV.Instance.downloadCheck == true)
+                {
+                    float stat = FloatDataFromStoreCSV(bulletLevel, attackSpeedMinIndex, attackSpeedMaxIndex);
+                    AttackSpeed = stat;
+                }
                 // 공격력 갱신
                 Attack = Attack;
             }
@@ -382,49 +405,84 @@ public class PlayerDataModel : MonoBehaviour
             Destroy(gameObject);
         }
 
-        BulletLevel = 1;
-        HealthLevel = 1;
-        HealthRegenLevel = 1;
-        AttackLevel = 1;
-        AttackSpeedLevel = 1;
+        InitializeValue();
     }
 
     long DemicalDataFromStoreCSV(int level, int minIndex, int maxIndex)
     {
-        if (StoreCSV.Instance.downloadCheck == false) return -1;
+        if (StoreCSV.Instance.downloadCheck == false)
+        {
+            print("CSV 로드 안됨");
+            return -1;
+        }
         int currentIndex = minIndex + level - 1;
-        if (currentIndex <= maxIndex && currentIndex > minIndex)
+        if (currentIndex <= maxIndex && currentIndex >= minIndex)
         {
             var store = StoreCSV.Instance.Store;
             return (long)(store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit));
         }
+        print($"비정상적인 인덱스 level: {level} minIndex: {minIndex} maxIndex: {maxIndex}");
+
         return -1;
     }
 
     float FloatDataFromStoreCSV(int level, int minIndex, int maxIndex)
     {
-        if (StoreCSV.Instance.downloadCheck == false) return -1;
+        if (StoreCSV.Instance.downloadCheck == false)
+        {
+            print("CSV 로드 안됨");
+            return -1;
+        }
         int currentIndex = minIndex + level - 1;
 
-        if (currentIndex <= maxIndex && currentIndex > minIndex)
+        if (currentIndex <= maxIndex && currentIndex >= minIndex)
         {
             var store = StoreCSV.Instance.Store;
             return store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit);
         }
+        print($"비정상적인 인덱스 level: {level} minIndex: {minIndex} maxIndex: {maxIndex}");
         return -1;
     }
 
     float FloatDataFromBulletCSV(int level, int minIndex, int maxIndex)
     {
-        if (BulletCSV.Instance == null || BulletCSV.Instance.downloadCheck == false) return -1;
+        if (BulletCSV.Instance == null || BulletCSV.Instance.downloadCheck == false)
+        {
+            print("CSV 로드 안됨");
+            return -1;
+        }
 
         int currentIndex = minIndex + level - 1;
-
-        if (currentIndex <= maxIndex && currentIndex > minIndex)
+        if (currentIndex <= maxIndex && currentIndex >= minIndex)
         {
             var bullet = BulletCSV.Instance.Bullet;
+
             return bullet[currentIndex].Bullet_num * Mathf.Pow(10, bullet[currentIndex].Bullet_unit);
         }
+        print($"비정상적인 인덱스 level: {level} minIndex: {minIndex} maxIndex: {maxIndex}");
         return -1;
+    }
+
+    void InitializeValue()
+    {
+        healthLevel = 1;
+        healthRegenLevel = 1;
+        attackLevel = 1;
+        attackSpeedLevel = 1;
+        bulletLevel = 1;
+
+        health = DemicalDataFromStoreCSV(healthLevel, healthMinIndex, healthMaxIndex);
+        maxHealth = health;
+        healthRegen = DemicalDataFromStoreCSV(healthRegenLevel, healthRegenLevel, healthRegenMaxIndex);
+        attack = DemicalDataFromStoreCSV(attackLevel, attackMinIndex, attackMaxIndex);
+        attackSpeed = DemicalDataFromStoreCSV(attackSpeedLevel, attackSpeedMinIndex, attackSpeedMaxIndex);
+        bulletAttack = DemicalDataFromStoreCSV(bulletLevel, bulletMinIndex, bulletMaxIndex);
+
+        OnHealthChanged?.Invoke(health);
+        OnMaxHealthChanged?.Invoke(maxHealth);
+        OnHealthRegenChanged?.Invoke(healthRegen);
+        OnAttackChanged?.Invoke(attack);
+        OnAttackSpeedChanged?.Invoke(attackSpeed);
+        OnBulletAttackChanged?.Invoke(bulletAttack);
     }
 }

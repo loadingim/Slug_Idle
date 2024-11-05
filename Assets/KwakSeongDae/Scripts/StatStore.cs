@@ -77,8 +77,6 @@ public class StatStore : MonoBehaviour
             // 소지금 변화에 따라 공격속도 버튼 상태 업데이트
             PlayerDataModel.Instance.OnMoneyChanged += UpdateAttackSpeedBuyState;
 
-            print("HHHi");
-
             // 초기 업데이트 진행
             UpdateHealthBuyState(PlayerDataModel.Instance.Money);
             UpdateHealthRegenBuyState(PlayerDataModel.Instance.Money);
@@ -315,7 +313,7 @@ public class StatStore : MonoBehaviour
     {
         int nextLevel = level + 1;
         int currentIndex = minIndex + nextLevel - 1;
-
+        // 레벨이 이미 최대 레벨이면 현재 레벨을 반환
         if (currentIndex + 1 > maxIndex)
         {
             stat.upValue = -1;
@@ -328,7 +326,7 @@ public class StatStore : MonoBehaviour
             // 현재 스탯과 다음 스탯과의 증가량 계산
             float curUpStat = store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit);
             float nxtUpStat = store[currentIndex + 1].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex + 1].StatusStore_satatusUnit);
-            long nxtPriceGold = (long)(store[currentIndex + 1].StatusStore_priceGoldNum * Mathf.Pow(10, store[currentIndex + 1].StatusStore_priceGoldUnit));
+            long nxtPriceGold = (long)(store[currentIndex].StatusStore_priceGoldNum * Mathf.Pow(10, store[currentIndex].StatusStore_priceGoldUnit));
 
             stat.upValue = nxtUpStat - curUpStat;
             stat.curCost = nxtPriceGold;
