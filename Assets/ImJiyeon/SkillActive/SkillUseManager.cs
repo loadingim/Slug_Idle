@@ -11,32 +11,6 @@ public class SkillUseManager : MonoBehaviour
 
     [Header("Auto")]
     [SerializeField] bool AutoOnOff;
-    [SerializeField] Button ActiveAuto;
-    [SerializeField] TextMeshProUGUI AutoOnText;
-    [SerializeField] TextMeshProUGUI AutoOffText;
-
-    [Header("Toggle Move")]
-    [SerializeField] Animator ani;
-    private int curHash;
-    private static int EnableHash = Animator.StringToHash("Enable");
-    private static int DisableHash = Animator.StringToHash("Disable");
-
-    // ========
-
-    void AniPlay()
-    {
-        int checkAniHash;
-
-        if (AutoOnOff == false) { checkAniHash = DisableHash; }
-        else if (AutoOnOff) { checkAniHash = EnableHash; }
-        else return;
-
-        if (curHash != checkAniHash)
-        {
-            curHash = checkAniHash;
-            ani.Play(curHash);
-        }
-    }
 
     // ========
 
@@ -49,7 +23,6 @@ public class SkillUseManager : MonoBehaviour
         }
 
         AutoOnOff = false;
-        ColorChange();
     }
 
 
@@ -68,11 +41,6 @@ public class SkillUseManager : MonoBehaviour
 
     IEnumerator SkillAuto()
     {
-        yield return new WaitUntil(() => GameManager.Instance.IsOpenInventory == false);
-
-        ColorChange();
-        AniPlay();
-
         while (AutoOnOff)
         {
             Debug.Log("자동 액티브 사용 활성화");
@@ -94,36 +62,5 @@ public class SkillUseManager : MonoBehaviour
             Debug.Log("자동 액티브 사용 비활성화");
             yield break;
         }
-    }
-
-    // ========
-
-    // 버튼 색상 변경으로 활성화/비활성화 육안으로 확인할 수 있는 함수
-    // 활성화 = 초록색 / 비활성화 = 빨간색
-    void ColorChange()
-    {
-        ColorBlock colorBlock = ActiveAuto.colors;
-
-        if (AutoOnOff == false)
-        {
-            colorBlock.selectedColor = new Color32(185, 0, 25, 255);
-            colorBlock.highlightedColor = colorBlock.selectedColor;
-            colorBlock.normalColor = colorBlock.selectedColor;
-
-            AutoOnText.gameObject.SetActive(false);
-            AutoOffText.gameObject.SetActive(true);
-        }
-
-        else if (AutoOnOff)
-        {
-            colorBlock.selectedColor = new Color32(85, 210, 0, 255);
-            colorBlock.highlightedColor = colorBlock.selectedColor;
-            colorBlock.normalColor = colorBlock.selectedColor;
-
-            AutoOnText.gameObject.SetActive(true);
-            AutoOffText.gameObject.SetActive(false);
-        }
-
-        ActiveAuto.colors = colorBlock;
     }
 }

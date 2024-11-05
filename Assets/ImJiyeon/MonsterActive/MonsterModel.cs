@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class MonsterModel : MonoBehaviour
 {
-    // 몬스터의 화면 진입 여부 (화면 안팎을 구분하는 콜라이더와의 연결이 필요해보인다)
-    [SerializeField] bool isInside;
-    public bool IsInside { get { return isInside; } set { isInside = value; } }
-     
+    [SerializeField] int monsterID;
+    public int MonsterID { get { return monsterID; } set { monsterID = value; } }
+
     // 몬스터의 체력  (몬스터는 체력을 회복하지 않으므로, 최대 체력 값은 필요하지 않을 것으로 판단함)
     [SerializeField] float monsterHP;
     public float MonsterHP { get { return monsterHP; } set { monsterHP = value; } }

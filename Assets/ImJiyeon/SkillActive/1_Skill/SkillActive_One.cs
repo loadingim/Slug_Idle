@@ -3,13 +3,6 @@ using UnityEngine.UI;
 
 public class SkillActive_One : Skill
 {
-    [SerializeField] Image LookCoolTime;
-    [SerializeField] float CoolTime;
-
-    // 1. 쿨타임
-    // 2. 공격값
-
-
     public void SkillOne()
     {
         Activate();
@@ -19,8 +12,12 @@ public class SkillActive_One : Skill
     {
         isActived = false;
 
-        // 스킬 코드 작성 예정
         Debug.Log("첫번째 스킬 사용됨");
+
+        //for (int i = 0; i < gameManager.StageInstance.Monsters.Length; i++)
+        //{
+        //    gameManager.StageInstance.Monsters[i].MonsterHP -= SkillAttack;
+        //}
 
         StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
     }
