@@ -14,13 +14,6 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        if (gameObject.name == "Heavy")
-        {
-            level = 1;
-            index = 0;
-            damage = PlayerDataModel.Instance.Attack;
-        }
-
         bulletManager = FindObjectOfType<BulletManager>();
     }
 
@@ -32,13 +25,14 @@ public class Weapon : MonoBehaviour
 
     public void shot()
     {
-            GameObject bulletGameObj = Instantiate(bulletPrefab, player.muzzlePoint.transform.position, transform.rotation);
-            if (bulletManager != null)
-            {
-                bulletManager.AddBullet(bulletGameObj);
-            }
+        GameObject bulletGameObj = Instantiate(bulletPrefab, player.muzzlePoint.transform.position, transform.rotation);
+        if (bulletManager != null)
+        {
+            bulletManager.AddBullet(bulletGameObj);
+        }
 
-            Bullet bullet = bulletGameObj.GetComponent<Bullet>();
-            bullet.SetTarget(player.targetMonster);
+        Bullet bullet = bulletGameObj.GetComponent<Bullet>();
+        bullet.SetTarget(player.targetMonster);
+        bullet.SetDamage(PlayerDataModel.Instance.Attack * level);
     }
 }

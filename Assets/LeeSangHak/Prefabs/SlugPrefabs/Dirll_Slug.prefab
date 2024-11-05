@@ -185,6 +185,7 @@ MonoBehaviour:
   damage: 5
   level: 1
   bulletPrefab: {fileID: 7680104390898297467, guid: a3cff0aca89dd164ba0d51ad973fde9f, type: 3}
+  MetalSmoke: {fileID: 0}
   slugPlayer: {fileID: 5681349628038825910}
 --- !u!1 &8063502692655298762
 GameObject:
@@ -212,8 +213,8 @@ Transform:
   m_GameObject: {fileID: 8063502692655298762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.9, y: -0.83, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6924286702297249450}
   - {fileID: 7927148517279275803}

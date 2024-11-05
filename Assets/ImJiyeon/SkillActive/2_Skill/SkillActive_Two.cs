@@ -14,11 +14,11 @@ public class SkillActive_Two : Skill
 
         Debug.Log("두번째 스킬 사용됨");
 
-        for (int i = 0; i < gameManager.StageInstance.Monsters.Length; i++)
+        for (int i = 0; i < gameManager.StageInstance.monsters.Length; i++)
         {
-            if (gameManager.StageInstance.Monsters[i] != null)
+            if (gameManager.StageInstance.monsters[i] != null)
             {
-                gameManager.StageInstance.Monsters[i].MonsterHP -= SkillAttack;
+                gameManager.StageInstance.monsters[i].MonsterHP -= SkillAttack;
             }
         }
 

@@ -123,7 +123,7 @@ public class Stage : MonoBehaviour
     private string createCoroutineName = "CreateMonster";
 
     //생성된 몬스터 저장 배열
-    [SerializeField] MonsterModel[] monsters;
+    public MonsterModel[] monsters;
 
     //Player 변수
     private PlayerDataModel player;

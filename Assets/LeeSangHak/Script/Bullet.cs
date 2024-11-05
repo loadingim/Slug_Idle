@@ -8,10 +8,12 @@ public class Bullet : MonoBehaviour
     [SerializeField] Rigidbody2D rigid;
     [SerializeField] float speed;
     [SerializeField] GameObject target;
+    public float damage;
     private PlayerController playerController;
     private Vector2 bfPosition;
     private BulletAnim bAnim;
     private bool check = false;
+
 
     private void Start()
     {
@@ -56,7 +58,7 @@ public class Bullet : MonoBehaviour
 
             bAnim.PlayHitAnimation();
             
-            collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack;
+            collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack * damage;
             bAnim.DestroyTime(gameObject);
 
         }
@@ -65,5 +67,10 @@ public class Bullet : MonoBehaviour
     public void SetTarget(GameObject target)
     {
         this.target = target;
+    }
+
+    public void SetDamage(float damage)
+    {
+        this.damage = damage;
     }
 }
