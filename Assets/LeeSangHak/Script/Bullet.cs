@@ -58,7 +58,15 @@ public class Bullet : MonoBehaviour
 
             bAnim.PlayHitAnimation();
             
-            collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack * damage;
+            if(playerController.weaponPrefab != null)
+            {
+                collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack * damage;
+            }
+            else if (playerController.weaponPrefab == null)
+            {
+                collision.GetComponent<MonsterModel>().MonsterHP -= PlayerDataModel.Instance.Attack;
+            }
+
             bAnim.DestroyTime(gameObject);
 
         }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -4154248064288833516}
   - component: {fileID: -5050924886982404940}
   - component: {fileID: 6520192929775807966}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player_Roket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +104,7 @@ MonoBehaviour:
   rigid: {fileID: -3971006961976530499}
   speed: 5
   target: {fileID: 0}
+  damage: 0
 --- !u!50 &-3971006961976530499
 Rigidbody2D:
   serializedVersion: 4

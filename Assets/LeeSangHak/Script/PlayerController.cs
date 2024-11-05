@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public GameObject targetMonster = null;
     public float attackCooldown = 0f;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] GameObject weaponPrefab;
+    public GameObject weaponPrefab;
     public int attackRange;
     [SerializeField] float times;
     [SerializeField] GameObject[] monsters;
@@ -178,8 +178,15 @@ public class PlayerController : MonoBehaviour
             bulletManager.ClearAllBullets();
         }
 
-        PlayerDataModel.Instance.Health = 500;
+        foreach (GameObject model in monsters)
+        {
+            Destroy(model.gameObject);
+        }
+        
+        
         yield return new WaitForSeconds(1f);
+
+        PlayerDataModel.Instance.Health = 500;
         upperAnim.SetBool("Death", false);
         lowerAnim.gameObject.SetActive(true);
 

@@ -33,6 +33,6 @@ public class Weapon : MonoBehaviour
 
         Bullet bullet = bulletGameObj.GetComponent<Bullet>();
         bullet.SetTarget(player.targetMonster);
-        bullet.SetDamage(PlayerDataModel.Instance.Attack * level);
+        bullet.SetDamage(damage);
     }
 }

@@ -431,19 +431,21 @@ public class Stage : MonoBehaviour
             float yPos = UnityEngine.Random.Range(2.5f, -3f);
             Vector3 offset = new Vector3(xPos, yPos, 0);
 
-            GameObject monsterInstance = Instantiate(monsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
-            Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
-            monsterCollider.enabled = false;
+            if (PlayerDataModel.Instance.Health >= 0)
+            {
+                GameObject monsterInstance = Instantiate(monsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
+                Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
+                monsterCollider.enabled = false;
 
-            monsterInstance.gameObject.name = monsterNumber.ToString() + "몬스터";
-            monsterNumber++;
-            monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
+                monsterInstance.gameObject.name = monsterNumber.ToString() + "몬스터";
+                monsterNumber++;
+                monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
 
-            stageDifficult.GetMonsterInstance(monsters[createLimitCount]);
-            stageDifficult.MonsterIncreaseAbility();
-             
-            createLimitCount++;
+                stageDifficult.GetMonsterInstance(monsters[createLimitCount]);
+                stageDifficult.MonsterIncreaseAbility();
 
+                createLimitCount++;
+            }
             yield return CoroutineManager.Instance.GetWaitForSeconds(createTimer);
 
         }

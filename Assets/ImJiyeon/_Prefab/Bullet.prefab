@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8567523358615718066}
   - component: {fileID: 8567523358615718067}
   - component: {fileID: 8567523358615718065}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,7 +137,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 0}
-  animator: {fileID: 0}
   rigid: {fileID: 0}
   playerDataModel: {fileID: 0}
   returnTime: 10

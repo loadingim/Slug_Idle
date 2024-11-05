@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -3971006961976530499}
   - component: {fileID: -4154248064288833516}
   - component: {fileID: 1430331768956278622}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -104,6 +104,7 @@ MonoBehaviour:
   rigid: {fileID: -3971006961976530499}
   speed: 5
   target: {fileID: 0}
+  damage: 0
 --- !u!114 &4210937739620451342
 MonoBehaviour:
   m_ObjectHideFlags: 0
