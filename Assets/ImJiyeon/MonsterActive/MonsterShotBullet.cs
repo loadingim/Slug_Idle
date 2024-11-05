@@ -33,7 +33,7 @@ public class MonsterShotBullet : MonoBehaviour
     {
         if (Player == collision.gameObject)
         {
-            Debug.Log("몬스터 총알 플레이어에게 맞음");
+            //Debug.Log("몬스터 총알 플레이어에게 맞음");
             playerDataModel.Health -= damage;
             Destroy(gameObject);
         }

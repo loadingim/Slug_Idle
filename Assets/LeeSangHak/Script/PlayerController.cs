@@ -25,6 +25,7 @@ public class PlayerController : MonoBehaviour
 
         // 모델 데이터 : 공격 속도 및 사거리
         attackSpeed = 1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum;
+        
         attackRange = 20;
     }
 
@@ -32,6 +33,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log(1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum);
         // if (Time.timeScale == 0)
         // {
         times = Time.time;

@@ -145,7 +145,7 @@ public class MonsterController : MonoBehaviour
 
     void shot()
     {
-        Debug.Log("몬스터 총알 발사");
+        //Debug.Log("몬스터 총알 발사");
         bullet = Instantiate(MonsterBullet, muzzlePoint.transform.position, muzzlePoint.transform.rotation);
 
         MonsterShotBullet bulletScript = bullet.GetComponent<MonsterShotBullet>();

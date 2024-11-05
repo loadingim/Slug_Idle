@@ -495,6 +495,10 @@ MonoBehaviour:
   Drill: {fileID: 0}
   Heli: {fileID: 0}
   Jet: {fileID: 0}
+  Fio: {fileID: 0}
+  Eri: {fileID: 0}
+  Marco: {fileID: 0}
+  Tarma: {fileID: 0}
   useHeavy: 0
   useFlame: 0
   useRoket: 0
@@ -503,14 +507,22 @@ MonoBehaviour:
   useDrill: 0
   useHeli: 0
   useJet: 0
+  useFio: 0
+  useEri: 0
+  useMarco: 0
+  useTarma: 0
   Heavy_Level: 0
+  Shotgun_Level: 0
   Flame_Level: 0
   Roket_Level: 0
-  Shotgun_Level: 0
   Metal_Level: 2002
   Drill_Level: 2503
   Heli_Level: 3004
   Jet_Level: 3505
+  Marco_Level: 0
+  Eri_Level: 500
+  Tarma_Level: 1000
+  Fio_Level: 1500
   weaponDamage: 0
 --- !u!4 &739099862
 Transform:

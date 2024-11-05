@@ -21,7 +21,7 @@ public class PartnerContorller : MonoBehaviour
     private void Start()
     {
         // 모델 데이터 : 공격 속도 및 사거리
-        attackSpeed = 5f;
+        attackSpeed = 1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum / SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Eri_Level].AssistantDealer_attackSpdPer;
         attackRange = 20;
     }
 
@@ -76,7 +76,8 @@ public class PartnerContorller : MonoBehaviour
 
             ShootBullet();
 
-            attackCooldown = Time.time + attackSpeed;
+            attackCooldown = Time.time + 1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum / SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Eri_Level].AssistantDealer_attackSpdPer;
+            Debug.Log($"동료 공속{StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum / SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Eri_Level].AssistantDealer_attackSpdPer}");
         }
     }
 
