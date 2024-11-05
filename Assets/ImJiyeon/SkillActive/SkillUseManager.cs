@@ -6,72 +6,42 @@ using UnityEngine.UI;
 
 public class SkillUseManager : MonoBehaviour
 {
+    public static SkillUseManager SkillInstance;
+
+    private CheckBox checkBox;
+    private Button AutoButton;
+
     [SerializeField] List<Skill> ActiveSkill = new();
-    private string skillAutoCoroutineName = "SkillAuto";
+    [SerializeField] GameObject AutoSkillCheckButton;
+    [SerializeField] public bool AutoOnOff;
 
-    [Header("Auto")]
-    [SerializeField] bool AutoOnOff;
-    [SerializeField] Button ActiveAuto;
-    [SerializeField] TextMeshProUGUI AutoOnText;
-    [SerializeField] TextMeshProUGUI AutoOffText;
-
-    [Header("Toggle Move")]
-    [SerializeField] Animator ani;
-    private int curHash;
-    private static int EnableHash = Animator.StringToHash("Enable");
-    private static int DisableHash = Animator.StringToHash("Disable");
-
-    // ========
-
-    void AniPlay()
-    {
-        int checkAniHash;
-
-        if (AutoOnOff == false) { checkAniHash = DisableHash; }
-        else if (AutoOnOff) { checkAniHash = EnableHash; }
-        else return;
-
-        if (curHash != checkAniHash)
-        {
-            curHash = checkAniHash;
-            ani.Play(curHash);
-        }
-    }
-
-    // ========
 
     private void Awake()
     {
-        // 추후 스킬 사용 UI를 생성하며 비활성화로 돌릴 예정
+        checkBox = AutoSkillCheckButton.GetComponent<CheckBox>();
+
+        // 추후 퀘스트 UI를 생성하며 비활성화로 돌릴 예정
         for (int i = 0; i < ActiveSkill.Count; i++)
         {
             ActiveSkill[i].gameObject.GetComponent<Button>().interactable = true;
         }
 
         AutoOnOff = false;
-        ColorChange();
     }
 
 
     // 클릭으로 오토버튼 활성화 - 비활성화 상태 전환 구현
     public void AutoClick()
     {
-        // 비활성화 - 활성화
         if (AutoOnOff == false) { AutoOnOff = true; }
-
-        // 활성화 - 비활성화
         else if (AutoOnOff) { AutoOnOff = false; }
 
-        StartCoroutine(SkillAuto());
-        //CoroutineManager.Instance.ManagerCoroutineStart(SkillAuto(), skillAutoCoroutineName);
+        CoroutineManager.Instance.ManagerCoroutineStart(StartCoroutine(SkillAuto()), this);
     }
 
 
     IEnumerator SkillAuto()
     {
-        ColorChange();
-        AniPlay();
-
         while (AutoOnOff)
         {
             Debug.Log("자동 액티브 사용 활성화");
@@ -93,36 +63,5 @@ public class SkillUseManager : MonoBehaviour
             Debug.Log("자동 액티브 사용 비활성화");
             yield break;
         }
-    }
-
-    // ========
-
-    // 버튼 색상 변경으로 활성화/비활성화 육안으로 확인할 수 있는 함수
-    // 활성화 = 초록색 / 비활성화 = 빨간색
-    void ColorChange()
-    {
-        ColorBlock colorBlock = ActiveAuto.colors;
-
-        if (AutoOnOff == false)
-        {
-            colorBlock.selectedColor = new Color32(185, 0, 25, 255);
-            colorBlock.highlightedColor = colorBlock.selectedColor;
-            colorBlock.normalColor = colorBlock.selectedColor;
-
-            AutoOnText.gameObject.SetActive(false);
-            AutoOffText.gameObject.SetActive(true);
-        }
-
-        else if (AutoOnOff)
-        {
-            colorBlock.selectedColor = new Color32(85, 210, 0, 255);
-            colorBlock.highlightedColor = colorBlock.selectedColor;
-            colorBlock.normalColor = colorBlock.selectedColor;
-
-            AutoOnText.gameObject.SetActive(true);
-            AutoOffText.gameObject.SetActive(false);
-        }
-
-        ActiveAuto.colors = colorBlock;
     }
 }

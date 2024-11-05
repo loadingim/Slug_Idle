@@ -4,15 +4,27 @@ using UnityEngine.UI;
 
 public abstract class Skill : MonoBehaviour
 {
-    private GameManager gameManager;
+    private GameObject player;
 
+    protected PlayerDataModel playerDataModel;
+    protected GameManager gameManager;
+
+    public Image LookCoolTime;
     public bool isActived;
-    public string SetCoolTimeCoroutineName = "SetCoolTime";
+
+    [Header("Stat")]
+    public float SkillAttack;
+    public float CoolTime;
 
 
     private void Start()
     {
+        // 임시 플레이어 데이터 모델 참조 코드, 필요 없을 시 삭제 예정
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerDataModel = player.GetComponent<PlayerDataModel>();
+
         gameManager = GameManager.Instance.GetComponent<GameManager>();
+
         isActived = true;
     }
 
@@ -36,12 +48,13 @@ public abstract class Skill : MonoBehaviour
                 Cool -= Time.deltaTime;
                 LookCoolTime.fillAmount = (Cool / MaxCool);
 
+                if (GameManager.Instance.StageInstance.CoolTimeReset)
+                {
+                    Cool = 0.1f;
+                }
+
                 yield return new WaitForFixedUpdate();
             }
-            //while (gameManager.StageInstance.CoolTimeReset)
-            //{
-            //    yield return null;
-            //}
 
             LookCoolTime.gameObject.SetActive(false);
             skillButton.interactable = true;

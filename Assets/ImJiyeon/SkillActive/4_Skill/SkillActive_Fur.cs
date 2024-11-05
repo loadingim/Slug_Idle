@@ -1,12 +1,8 @@
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SkillActive_Fur : Skill
 {
-    [SerializeField] Image LookCoolTime;
-    [SerializeField] float CoolTime;
-
     public void SkillFur()
     {
         Activate();
@@ -16,10 +12,16 @@ public class SkillActive_Fur : Skill
     {
         isActived = false;
 
-        // 스킬 코드 작성 예정
         Debug.Log("네번째 스킬 사용됨");
 
-        StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
-        //CoroutineManager.Instance.ManagerCoroutineStart(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()), SetCoolTimeCoroutineName);
+        for (int i = 0; i < gameManager.StageInstance.Monsters.Length; i++)
+        {
+            if (gameManager.StageInstance.Monsters[i] != null)
+            {
+                gameManager.StageInstance.Monsters[i].MonsterHP -= SkillAttack;
+            }
+        }
+
+        CoroutineManager.Instance.ManagerCoroutineStart(StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>())), this);
     }
 }
