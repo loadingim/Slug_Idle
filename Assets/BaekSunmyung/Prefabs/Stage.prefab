@@ -121,6 +121,7 @@ MonoBehaviour:
   fieldWaveMonsterCount: 0
   killMonsterCount: 0
   ThirdClassMonsterCount: 0
+  coolTimeReset: 0
   monsters: []
   isPlayerLife: 1
 --- !u!1 &8383165403921991109

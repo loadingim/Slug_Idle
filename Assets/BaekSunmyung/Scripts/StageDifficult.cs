@@ -39,31 +39,27 @@ public class StageDifficult : MonoBehaviour
     /// <summary>
     /// 각 스테이지 별 몬스터 추가 능력치 적용
     /// 공격력 계산식
-    /// (Stage_statusIncNum * ( 10 ^ Stage_statusIncUnit)) * (1 - Stage_statusIncdistributionPer) * Enemy_atk
+    /// (Stage_AttackIncNum * ( 10 ^ Stage_AttackIncUnit)) * Enemy_atk
     /// 체력 계산식
-    /// (Stage_statusIncNum * ( 10 ^ Stage_statusIncUnit)) * Stage_statusIncDistributionPer * Enemy_hp
+    /// (Stage_HpIncNum * ( 10 ^ Stage_HpIncUnit)) * Enemy_hp
     /// </summary>
     public void MonsterIncreaseAbility()
     { 
         float monsterHP = 0f;   
         int monsterAtk = 0; 
-        float statusIncNum = stageCSV.State[curStageIndex].Stage_AttackNum;
-        float statusIncUnit = Mathf.Pow(10, stageCSV.State[curStageIndex].Stage_attackUnit);
-        float statusIncdistributionPer = 1f - stageCSV.State[curStageIndex].Stage_hpNum;
 
-        monsterAtk = (int)((statusIncNum * statusIncUnit) * statusIncdistributionPer * monsterModel.MonsterAttack);
+        //공격력 증가 수치
+        float attackNum = stageCSV.State[curStageIndex].Stage_AttackNum;
+        float attackUnit = stageCSV.State[curStageIndex].Stage_attackUnit;
+
+        //체력 증가 수치
+        float hpNum = stageCSV.State[curStageIndex].Stage_hpNum;
+        float hpUnit = stageCSV.State[curStageIndex].Stage_hpUnit;
+
+        monsterAtk = (int)(attackNum * Mathf.Pow(10, attackUnit)) * monsterModel.MonsterAttack;
         monsterModel.MonsterAttack = monsterAtk;
-        
-        if (curStageIndex % waveCount <= 3)
-        { 
-            monsterHP = (statusIncNum * statusIncUnit) * statusIncdistributionPer * monsterModel.MonsterHP;
-            monsterModel.MonsterHP = monsterHP;
-        }
-        else
-        {
-            monsterHP = (statusIncNum * statusIncUnit) * statusIncdistributionPer * monsterModel.MonsterHP * bossValue;
-            monsterModel.MonsterHP = monsterHP;
-        }  
+        monsterHP = (hpNum * Mathf.Pow(10, hpUnit)) * monsterModel.MonsterHP;
+        monsterModel.MonsterHP = monsterHP; 
     }
 
     public float CurStageMonsterHP()
