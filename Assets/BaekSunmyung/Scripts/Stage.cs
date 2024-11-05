@@ -6,7 +6,6 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -75,9 +74,11 @@ public class Stage : MonoBehaviour
     //Data Table CSV 변수
     private StageCSV stageCSV;
 
+    private CoroutineManager coroutineManager;
+
     //Data Table Index 변수
     private int parserIndex;
-
+    public int ParserIndex { get { return parserIndex; } }
     //몬스터 소탕률
     private float killRate;
 
@@ -139,6 +140,7 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
+        coroutineManager = CoroutineManager.Instance;
         stageCSV = StageCSV.Instance;
         monsters = new MonsterModel[5];
         parserIndex = StageManager.Instance.StageIndex;
@@ -168,10 +170,10 @@ public class Stage : MonoBehaviour
         {
             isPlayerLife = false;
         }
-        TestActive();
-
+        TestActive(); 
         MonsterSafeZone();
         PlayerDeath();
+        StopMonsterCoroutine();
         StageClear();
         MonsterRemover();
         SetStageText();
@@ -395,26 +397,33 @@ public class Stage : MonoBehaviour
     }
 
 
-    Coroutine createRoutine;
+    private void StopMonsterCoroutine()
+    {
+        if (curWaveMonsterCount <= createLimitCount)
+        {
+            coroutineManager.ManagerCoroutineStop(this); 
+            isWave = false;
+        }
+    }
+
+    private Coroutine createRoutine;
     /// <summary>
     /// 몬스터 생성 기능
     /// </summary>
     public void CreateMonster()
     {
-        CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName);
-
-        //createRoutine = StartCoroutine(CreateMonsterCo());
-        //CoroutineManager.Instance.ManagerCoroutineStart(createRoutine, this);
+        //CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName);
+          
+        createRoutine = StartCoroutine(CreateMonsterCo());
+        coroutineManager.ManagerCoroutineStart(createRoutine, this); 
     }
 
     int monsterNumber = 1;
     private IEnumerator CreateMonsterCo()
     {
-        WaitForSeconds createWait = new WaitForSeconds(createTimer);
-        WaitForSeconds cycleWait = new WaitForSeconds(cycleTimer);
-        monsters = new MonsterModel[curWaveMonsterCount];
+        monsters = new MonsterModel[curWaveMonsterCount]; 
+        yield return CoroutineManager.Instance.GetWaitForSeconds(cycleTimer);
 
-        yield return cycleWait;
         createLimitCount = 0;
         fieldWaveMonsterCount = curWaveMonsterCount;
          
@@ -437,17 +446,19 @@ public class Stage : MonoBehaviour
              
             createLimitCount++;
 
-            yield return createWait;
+            yield return CoroutineManager.Instance.GetWaitForSeconds(createTimer);
+
         }
 
         //TestSet 정보창에서 현재 스테이지 몬스터 스탯을 보여줌
         atkText.text = "ATK : " + stageDifficult.CurStageMonsterAtk().ToString();
         hpText.text = "HP : " + stageDifficult.CurStageMonsterHP().ToString();
 
-        if (curWaveMonsterCount <= createLimitCount)
-        {
-            isWave = false;
-        }
+        //if (curWaveMonsterCount <= createLimitCount)
+        //{
+        //    CoroutineManager.Instance.ManagerCoroutineStop(this);
+        //    isWave = false;
+        //}
 
         yield break;
     }
@@ -538,7 +549,8 @@ public class Stage : MonoBehaviour
     {
         bool isCheck = false;
          
-        CoroutineManager.Instance.ManagerCoroutineStop(createCoroutineName);
+        //CoroutineManager.Instance.ManagerCoroutineStop(createCoroutineName);
+        CoroutineManager.Instance.ManagerCoroutineStop(this);
 
         while (true)
         {

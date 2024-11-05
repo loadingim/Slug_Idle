@@ -39,6 +39,7 @@ public class MapController : MonoBehaviour
     private int viewMonsterCount;
     private bool isDeath;
 
+    private CoroutineManager crManager;
     private Coroutine resetRoutine;
     private bool isChange;
     private string coroutineName = "ResetCoroutine";
@@ -55,6 +56,7 @@ public class MapController : MonoBehaviour
 
     private void Start()
     {
+        crManager = CoroutineManager.Instance;
         bgAction = ResetBackGround;
         stage.BackGroundResetAction(bgAction);
     }
@@ -71,7 +73,7 @@ public class MapController : MonoBehaviour
 
             if (isChange)
             {
-                CoroutineManager.Instance.ManagerCoroutineStop(coroutineName);
+                crManager.ManagerCoroutineStop(this);
             } 
         }
     }
@@ -83,7 +85,8 @@ public class MapController : MonoBehaviour
     public void ResetBackGround()
     {
         fade.FadeOut();
-        CoroutineManager.Instance.ManagerCoroutineStart(MapResetCoroutine(), coroutineName);
+        Coroutine resetRoutine = StartCoroutine(MapResetCoroutine());
+        crManager.ManagerCoroutineStart(resetRoutine, this);
     }
 
 

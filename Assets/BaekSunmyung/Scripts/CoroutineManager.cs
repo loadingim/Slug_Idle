@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CoroutineManager : MonoBehaviour
 {
@@ -8,9 +10,7 @@ public class CoroutineManager : MonoBehaviour
 
 
     private Dictionary<MonoBehaviour, Coroutine> newCoList = new Dictionary<MonoBehaviour, Coroutine>();
-
-    private Dictionary<string, IEnumerator> coList = new Dictionary<string, IEnumerator>();
-
+     
     public Dictionary<float, WaitForSeconds> _waitForSeconds = new Dictionary<float, WaitForSeconds>();
 
     private void Awake()
@@ -24,7 +24,12 @@ public class CoroutineManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+     
+    /// <summary>
+    /// WaitForSeconds 객체 반환
+    /// </summary>
+    /// <param name="time">지연 시간 Key</param>
+    /// <returns></returns>
     public WaitForSeconds GetWaitForSeconds(float time)
     {
         if (!_waitForSeconds.ContainsKey(time))
@@ -34,91 +39,31 @@ public class CoroutineManager : MonoBehaviour
 
         return _waitForSeconds[time];
     }
-
-
-    public void ManagerCoroutineStart(IEnumerator co, string coName)
-    {
-        //동일한 이름이 존재하는지 Dictionary 검사
-        if (coList.ContainsKey(coName))
-        {
-            //동일한 이름이 있다면 Value를 가져올 수 있는지 확인
-            if (coList.TryGetValue(coName, out IEnumerator copyCo))
-            {
-                //Value를 가져왔다면 코루틴이 실행중인 상태이니 중지하고 삭제
-                StopCoroutine(copyCo);
-                coList.Remove(coName);
-            }
-        }
-
-        coList[coName] = co;
-        StartCoroutine(StartMyCoroutine(co, coName));
-    }
-
+     
 
     /// <summary>
     /// 코루틴 시작
     /// </summary>
-    /// <param name="co">실행할 코루틴</param>
+    /// <param name="value">실행할 코루틴</param>
     /// <param name="key">코루틴 이름</param>
-    //public void ManagerCoroutineStart(Coroutine co, MonoBehaviour key)
-    //{
-    //    //동일한 이름이 존재하는지 Dictionary 검사
-    //    if (newCoList.ContainsKey(key))
-    //    {
-    //        if(newCoList.TryGetValue(key, out Coroutine copy))
-    //        {
-    //            StopCoroutine(copy);
-    //            newCoList.Remove(key);
-    //        } 
-    //    }
-
-        
-    //    newCoList[key] = co;
-    //    co = StartCoroutine(StartMyCoroutine());
-    //}
-     
-    /// <summary>
-    /// 코루틴 강제 종료
-    /// </summary>
-    /// <param name="coName">코루틴 이름</param>
-    public void ManagerCoroutineStop(string coName)
+    public IEnumerator ManagerCoroutineStart(Coroutine value, MonoBehaviour key)
     {
-        if (coList.ContainsKey(coName))
+        //동일한 이름이 존재하는지 Dictionary 검사
+        if (newCoList.ContainsKey(key))
         {
-            StopCoroutine(coList[coName]);
-            coList.Remove(coName);
+            if (newCoList.TryGetValue(key, out Coroutine copy))
+            {
+                Debug.Log("코루틴 중지");
+                StopCoroutine(copy);
+                newCoList.Remove(key);
+            }
         }
-    }
 
-    //public IEnumerator StartMyCoroutine(MonoBehaviour key)
-    //{
-    //    //각 코루틴 조건별로 실행이 되고 있는 상태인지 확인
-    //    while (newCoList[key] != null)
-    //    {
-    //        //인벤토리가 열린 상태면 일시 중지
-    //        if (GameManager.Instance.IsOpenInventory)
-    //        {
-    //            yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
-    //        }
-    //        else
-    //        {
-    //            //현재 코루틴에서 사용중인 wait값으로 대기
-    //            yield return co.Current;
-    //        }
-    //    }
+        Debug.Log("리스트에 코루틴 할당");
+        newCoList[key] = value; 
+        IEnumerator enumerator = newCoList.GetEnumerator();
 
-    //    //코루틴이 종료됐으면 제거 
-    //    if (coList.ContainsKey(key))
-    //    {
-    //        coList.Remove(key);
-    //    }
-    //}
-
-
-    public IEnumerator StartMyCoroutine(IEnumerator co, string coName)
-    {
-        //각 코루틴 조건별로 실행이 되고 있는 상태인지 확인
-        while (co.MoveNext())
+        while (enumerator.MoveNext())
         {
             //인벤토리가 열린 상태면 일시 중지
             if (GameManager.Instance.IsOpenInventory)
@@ -127,17 +72,24 @@ public class CoroutineManager : MonoBehaviour
             }
             else
             {
+                Debug.Log("코루틴 반복");
                 //현재 코루틴에서 사용중인 wait값으로 대기
-                yield return co.Current;
-            }
-        }
-
-        //코루틴이 종료됐으면 제거 
-        if (coList.ContainsKey(coName))
-        {
-            coList.Remove(coName);
+                yield return enumerator.Current;
+            } 
         }
     }
 
-
+    /// <summary>
+    /// 코루틴 강제 종료
+    /// </summary>
+    /// <param name="coName">코루틴 이름</param>
+    public void ManagerCoroutineStop(MonoBehaviour key)
+    { 
+        if (newCoList.ContainsKey(key))
+        {
+            Debug.Log("코루틴 강제 종료");
+            StopCoroutine(newCoList[key]);
+            newCoList.Remove(key); 
+        }
+    } 
 }
