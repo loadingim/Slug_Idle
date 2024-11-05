@@ -1000,8 +1000,28 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: attackLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: bulletLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: healthLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: attackMaxIndex
       value: 4999
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: bulletMaxIndex
+      value: 199
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: bulletMinIndex
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: healthMaxIndex
@@ -1010,6 +1030,14 @@ PrefabInstance:
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: healthMinIndex
       value: 5300
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: attackSpeedLevel
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
+      propertyPath: healthRegenLevel
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 587107352751694219, guid: 50ad7334c877f1242a4078136eaa8779, type: 3}
       propertyPath: attackSpeedMaxIndex
