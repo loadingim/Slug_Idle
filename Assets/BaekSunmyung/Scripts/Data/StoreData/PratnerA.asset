@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a772743818b69bc4682253af7f5bd341, type: 3}
-  m_Name: Flame
+  m_Name: PratnerA
   m_EditorClassIdentifier: 
-  storeType: 0
-  iconImage: {fileID: -343072927, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
-  itemName: Flame
-  incAttack: 1
-  desc: IM FLAME
-  buyPrice: 5000
+  storeType: 1
+  iconImage: {fileID: 2094854569, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  itemName: PartnerA
+  incAttack: 2
+  desc: IM PARTNERA
+  buyPrice: 130
   curEnhance: 1
-  enhancePrice: 1
+  enhancePrice: 3
   isBuy: 0

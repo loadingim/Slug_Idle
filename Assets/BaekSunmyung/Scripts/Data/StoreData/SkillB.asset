@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a772743818b69bc4682253af7f5bd341, type: 3}
-  m_Name: Flame
+  m_Name: SkillB
   m_EditorClassIdentifier: 
-  storeType: 0
-  iconImage: {fileID: -343072927, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
-  itemName: Flame
+  storeType: 3
+  iconImage: {fileID: 1060582624, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  itemName: SkillB
   incAttack: 1
-  desc: IM FLAME
-  buyPrice: 5000
+  desc: IM SkillB
+  buyPrice: 130
   curEnhance: 1
-  enhancePrice: 1
+  enhancePrice: 40
   isBuy: 0

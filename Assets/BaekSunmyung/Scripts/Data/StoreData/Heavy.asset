@@ -19,5 +19,5 @@ MonoBehaviour:
   desc: IM HEAVY
   buyPrice: 110
   curEnhance: 1
-  enhancePrice: 20
+  enhancePrice: 40
   isBuy: 0
