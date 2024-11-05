@@ -77,11 +77,7 @@ public class StatStore : MonoBehaviour
             // 소지금 변화에 따라 공격속도 버튼 상태 업데이트
             PlayerDataModel.Instance.OnMoneyChanged += UpdateAttackSpeedBuyState;
 
-            // 초기 레벨업
-            if (PlayerDataModel.Instance.HealthLevel == 0) UpdateStatOnLevelUp(PlayerStatStoreData.Health);
-            if (PlayerDataModel.Instance.HealthRegenLevel == 0) UpdateStatOnLevelUp(PlayerStatStoreData.HealthRegen);
-            if (PlayerDataModel.Instance.AttackLevel == 0) UpdateStatOnLevelUp(PlayerStatStoreData.Attack);
-            if (PlayerDataModel.Instance.AttackSpeedLevel == 0) UpdateStatOnLevelUp(PlayerStatStoreData.AttackSpeed);
+            print("HHHi");
 
             // 초기 업데이트 진행
             UpdateHealthBuyState(PlayerDataModel.Instance.Money);
@@ -294,7 +290,6 @@ public class StatStore : MonoBehaviour
     {
         int nextLevel = level + 1;
         int curIndex = minIndex + level - 1;
-        print(StoreCSV.Instance.Store[minIndex].StatusStore_priceGoldNum);
         // 레벨이 이미 최대 레벨이면 현재 레벨을 반환
         if (curIndex + 1 > maxIndex)
         {

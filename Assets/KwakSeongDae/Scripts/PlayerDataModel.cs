@@ -154,7 +154,6 @@ public class PlayerDataModel : MonoBehaviour
                 var attackStat = DemicalDataFromStoreCSV(AttackLevel, attackMinIndex, attackMaxIndex);
                 var bulletStat = FloatDataFromBulletCSV(BulletLevel, bulletMinIndex, bulletMaxIndex);
                 attack = (attackStat + (long)bulletStat);
-                print((long)bulletStat);
             }
             OnAttackChanged?.Invoke(attack);
         }
@@ -383,19 +382,18 @@ public class PlayerDataModel : MonoBehaviour
             Destroy(gameObject);
         }
 
+        BulletLevel = 1;
         HealthLevel = 1;
         HealthRegenLevel = 1;
         AttackLevel = 1;
         AttackSpeedLevel = 1;
-        BulletLevel = 1;
     }
 
     long DemicalDataFromStoreCSV(int level, int minIndex, int maxIndex)
     {
         if (StoreCSV.Instance.downloadCheck == false) return -1;
         int currentIndex = minIndex + level - 1;
-        
-        if (currentIndex <= maxIndex)
+        if (currentIndex <= maxIndex && currentIndex > minIndex)
         {
             var store = StoreCSV.Instance.Store;
             return (long)(store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit));
@@ -408,7 +406,7 @@ public class PlayerDataModel : MonoBehaviour
         if (StoreCSV.Instance.downloadCheck == false) return -1;
         int currentIndex = minIndex + level - 1;
 
-        if (currentIndex <= maxIndex)
+        if (currentIndex <= maxIndex && currentIndex > minIndex)
         {
             var store = StoreCSV.Instance.Store;
             return store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit);
@@ -419,12 +417,13 @@ public class PlayerDataModel : MonoBehaviour
     float FloatDataFromBulletCSV(int level, int minIndex, int maxIndex)
     {
         if (BulletCSV.Instance == null || BulletCSV.Instance.downloadCheck == false) return -1;
+
         int currentIndex = minIndex + level - 1;
 
-        if (currentIndex <= maxIndex)
+        if (currentIndex <= maxIndex && currentIndex > minIndex)
         {
-            var store = BulletCSV.Instance.Bullet;
-            return store[currentIndex].Bullet_num * Mathf.Pow(10, store[currentIndex].Bullet_unit);
+            var bullet = BulletCSV.Instance.Bullet;
+            return bullet[currentIndex].Bullet_num * Mathf.Pow(10, bullet[currentIndex].Bullet_unit);
         }
         return -1;
     }
