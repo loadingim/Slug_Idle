@@ -206,9 +206,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bea448d8e6a0094c8d1164b45d21268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  name: Metal
   damage: 10
-  level: 1
+  level: 2000
   bulletPrefab: {fileID: 4736738116321230255, guid: 2e989e022f7a98f4cba748ac6624ae45, type: 3}
   MetalSmoke: {fileID: 1012870769863425857, guid: d655cd02f7f9c434fa66999e947bf247, type: 3}
   slugPlayer: {fileID: 3952198661245800895}

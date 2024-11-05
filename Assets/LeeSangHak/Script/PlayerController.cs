@@ -23,7 +23,6 @@ public class PlayerController : MonoBehaviour
     {
         bulletManager = FindObjectOfType<BulletManager>();
 
-        Debug.Log(StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum);
         // 모델 데이터 : 공격 속도 및 사거리
         attackSpeed = 1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum;
         attackRange = 20;

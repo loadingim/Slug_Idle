@@ -28,7 +28,19 @@ public class SlugWeapon : MonoBehaviour
         }
 
         SlugBullet bullet = bulletGameObj.GetComponent<SlugBullet>();
-        bullet.SetDamage(PlayerDataModel.Instance.Attack);
+
+        if (name == "Metal")
+            bullet.SetDamage(PlayerDataModel.Instance.Attack * SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Metal_Level].AssistantDealer_attackPer);
+
+        if (name == "Drill")
+            bullet.SetDamage(PlayerDataModel.Instance.Attack * SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Drill_Level].AssistantDealer_attackPer);
+
+        if (name == "Heil")
+            bullet.SetDamage(PlayerDataModel.Instance.Attack * SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Heli_Level].AssistantDealer_attackPer);
+
+        if (name == "Jet")
+            bullet.SetDamage(PlayerDataModel.Instance.Attack * SubDealer.Instance.SubDealers[WeaponInfoData.Instance.Jet_Level].AssistantDealer_attackPer);
+        
         bullet.SetTarget(slugPlayer.targetMonster);
     }
 }

@@ -349,15 +349,15 @@ MonoBehaviour:
   canUseSkill: 0
   canUseWeapon: 0
   attackMinIndex: 0
-  attackMaxIndex: 0
-  attackSpeedMinIndex: 0
-  attackSpeedMaxIndex: 0
-  healthMinIndex: 0
-  healthMaxIndex: 0
-  healthRegenMinIndex: 0
-  healthRegenMaxIndex: 0
+  attackMaxIndex: 4999
+  attackSpeedMinIndex: 5000
+  attackSpeedMaxIndex: 5299
+  healthMinIndex: 5300
+  healthMaxIndex: 10299
+  healthRegenMinIndex: 10300
+  healthRegenMaxIndex: 15299
   bulletMinIndex: 0
-  bulletMaxIndex: 0
+  bulletMaxIndex: 199
 --- !u!1001 &587107351759088786
 PrefabInstance:
   m_ObjectHideFlags: 0

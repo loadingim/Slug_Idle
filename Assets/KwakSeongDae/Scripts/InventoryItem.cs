@@ -24,6 +24,12 @@ public class InventoryItem : MonoBehaviour
 
     private Image image;                                // 이미지UI가 없는 경우에 비정상적인 인벤토리 아이템이라 간주하고 비활성화
     [HideInInspector] public Transform originParent;
+
+    private void Awake()
+    {
+        // 원래 부모 저장
+        originParent = transform.parent;
+    }
     void OnEnable()
     {
         if (TryGetComponent<Image>(out image) == false || button == null)
@@ -33,7 +39,7 @@ public class InventoryItem : MonoBehaviour
         else
         {
             button.onClick.AddListener(MoveToActiveSlot);
-            originParent = transform.parent;
+
             // 현재 자신의 슬롯 체크
             SlotCheck();
         }
@@ -61,7 +67,7 @@ public class InventoryItem : MonoBehaviour
         if (transform.parent.TryGetComponent<InventorySlot>(out var slot) == false) return;
 
         // if 활성화 슬롯에 아이템이 있는 경우는 원래 슬롯으로
-        if(slot.slotType == InventorySlot.SlotType.ActiveSlot)
+        if (slot.slotType == InventorySlot.SlotType.ActiveSlot)
         {
             transform.SetParent(originParent);
         }

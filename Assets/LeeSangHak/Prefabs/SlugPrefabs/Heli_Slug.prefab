@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bea448d8e6a0094c8d1164b45d21268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  name: Heli
   damage: 8
   level: 1
   bulletPrefab: {fileID: 4089414420887295014, guid: 026fe7f42840d9947ae264451cece238, type: 3}

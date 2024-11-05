@@ -237,7 +237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bea448d8e6a0094c8d1164b45d21268, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  name: Jet
   damage: 5
   level: 1
   bulletPrefab: {fileID: 67265382436444069, guid: 7de463492ba484341a5c370f41d47019, type: 3}

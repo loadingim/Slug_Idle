@@ -22,17 +22,19 @@ public class WeaponInfoData : MonoBehaviour
     [Header("오브젝트 사용 가능 여부")]
     public bool useHeavy, useFlame, useRoket, useShotgun;
 
+    public bool useMetal, useDrill, useHeli, useJet;
+
     [Header("레벨")]
     public int Heavy_Level = 0;
-    public int Flame_Level = 0;
-    public int Roket_Level = 0;
-    public int Shotgun_Level = 0;
+    public int Flame_Level = 1000;
+    public int Roket_Level = 1500;
+    public int Shotgun_Level = 500;
 
     [Space(15f)]
-    public int Metal_Level = 0;
-    public int Drill_Level = 0;
-    public int Heli_Level = 0;
-    public int Jet_Level = 0;
+    public int Metal_Level = 2000;
+    public int Drill_Level = 2500;
+    public int Heli_Level = 3000;
+    public int Jet_Level = 3500;
 
     private float Heavy_Num = 0;
     private float Flame_Num = 0;
@@ -67,6 +69,9 @@ public class WeaponInfoData : MonoBehaviour
         Roket.damage = WeaponCSV.Instance.Weapon[Roket_Level].Weapon_per;
         Shotgun.damage = WeaponCSV.Instance.Weapon[Shotgun_Level].Weapon_per;
 
+
+
+        
         /*Metal.weaponPrefab.da = WeaponCSV.Instance.Weapon[Metal_Level].Weapon_per;*/
         /*Drill.damage = WeaponCSV.Instance.Weapon[Drill_Level].Weapon_per;*/
         /*Heli.damage = WeaponCSV.Instance.Weapon[Heli_Level].Weapon_per;*/
