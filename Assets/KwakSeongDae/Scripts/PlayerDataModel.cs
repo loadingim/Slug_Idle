@@ -3,15 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using static StatStore;
 
 public class PlayerDataModel : MonoBehaviour
 {
     #region Data Variable
     [Header("플레이어 스탯 설정")]
+    #region 체력 관련
     [Header("플레이어 체력")]
     [Tooltip("플레이어 현재 체력")]
-    [SerializeField] private float health;
-    public float Health
+    [SerializeField] private long health;
+    public long Health
     {
         get { return health; }
         set
@@ -28,11 +30,11 @@ public class PlayerDataModel : MonoBehaviour
             OnHealthChanged?.Invoke(health);
         }
     }
-    public UnityAction<float> OnHealthChanged;
+    public UnityAction<long> OnHealthChanged;
 
     [Tooltip("플레이어 최대 체력")]
-    [SerializeField] private float maxHealth;
-    public float MaxHealth
+    [SerializeField] private long maxHealth;
+    public long MaxHealth
     {
         get { return maxHealth; }
         set
@@ -49,7 +51,7 @@ public class PlayerDataModel : MonoBehaviour
             OnMaxHealthChanged?.Invoke(health);
         }
     }
-    public UnityAction<float> OnMaxHealthChanged;
+    public UnityAction<long> OnMaxHealthChanged;
 
     [Tooltip("플레이어 체력 레벨")]
     [SerializeField] private int healthLevel;
@@ -67,7 +69,14 @@ public class PlayerDataModel : MonoBehaviour
             {
                 healthLevel = value;
                 // 플레이어 체력 레벨에 비례해서 체력 증가량만큼 현재 체력, 최대 체력 증가
-                
+                if (StoreCSV.Instance != null &&  StoreCSV.Instance.downloadCheck == true)
+                {
+                    long stat = DemicalDataFromStoreCSV(healthLevel, healthMinIndex, healthMaxIndex);
+                    // 최대 체력은 csv데이터로 갱신
+                    long difHealth = stat - MaxHealth;
+                    MaxHealth = stat;
+                    Health += difHealth;
+                }
                 // 체력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
             }
             OnHealthLevelChanged?.Invoke(healthLevel);
@@ -77,8 +86,8 @@ public class PlayerDataModel : MonoBehaviour
 
     [Header("플레이어 체력재생")]
     [Tooltip("플레이어 체력재생")]
-    [SerializeField] private float healthRegen;
-    public float HealthRegen
+    [SerializeField] private long healthRegen;
+    public long HealthRegen
     {
         get { return healthRegen; }
         set
@@ -95,7 +104,7 @@ public class PlayerDataModel : MonoBehaviour
             OnHealthRegenChanged?.Invoke(healthRegen);
         }
     }
-    public UnityAction<float> OnHealthRegenChanged;
+    public UnityAction<long> OnHealthRegenChanged;
 
     [Tooltip("플레이어 체력재생 레벨")]
     [SerializeField] private int healthRegenLevel;
@@ -112,19 +121,23 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 healthRegenLevel = value;
-                // 플레이어 체력 재생력 레벨에 비례해서 체력 재생력 증가량만큼 체력 재생력 증가
-
-                // 체력 증가량 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+                if (StoreCSV.Instance != null && StoreCSV.Instance.downloadCheck == true)
+                {
+                    long stat = DemicalDataFromStoreCSV(healthRegenLevel, healthRegenMinIndex, healthRegenMaxIndex);
+                    HealthRegen = stat;
+                }
             }
             OnHealthRegenLevelChanged?.Invoke(healthRegenLevel);
         }
     }
     public UnityAction<int> OnHealthRegenLevelChanged;
+    #endregion
 
+    #region 공격 관련
     [Header("플레이어 기본 공격력")]
     [Tooltip("플레이어 기본 공격력")]
-    [SerializeField] private float attack;
-    public float Attack
+    [SerializeField] private long attack;
+    public long Attack
     {
         get { return attack; }
         set
@@ -137,11 +150,17 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 attack = value;
+                // 공격력 계산 시스템
+                var attackStat = DemicalDataFromStoreCSV(AttackLevel, attackMinIndex, attackMaxIndex);
+                var bulletStat = FloatDataFromBulletCSV(BulletLevel, bulletMinIndex, bulletMaxIndex);
+                attack = attackStat + (long)bulletStat;
+                print((long)bulletStat);
             }
             OnAttackChanged?.Invoke(attack);
         }
     }
-    public UnityAction<float> OnAttackChanged;
+
+    public UnityAction<long> OnAttackChanged;
 
     [Tooltip("플레이어 기본 공격력 레벨")]
     [SerializeField] private int attackLevel;
@@ -158,60 +177,16 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 attackLevel = value;
-                // 플레이어 공격력 레벨에 비례해서 공격력 증가량만큼 공격력 증가
-
-                // 공격력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+                if (StoreCSV.Instance != null && StoreCSV.Instance.downloadCheck == true)
+                {
+                    long stat = DemicalDataFromStoreCSV(attackLevel, attackMinIndex, attackMaxIndex);
+                    Attack = stat;
+                }
             }
             OnAttackLevelChanged?.Invoke(attackLevel);
         }
     }
     public UnityAction<int> OnAttackLevelChanged;
-
-    [Header("플레이어 터치 공격력")]
-    [Tooltip("플레이어 터치 공격력")]
-    [SerializeField] private float touchAttack;
-    public float TouchAttack
-    {
-        get { return touchAttack; }
-        set
-        {
-            // 터치 공격력의 예외상황 처리
-            if (value < 0)
-            {
-                touchAttack = 0;
-            }
-            else
-            {
-                touchAttack = value;
-            }
-            OnTouchAttackChanged?.Invoke(touchAttack);
-        }
-    }
-    public UnityAction<float> OnTouchAttackChanged;
-
-    [Tooltip("플레이어 터치 공격력 레벨")]
-    [SerializeField] private int touchAttackLevel;
-    public int TouchAttackLevel
-    {
-        get { return touchAttackLevel; }
-        set
-        {
-            // 기본 공격력 레벨의 예외상황 처리
-            if (value < 0)
-            {
-                touchAttackLevel = 0;
-            }
-            else
-            {
-                touchAttackLevel = value;
-                // 플레이어 터치 공격력 레벨에 비례해서 터치 공격력 증가량만큼 터치 공격력 증가
-
-                // 터치 공격력 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
-            }
-            OnTouchAttackLevelChanged?.Invoke(touchAttackLevel);
-        }
-    }
-    public UnityAction<int> OnTouchAttackLevelChanged;
 
     [Header("플레이어 기본 공격속도")]
     [Tooltip("플레이어 기본 공격속도")]
@@ -250,19 +225,46 @@ public class PlayerDataModel : MonoBehaviour
             else
             {
                 attackSpeedLevel = value;
-                // 플레이어 공격속도 레벨에 비례해서 공격속도 증가량만큼 공격속도 증가
-
-                // 공격속도 레벨에 따라 CSV데이터를 참고해서 동기화 작업 필요
+                if (StoreCSV.Instance != null && StoreCSV.Instance.downloadCheck == true)
+                {
+                    float stat = FloatDataFromStoreCSV(AttackSpeedLevel, attackSpeedMinIndex, attackSpeedMaxIndex);
+                    AttackSpeed = stat;
+                }
             }
             OnAttackSpeedLevelChanged?.Invoke(attackSpeedLevel);
         }
     }
     public UnityAction<int> OnAttackSpeedLevelChanged;
 
+    [Tooltip("플레이어 총알 최고 레벨")]
+    [SerializeField] private int bulletLevel;
+    public int BulletLevel
+    {
+        get { return bulletLevel; }
+        set
+        {
+            // 기본 공격력 레벨의 예외상황 처리
+            if (value < 0)
+            {
+                bulletLevel = 0;
+            }
+            else
+            {
+                bulletLevel = value;
+                // 공격력 갱신
+                Attack = Attack;
+            }
+            OnBulletLevelChanged?.Invoke(bulletLevel);
+        }
+    }
+    public UnityAction<int> OnBulletLevelChanged;
+    #endregion
+
+    #region 재화 관련
     [Header("플레이어 보유 재화")]
     [Tooltip("플레이어가 보유한 기본 재화")]
-    [SerializeField] private int money;
-    public int Money
+    [SerializeField] private long money;
+    public long Money
     {
         get { return money; }
         set
@@ -279,11 +281,11 @@ public class PlayerDataModel : MonoBehaviour
             OnMoneyChanged?.Invoke(money);
         }
     }
-    public UnityAction<int> OnMoneyChanged;
+    public UnityAction<long> OnMoneyChanged;
 
     [Tooltip("플레이어가 보유한 동료 슬러그 강화 재화 (편의상, 크리스탈로 명칭)")]
-    [SerializeField] private int jewel;
-    public int Jewel
+    [SerializeField] private long jewel;
+    public long Jewel
     {
         get { return jewel; }
         set
@@ -300,7 +302,9 @@ public class PlayerDataModel : MonoBehaviour
             OnJewelChanged?.Invoke(jewel);
         }
     }
-    public UnityAction<int> OnJewelChanged;
+    public UnityAction<long> OnJewelChanged;
+
+    #endregion
 
     /// <summary>
     /// 스킬 해금 여부 판단하기 위한 플래그 열거형 타입 선언
@@ -348,8 +352,22 @@ public class PlayerDataModel : MonoBehaviour
         set { canUseWeapon = value; OnCanUseWeaponChanged?.Invoke(canUseWeapon); }
 
     }
+
     public UnityAction<WeaponType> OnCanUseWeaponChanged;
     #endregion
+
+    // CSV로부터 받아올 데이터 인덱스 정보
+    [Header("CSV 관련 설정")]
+    [SerializeField] int attackMinIndex;
+    [SerializeField] int attackMaxIndex;
+    [SerializeField] int attackSpeedMinIndex;
+    [SerializeField] int attackSpeedMaxIndex;
+    [SerializeField] int healthMinIndex;
+    [SerializeField] int healthMaxIndex;
+    [SerializeField] int healthRegenMinIndex;
+    [SerializeField] int healthRegenMaxIndex;
+    [SerializeField] int bulletMinIndex;
+    [SerializeField] int bulletMaxIndex;
 
     // 싱글톤
     public static PlayerDataModel Instance;
@@ -364,5 +382,44 @@ public class PlayerDataModel : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    long DemicalDataFromStoreCSV(int level, int minIndex, int maxIndex)
+    {
+        if (StoreCSV.Instance.downloadCheck == false) return -1;
+        int currentIndex = minIndex + level - 1;
+        
+        if (currentIndex <= maxIndex)
+        {
+            var store = StoreCSV.Instance.Store;
+            return (long)(store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit));
+        }
+        return -1;
+    }
+
+    float FloatDataFromStoreCSV(int level, int minIndex, int maxIndex)
+    {
+        if (StoreCSV.Instance.downloadCheck == false) return -1;
+        int currentIndex = minIndex + level - 1;
+
+        if (currentIndex <= maxIndex)
+        {
+            var store = StoreCSV.Instance.Store;
+            return store[currentIndex].StatusStore_satatusNum * Mathf.Pow(10, store[currentIndex].StatusStore_satatusUnit);
+        }
+        return -1;
+    }
+
+    float FloatDataFromBulletCSV(int level, int minIndex, int maxIndex)
+    {
+        if (BulletCSV.Instance == null || BulletCSV.Instance.downloadCheck == false) return -1;
+        int currentIndex = minIndex + level - 1;
+
+        if (currentIndex <= maxIndex)
+        {
+            var store = BulletCSV.Instance.Bullet;
+            return store[currentIndex].Bullet_num * Mathf.Pow(10, store[currentIndex].Bullet_unit);
+        }
+        return -1;
     }
 }
