@@ -104,7 +104,7 @@ public class Stage : MonoBehaviour
     private bool isStageClear;
 
     //Player Skill CoolTime 초기화
-    private bool coolTimeReset;
+    [SerializeField] private bool coolTimeReset;
     public bool CoolTimeReset { get { return coolTimeReset; } }
 
     //보스 스테이지 클리어 여부
@@ -162,6 +162,7 @@ public class Stage : MonoBehaviour
         //생성된 Wave 몬스터가 없을 경우
         if (!isWave && fieldWaveMonsterCount < 1)
         {
+            coolTimeReset = true;
             //Wave 호출
             Wave();
         }
@@ -225,7 +226,6 @@ public class Stage : MonoBehaviour
             }
             //스테이지 클리어 트리거
             isStageClear = true;
-            coolTimeReset = true;
 
             //배경, 하늘 이미지 전달 
             curSecondClass = stageCSV.State[parserIndex].Stage_secondClass;
@@ -303,11 +303,9 @@ public class Stage : MonoBehaviour
         //보스 스테이지 진입 단계
         if (parserIndex % waveCount >= 4)
         {
-            isBoss = true;
-            coolTimeReset = true;
+            isBoss = true; 
             bossObject.gameObject.SetActive(false);
         }
-
         BossStage();
 
         //스테이지 진행률
@@ -449,7 +447,7 @@ public class Stage : MonoBehaviour
             yield return CoroutineManager.Instance.GetWaitForSeconds(createTimer);
 
         }
-
+        
         //TestSet 정보창에서 현재 스테이지 몬스터 스탯을 보여줌
         atkText.text = "ATK : " + stageDifficult.CurStageMonsterAtk().ToString();
         hpText.text = "HP : " + stageDifficult.CurStageMonsterHP().ToString();
@@ -511,7 +509,7 @@ public class Stage : MonoBehaviour
     /// </summary>
     /// <param name="action"></param>
     public void BackGroundResetAction(Action action)
-    {
+    { 
         bgAction = action;
     }
 

@@ -45,6 +45,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpenInventory: 0
-  stage: {fileID: 0}
-  offline: 0
-  spanTime: 0
+  StageInstance: {fileID: 0}
+  totalTime: 0

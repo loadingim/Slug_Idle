@@ -182,16 +182,14 @@ public class MapController : MonoBehaviour
 
     private IEnumerator MapResetCoroutine()
     {
-        WaitForSeconds resetWait = new WaitForSeconds(backGroundResetSpeed);
-
-        yield return resetWait;
+        yield return CoroutineManager.Instance.GetWaitForSeconds(backGroundResetSpeed);
 
         if (!isChange)
         {
-            if (GameManager.Instance.IsOpenInventory)
-            {
-                yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
-            }
+            //if (GameManager.Instance.IsOpenInventory)
+            //{
+            //    yield return new WaitUntil(() => !GameManager.Instance.IsOpenInventory);
+            //}
 
             for (int i = 0; i < backGroundCount; i++)
             {
