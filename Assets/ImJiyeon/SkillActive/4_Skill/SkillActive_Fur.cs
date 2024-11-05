@@ -20,6 +20,5 @@ public class SkillActive_Fur : Skill
         Debug.Log("네번째 스킬 사용됨");
 
         StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
-        //CoroutineManager.Instance.ManagerCoroutineStart(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()), SetCoolTimeCoroutineName);
     }
 }

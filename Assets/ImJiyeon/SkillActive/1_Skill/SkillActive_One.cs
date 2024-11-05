@@ -23,6 +23,5 @@ public class SkillActive_One : Skill
         Debug.Log("첫번째 스킬 사용됨");
 
         StartCoroutine(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()));
-        //CoroutineManager.Instance.ManagerCoroutineStart(SetCurrentCooltime(CoolTime, LookCoolTime, gameObject.GetComponent<Button>()), SetCoolTimeCoroutineName);
     }
 }

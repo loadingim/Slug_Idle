@@ -33,15 +33,22 @@ public abstract class Skill : MonoBehaviour
 
             while (Cool > 0.1f)
             {
+                if (GameManager.Instance.IsOpenInventory)
+                {
+                    yield return new WaitUntil(() => GameManager.Instance.IsOpenInventory == false);
+                }
+                else if (gameManager.StageInstance.CoolTimeReset)
+                {
+                    yield break;
+                }
+                else
+
                 Cool -= Time.deltaTime;
                 LookCoolTime.fillAmount = (Cool / MaxCool);
 
                 yield return new WaitForFixedUpdate();
             }
-            //while (gameManager.StageInstance.CoolTimeReset)
-            //{
-            //    yield return null;
-            //}
+
 
             LookCoolTime.gameObject.SetActive(false);
             skillButton.interactable = true;

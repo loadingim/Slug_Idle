@@ -63,12 +63,13 @@ public class SkillUseManager : MonoBehaviour
         else if (AutoOnOff) { AutoOnOff = false; }
 
         StartCoroutine(SkillAuto());
-        //CoroutineManager.Instance.ManagerCoroutineStart(SkillAuto(), skillAutoCoroutineName);
     }
 
 
     IEnumerator SkillAuto()
     {
+        yield return new WaitUntil(() => GameManager.Instance.IsOpenInventory == false);
+
         ColorChange();
         AniPlay();
 

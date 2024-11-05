@@ -122,7 +122,8 @@ public class MonsterController : MonoBehaviour
             {
                 Monster.isAttacked = true;
                 Monster.StartCoroutine(Monster.WaitingShot());
-                //CoroutineManager.Instance.ManagerCoroutineStart(Monster.WaitingShot(), );
+
+
             }
 
             // 다른 상태로 전환
@@ -133,6 +134,9 @@ public class MonsterController : MonoBehaviour
     #region 발사 코루틴
     IEnumerator WaitingShot()
     {
+        // 인벤토리가 열려있지 않은 상황에서만 코루틴이 진행되도록 함
+        yield return new WaitUntil(() => GameManager.Instance.IsOpenInventory == false);
+
         while (isAttacked)
         {
             AnimatorPlay();
