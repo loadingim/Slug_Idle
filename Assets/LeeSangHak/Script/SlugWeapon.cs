@@ -28,7 +28,7 @@ public class SlugWeapon : MonoBehaviour
         }
 
         SlugBullet bullet = bulletGameObj.GetComponent<SlugBullet>();
-        bullet.SetDamage(damage);
+        bullet.SetDamage(PlayerDataModel.Instance.Attack);
         bullet.SetTarget(slugPlayer.targetMonster);
     }
 }

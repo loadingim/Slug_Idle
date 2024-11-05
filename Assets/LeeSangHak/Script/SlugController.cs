@@ -8,7 +8,7 @@ public class SlugController : MonoBehaviour
 {
     public GameObject targetMonster = null;
     public float attackCooldown = 0f;
-    [SerializeField] GameObject weaponPrefab;
+    public GameObject weaponPrefab;
     public int attackRange;
     [SerializeField] float times;
     [SerializeField] GameObject[] monsters;
