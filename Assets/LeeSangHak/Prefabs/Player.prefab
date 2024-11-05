@@ -336,15 +336,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 9000
   maxHealth: 0
-  healthLevel: 0
+  healthLevel: 1
   healthRegen: 0
-  healthRegenLevel: 0
+  healthRegenLevel: 1
   attack: 20
-  attackLevel: 0
+  attackLevel: 1
   touchAttack: 1
-  touchAttackLevel: 0
+  touchAttackLevel: 1
   attackSpeed: 1
-  attackSpeedLevel: 0
+  attackSpeedLevel: 1
   money: 100
   jewel: 0
   canUseSkill: 0
@@ -414,7 +414,7 @@ PrefabInstance:
       objectReference: {fileID: 3306471569424342834, guid: eee8851d2b1428c4986f7463e175fdc5, type: 3}
     - target: {fileID: 7845620299911557142, guid: 9bc22b174cfa7b74e83a64b08f3e411a, type: 3}
       propertyPath: m_Name
-      value: Weapon2
+      value: Flame
       objectReference: {fileID: 0}
     - target: {fileID: 7845620299911557142, guid: 9bc22b174cfa7b74e83a64b08f3e411a, type: 3}
       propertyPath: m_IsActive
@@ -436,7 +436,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6291279932545369110, guid: 15c895b5120419b4880444f5189e02bc, type: 3}
       propertyPath: m_Name
-      value: Weapon4
+      value: Roket
       objectReference: {fileID: 0}
     - target: {fileID: 6291279932545369110, guid: 15c895b5120419b4880444f5189e02bc, type: 3}
       propertyPath: m_IsActive
@@ -506,7 +506,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5403331541879902769, guid: 125dee2fd4ad6614cb34eaab43af1bae, type: 3}
       propertyPath: m_Name
-      value: Weapon3
+      value: ShotGun
       objectReference: {fileID: 0}
     - target: {fileID: 5403331541879902769, guid: 125dee2fd4ad6614cb34eaab43af1bae, type: 3}
       propertyPath: m_IsActive
@@ -576,7 +576,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2901402287154109082, guid: 4aea007988159da4cb5f7d62fa399021, type: 3}
       propertyPath: m_Name
-      value: Weapon1
+      value: Heavy
       objectReference: {fileID: 0}
     - target: {fileID: 2901402287154109082, guid: 4aea007988159da4cb5f7d62fa399021, type: 3}
       propertyPath: m_IsActive

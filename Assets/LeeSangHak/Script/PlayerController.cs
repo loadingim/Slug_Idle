@@ -23,8 +23,9 @@ public class PlayerController : MonoBehaviour
     {
         bulletManager = FindObjectOfType<BulletManager>();
 
+        Debug.Log(StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum);
         // 모델 데이터 : 공격 속도 및 사거리
-        attackSpeed = 1f;
+        attackSpeed = 1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum;
         attackRange = 20;
     }
 
@@ -51,10 +52,15 @@ public class PlayerController : MonoBehaviour
         {
             Death();
         }
-
+        
         if (weaponPrefab != null)
         {
             upperAnim.SetBool("isWeapon", true);
+
+            if (!weaponPrefab.gameObject.activeSelf)
+            {
+                weaponPrefab = null;
+            }
         }
 
         if (weaponPrefab == null)
@@ -111,7 +117,7 @@ public class PlayerController : MonoBehaviour
 
             ShootBullet();
 
-            attackCooldown = Time.time + PlayerDataModel.Instance.AttackSpeed;
+            attackCooldown = Time.time + 1f / StoreCSV.Instance.Store[PlayerDataModel.Instance.AttackSpeedLevel + 4999].StatusStore_satatusNum; ;
         }
     }
 

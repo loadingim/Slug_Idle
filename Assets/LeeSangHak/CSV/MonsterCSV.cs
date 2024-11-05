@@ -25,7 +25,7 @@ public struct MonsterData
 public class MonsterCSV : MonoBehaviour
 {
     const string monsterPath = "https://docs.google.com/spreadsheets/d/1yrhRkrB5UQH2JDYT2_vz9RW6yRzVaYv2/export?gid=206694631&format=csv";
-    [SerializeField] List<MonsterData> Monster;
+    public List<MonsterData> Monster;
     public static MonsterCSV Instance;
     public bool downloadCheck;
 
