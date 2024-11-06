@@ -20,4 +20,4 @@ MonoBehaviour:
   buyPrice: 130
   curEnhance: 1
   enhancePrice: 3
-  isBuy: 1
+  isBuy: 0

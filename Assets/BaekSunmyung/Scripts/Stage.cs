@@ -141,10 +141,6 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
-        bosslMonsterPrefab = new GameObject[stageSecondClass];
-
-
-
         coroutineManager = CoroutineManager.Instance;
         stageCSV = StageCSV.Instance;
         monsters = new MonsterModel[5];
