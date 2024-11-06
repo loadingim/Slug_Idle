@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a772743818b69bc4682253af7f5bd341, type: 3}
+  m_Name: PratnerD
+  m_EditorClassIdentifier: 
+  storeType: 1
+  iconImage: {fileID: 21300000, guid: 58624f48d7180b041a29171b67a58e62, type: 3}
+  itemName: PartnerD
+  incAttack: 1
+  desc: PartnerD
+  buyPrice: 130
+  curEnhance: 1
+  enhancePrice: 40
+  isBuy: 0
