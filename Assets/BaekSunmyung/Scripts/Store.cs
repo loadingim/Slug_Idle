@@ -63,14 +63,8 @@ public class Store : MonoBehaviour
         priceBtn.onClick.AddListener(UpGrade);
     }
 
-    private void OnEnable()
-    {
-        gameManager.IsOpenInventory = true;
-    }
-
     private void OnDisable()
     {
-        gameManager.IsOpenInventory = false;
         isSelect = false;
     }
 
@@ -266,6 +260,7 @@ public class Store : MonoBehaviour
         if (isSelect)
         {
             enhanceNum.text = "+" + curShopData.CurEnhance.ToString() + " " + curShopData.ItenName;
+            itemIconImageInfo.color = Color.white;
             itemIconImageInfo.sprite = curShopData.IconImage;
 
             //PlayerModel.Attack Change
@@ -282,7 +277,7 @@ public class Store : MonoBehaviour
         else
         {
             enhanceNum.text = "";
-            itemIconImageInfo.sprite = null;
+            itemIconImageInfo.color = new Color(0, 0, 0, 0);
             curAttackTextInfo.text = "";
             TextMeshProUGUI priceText = priceBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             priceText.text = "Price";
