@@ -36,7 +36,7 @@ public class Store : MonoBehaviour
 
     //WeaponInfo ÀÚ¸®
     private WeaponInfoData infoData;
-    private Test weaponInfoData;
+    //private Test weaponInfoData;
     private PlayerDataModel playerDataModel;
     private GameManager gameManager;
 
@@ -75,10 +75,10 @@ public class Store : MonoBehaviour
     }
 
     private void Start()
-    {
+    { 
         gameManager = GameManager.Instance;
         infoData = WeaponInfoData.Instance;
-        weaponInfoData = Test.Instance;
+        //weaponInfoData = Test.Instance;
 
         ray = canvas.GetComponent<GraphicRaycaster>();
         for (int i = 0; i < buttonList.Count; i++)
@@ -95,10 +95,11 @@ public class Store : MonoBehaviour
         buyText = BuyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         //WeaponInfoData
-        weaponInfoData = GetComponent<Test>();
+        //weaponInfoData = GetComponent<Test>();
 
+        ItemBuyCheck();
         priceBtn.interactable = false;
-        playerDataModel = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>();
+        playerDataModel = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>(); 
     }
 
     private void Update()
@@ -106,6 +107,23 @@ public class Store : MonoBehaviour
         ped.position = Input.mousePosition;
         results.Clear();
         ray.Raycast(ped, results);
+
+    }
+
+    private void ItemBuyCheck()
+    {
+        infoData.useHeavy = shopData[0].IsBuy;
+        infoData.useFlame = shopData[1].IsBuy;
+        infoData.useRoket = shopData[2].IsBuy;
+        infoData.useShotgun = shopData[3].IsBuy;
+        infoData.useMetal = shopData[4].IsBuy;
+        infoData.useDrill = shopData[5].IsBuy;
+        infoData.useHeli = shopData[6].IsBuy;
+        infoData.useJet = shopData[7].IsBuy;
+        infoData.useFio = shopData[8].IsBuy;
+        infoData.useEri = shopData[9].IsBuy;
+        infoData.useMarco = shopData[10].IsBuy;
+        infoData.useTarma = shopData[11].IsBuy; 
 
     }
 
