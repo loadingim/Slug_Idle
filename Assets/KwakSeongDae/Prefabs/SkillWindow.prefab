@@ -121,6 +121,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1208650699309360569}
     m_Modifications:
+    - target: {fileID: 7587390344992656275, guid: 71e5575055c6ed9498e55d7b9afb1d4c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c2a468817f69ce74f80e18c5dc1a190b, type: 3}
+    - target: {fileID: 7587390345269649848, guid: 71e5575055c6ed9498e55d7b9afb1d4c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c26b40e23922f5c46951d34b40dc8867, type: 3}
     - target: {fileID: 7587390345291246796, guid: 71e5575055c6ed9498e55d7b9afb1d4c, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -209,6 +217,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Skills
       objectReference: {fileID: 0}
+    - target: {fileID: 7587390345710694252, guid: 71e5575055c6ed9498e55d7b9afb1d4c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 424f40fae2dc7774396af4a70536f87a, type: 3}
+    - target: {fileID: 7587390345802263050, guid: 71e5575055c6ed9498e55d7b9afb1d4c, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7b18899869204cb4b94fcc74e1f4fc8e, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71e5575055c6ed9498e55d7b9afb1d4c, type: 3}
 --- !u!224 &2517477864694179481 stripped

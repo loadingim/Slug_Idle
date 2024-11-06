@@ -35,7 +35,7 @@ public class Store : MonoBehaviour
     private TextMeshProUGUI buyText;
 
     //WeaponInfo ÀÚ¸®
-    private WeaponInfoData infoData;
+    [SerializeField] private WeaponInfoData infoData;
     //private Test weaponInfoData;
     private PlayerDataModel playerDataModel;
     private GameManager gameManager;
