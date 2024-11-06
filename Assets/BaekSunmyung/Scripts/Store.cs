@@ -35,6 +35,7 @@ public class Store : MonoBehaviour
     private TextMeshProUGUI buyText;
 
     //WeaponInfo ÀÚ¸®
+    private WeaponInfoData infoData;
     private Test weaponInfoData;
     private PlayerDataModel playerDataModel;
     private GameManager gameManager;
@@ -54,8 +55,7 @@ public class Store : MonoBehaviour
 
     private void Awake()
     {
-        //weaponInfodATA = weaponinfoData.Instace
-        weaponInfoData = Test.Instance;
+
 
         for (int i = 0; i < buttonList.Count; i++)
         {
@@ -65,20 +65,22 @@ public class Store : MonoBehaviour
         priceBtn.onClick.AddListener(UpGrade);
     }
 
-    //private void OnEnable()
-    //{
-    //    GameManager.Instance.IsOpenInventory = true;
-    //}
+    private void OnEnable()
+    {
+        gameManager.IsOpenInventory = true;
+    }
 
-    //private void OnDisable()
-    //{
-    //    GameManager.Instance.IsOpenInventory = false;
-    //    isSelect = false;
-    //}
+    private void OnDisable()
+    {
+        gameManager.IsOpenInventory = false;
+        isSelect = false;
+    }
 
     private void Start()
     {
-        //gameManager = GameManager.Instance;
+        gameManager = GameManager.Instance;
+        infoData = WeaponInfoData.Instance;
+        weaponInfoData = Test.Instance;
 
         ray = canvas.GetComponent<GraphicRaycaster>();
         for (int i = 0; i < buttonList.Count; i++)
@@ -96,9 +98,6 @@ public class Store : MonoBehaviour
 
         //WeaponInfoData
         weaponInfoData = GetComponent<Test>();
-
-        // = GameObject.FindObjectWithTag("Player").GetComponentt<PlayerDataModel>();
-        playerDataModel = FindObjectOfType<PlayerDataModel>();
 
         priceBtn.interactable = false;
     }
@@ -147,6 +146,22 @@ public class Store : MonoBehaviour
                 curShopData.IncAttack++;
                 curShopData.EnhancePrice += 20;
                 //PlayerDataModel.Attack = curShopData.Inattack;
+                if(shopIndex == 0)
+                {
+                    infoData.Heavy_Level = curShopData.IncAttack;
+                }
+                else if(shopIndex == 1)
+                {
+                    infoData.Flame_Level = curShopData.IncAttack;
+                }
+                else if(shopIndex == 2)
+                {
+                    infoData.Roket_Level = curShopData.IncAttack;
+                }
+                else if(shopIndex == 3)
+                {
+                    infoData.Roket_Level = curShopData.IncAttack;
+                }
 
                 break;
 
@@ -185,7 +200,8 @@ public class Store : MonoBehaviour
     {
 
         enhanceNum.text = "+" + curShopData.CurEnhance.ToString() + " " + curShopData.ItenName;
-        curAttackTextInfo.text = curShopData.IncAttack.ToString();
+        //curAttackTextInfo.text = curShopData.IncAttack.ToString();
+        curAttackTextInfo.text = infoData.weaponDamage.ToString();
         TextMeshProUGUI priceText = priceBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         priceText.text = curShopData.EnhancePrice.ToString();
 
@@ -213,7 +229,8 @@ public class Store : MonoBehaviour
             itemIconImageInfo.sprite = curShopData.IconImage;
 
             //PlayerModel.Attack Change
-            curAttackTextInfo.text = curShopData.IncAttack.ToString();
+            //curAttackTextInfo.text = curShopData.IncAttack.ToString();
+            curAttackTextInfo.text = infoData.weaponDamage.ToString();
             TextMeshProUGUI priceText = priceBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             priceText.text = curShopData.EnhancePrice.ToString();
 
