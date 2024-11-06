@@ -55,10 +55,10 @@ public class StageDifficult : MonoBehaviour
         //체력 증가 수치
         float hpNum = stageCSV.State[curStageIndex].Stage_hpNum;
         float hpUnit = stageCSV.State[curStageIndex].Stage_hpUnit;
-
-        monsterAtk = (int)(attackNum * Mathf.Pow(10, attackUnit)) * monsterModel.MonsterAttack;
+        // 테이블에서 값을 가져오므로 기존 프리팹 수치는 계산식에서 제외
+        monsterAtk = (int)(attackNum * Mathf.Pow(10, attackUnit));
         monsterModel.MonsterAttack = monsterAtk;
-        monsterHP = (hpNum * Mathf.Pow(10, hpUnit)) * monsterModel.MonsterHP;
+        monsterHP = (hpNum * Mathf.Pow(10, hpUnit));
         monsterModel.MonsterHP = monsterHP; 
     }
 

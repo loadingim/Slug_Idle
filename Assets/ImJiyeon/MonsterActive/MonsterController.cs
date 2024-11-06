@@ -58,7 +58,6 @@ public class MonsterController : MonoBehaviour
     private void Start()
     {
         States[(int)CurMonsterState].Enter();
-        monsterModel.MonsterHP = 300f;
     }
 
     private void OnDestroy()

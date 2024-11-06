@@ -25,7 +25,11 @@ public class PlayerDataModel : MonoBehaviour
             }
             else
             {
-                health = value;
+                if (value > MaxHealth)
+                {
+                    health = MaxHealth;
+                }
+                else health = value;
             }
             OnHealthChanged?.Invoke(health);
         }

@@ -187,7 +187,7 @@ public class PlayerController : MonoBehaviour
         
         yield return new WaitForSeconds(1f);
 
-        PlayerDataModel.Instance.Health = 500;
+        PlayerDataModel.Instance.Health = PlayerDataModel.Instance.MaxHealth;
         upperAnim.SetBool("Death", false);
         lowerAnim.gameObject.SetActive(true);
 

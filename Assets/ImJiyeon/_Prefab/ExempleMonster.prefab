@@ -168,10 +168,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monsterID: 0
-  monsterHP: 10
+  monsterHP: 1
   monsterMoveSpeed: 5
   dropGold: 100
-  monsterAttack: 10
+  monsterAttack: 1
   monsterAttackSpeed: 5
   attackRange: 10
 --- !u!1 &5117045899114631950
