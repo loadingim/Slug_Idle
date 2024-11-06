@@ -5,9 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class TestScript : MonoBehaviour
 {
-    void Update()
+    private void Update()
     {
-        if (Input.anyKeyDown)
+        if (BulletCSV.Instance.downloadCheck == true && MonsterCSV.Instance.downloadCheck == true && StageCSV.Instance.downloadCheck == true && StoreCSV.Instance.downloadCheck == true && WeaponCSV.Instance.downloadCheck)
         {
             SceneManager.LoadScene("Test");
         }
