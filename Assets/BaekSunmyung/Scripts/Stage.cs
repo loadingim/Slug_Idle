@@ -25,7 +25,8 @@ public class Stage : MonoBehaviour
 
     [Header("Monster Spawn")]
     [SerializeField] private Transform monsterSpawnPoint;
-    [SerializeField] private GameObject monsterPrefab;
+    [SerializeField] private GameObject normalMonsterPrefab;
+    [SerializeField] private GameObject[] bosslMonsterPrefab;
 
     [Header("Monster Wave Setting")]
     [Tooltip("Monster Wave Cycle")]
@@ -140,6 +141,8 @@ public class Stage : MonoBehaviour
 
     private void Start()
     {
+        bosslMonsterPrefab = new GameObject[stageSecondClass];
+
         coroutineManager = CoroutineManager.Instance;
         stageCSV = StageCSV.Instance;
         monsters = new MonsterModel[5];
@@ -410,8 +413,6 @@ public class Stage : MonoBehaviour
     /// </summary>
     public void CreateMonster()
     {
-        //CoroutineManager.Instance.ManagerCoroutineStart(CreateMonsterCo(), createCoroutineName);
-          
         createRoutine = StartCoroutine(CreateMonsterCo());
         coroutineManager.ManagerCoroutineStart(createRoutine, this); 
     }
@@ -433,13 +434,28 @@ public class Stage : MonoBehaviour
 
             if (PlayerDataModel.Instance.Health >= 0)
             {
-                GameObject monsterInstance = Instantiate(monsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
-                Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
-                monsterCollider.enabled = false;
 
-                monsterInstance.gameObject.name = monsterNumber.ToString() + "몬스터";
-                monsterNumber++;
-                monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>();
+                if(parserIndex % waveCount <= 3)
+                {
+                    GameObject monsterInstance = Instantiate(normalMonsterPrefab, monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
+                    Collider2D monsterCollider = monsterInstance.GetComponent<Collider2D>();
+                    monsterCollider.enabled = false;
+
+                    monsterInstance.gameObject.name = monsterNumber.ToString() + "몬스터";
+                    monsterNumber++;
+                    monsters[createLimitCount] = monsterInstance.GetComponent<MonsterModel>(); 
+                }
+                else if(parserIndex % waveCount == 4)
+                {
+                    GameObject bossMonsterInstance = Instantiate(bosslMonsterPrefab[curThirdClass - 1], monsterSpawnPoint.position + offset, monsterSpawnPoint.rotation);
+                    Collider2D bossMonsterCollider = bossMonsterInstance.GetComponent<Collider2D>();
+                    bossMonsterCollider.enabled = false;
+
+                    bossMonsterInstance.gameObject.name = monsterNumber.ToString() + "보스 몬스터";
+                    monsterNumber++;
+                    monsters[createLimitCount] = bossMonsterInstance.GetComponent<MonsterModel>();
+                }
+
 
                 stageDifficult.GetMonsterInstance(monsters[createLimitCount]);
                 stageDifficult.MonsterIncreaseAbility();
@@ -453,13 +469,6 @@ public class Stage : MonoBehaviour
         //TestSet 정보창에서 현재 스테이지 몬스터 스탯을 보여줌
         atkText.text = "ATK : " + stageDifficult.CurStageMonsterAtk().ToString();
         hpText.text = "HP : " + stageDifficult.CurStageMonsterHP().ToString();
-
-        //if (curWaveMonsterCount <= createLimitCount)
-        //{
-        //    CoroutineManager.Instance.ManagerCoroutineStop(this);
-        //    isWave = false;
-        //}
-
         yield break;
     }
 
