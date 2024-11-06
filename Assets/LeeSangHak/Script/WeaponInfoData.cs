@@ -58,6 +58,13 @@ public class WeaponInfoData : MonoBehaviour
 
     [Header("최종 데미지 합산")]
     public float weaponDamage;
+
+    [Header("가격")]
+    public long Heavy_Price = 0;
+    public long Shotgun_Price = 500;
+    public long Flame_Price = 1000;
+    public long Roket_Price = 1500;
+
     private void Awake()
     {
         if (Instance == null)
@@ -82,6 +89,8 @@ public class WeaponInfoData : MonoBehaviour
     private void Update()
     {
         WeaponDamage();
+
+        
     }
 
     private void WeaponDamage()
@@ -107,6 +116,11 @@ public class WeaponInfoData : MonoBehaviour
         }
 
         weaponDamage = Heavy_Num + Flame_Num + Roket_Num + Shotgun_Num;
+    }
+
+    private void WeaponStatUpdate()
+    {
+
     }
 
     private void SlugDamage()
