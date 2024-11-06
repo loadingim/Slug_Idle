@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Heavy
   m_EditorClassIdentifier: 
   storeType: 0
-  iconImage: {fileID: 491564473, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  iconImage: {fileID: 21300000, guid: b4bd6fc0b0c474848b99f28acee9b9c9, type: 3}
   itemName: Heavy
   incAttack: 2
   desc: IM HEAVY
   buyPrice: 110
   curEnhance: 1
   enhancePrice: 40
-  isBuy: 0
+  isBuy: 1

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PratnerA
   m_EditorClassIdentifier: 
   storeType: 1
-  iconImage: {fileID: 2094854569, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  iconImage: {fileID: 21300000, guid: ddd561d05e8055c4db1ff13381bc647c, type: 3}
   itemName: PartnerA
   incAttack: 2
   desc: IM PARTNERA
   buyPrice: 130
   curEnhance: 1
   enhancePrice: 3
-  isBuy: 0
+  isBuy: 1

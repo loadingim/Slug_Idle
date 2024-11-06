@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Roket
   m_EditorClassIdentifier: 
   storeType: 0
-  iconImage: {fileID: -155219798, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  iconImage: {fileID: 21300000, guid: da0ef99668f06d342badec8422043d73, type: 3}
   itemName: Roket
   incAttack: 3
   desc: IM ROKET

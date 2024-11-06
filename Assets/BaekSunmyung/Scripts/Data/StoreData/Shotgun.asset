@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   storeType: 0
-  iconImage: {fileID: -1303851916, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  iconImage: {fileID: 21300000, guid: 7c0fd11a6260bef4d8ffa42ba5c63cef, type: 3}
   itemName: ShotGun
   incAttack: 1
   desc: IM SHOTGUN

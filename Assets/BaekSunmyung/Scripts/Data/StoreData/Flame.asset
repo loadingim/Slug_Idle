@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Flame
   m_EditorClassIdentifier: 
   storeType: 0
-  iconImage: {fileID: -343072927, guid: 7cfd5f905fcd4d142a4da43c65ed3260, type: 3}
+  iconImage: {fileID: 21300000, guid: fd3f3988d5c10c049bdc1a84b5a73611, type: 3}
   itemName: Flame
   incAttack: 1
   desc: IM FLAME

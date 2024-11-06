@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SlugD
   m_EditorClassIdentifier: 
   storeType: 2
-  iconImage: {fileID: 2080677340, guid: 6587df4a5cb7ed24ca37f37fd0a8c585, type: 3}
+  iconImage: {fileID: 21300000, guid: 6bbf9fe8a09d34e4a8ade6a276cee648, type: 3}
   itemName: SlugD
   incAttack: 1
   desc: IM SlugD
