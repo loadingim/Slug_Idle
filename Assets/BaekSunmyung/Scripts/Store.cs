@@ -36,7 +36,7 @@ public class Store : MonoBehaviour
 
     //WeaponInfo 자리
     private WeaponInfoData infoData;
-    private Test weaponInfoData;
+    //private Test weaponInfoData;
     private PlayerDataModel playerDataModel;
     private GameManager gameManager;
 
@@ -54,9 +54,7 @@ public class Store : MonoBehaviour
 
 
     private void Awake()
-    {
-
-
+    { 
         for (int i = 0; i < buttonList.Count; i++)
         {
             buttonList[i].onClick.AddListener(Shop);
@@ -77,10 +75,10 @@ public class Store : MonoBehaviour
     }
 
     private void Start()
-    {
+    { 
         gameManager = GameManager.Instance;
         infoData = WeaponInfoData.Instance;
-        weaponInfoData = Test.Instance;
+        //weaponInfoData = Test.Instance;
 
         ray = canvas.GetComponent<GraphicRaycaster>();
         for (int i = 0; i < buttonList.Count; i++)
@@ -97,9 +95,11 @@ public class Store : MonoBehaviour
         buyText = BuyBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
 
         //WeaponInfoData
-        weaponInfoData = GetComponent<Test>();
+        //weaponInfoData = GetComponent<Test>();
 
+        ItemBuyCheck();
         priceBtn.interactable = false;
+        playerDataModel = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerDataModel>(); 
     }
 
     private void Update()
@@ -107,6 +107,23 @@ public class Store : MonoBehaviour
         ped.position = Input.mousePosition;
         results.Clear();
         ray.Raycast(ped, results);
+
+    }
+
+    private void ItemBuyCheck()
+    {
+        infoData.useHeavy = shopData[0].IsBuy;
+        infoData.useFlame = shopData[1].IsBuy;
+        infoData.useRoket = shopData[2].IsBuy;
+        infoData.useShotgun = shopData[3].IsBuy;
+        infoData.useMetal = shopData[4].IsBuy;
+        infoData.useDrill = shopData[5].IsBuy;
+        infoData.useHeli = shopData[6].IsBuy;
+        infoData.useJet = shopData[7].IsBuy;
+        infoData.useFio = shopData[8].IsBuy;
+        infoData.useEri = shopData[9].IsBuy;
+        infoData.useMarco = shopData[10].IsBuy;
+        infoData.useTarma = shopData[11].IsBuy; 
 
     }
 
@@ -145,24 +162,6 @@ public class Store : MonoBehaviour
                 curShopData.CurEnhance++;
                 curShopData.IncAttack++;
                 curShopData.EnhancePrice += 20;
-                //PlayerDataModel.Attack = curShopData.Inattack;
-                if(shopIndex == 0)
-                {
-                    infoData.Heavy_Level = curShopData.IncAttack;
-                }
-                else if(shopIndex == 1)
-                {
-                    infoData.Flame_Level = curShopData.IncAttack;
-                }
-                else if(shopIndex == 2)
-                {
-                    infoData.Roket_Level = curShopData.IncAttack;
-                }
-                else if(shopIndex == 3)
-                {
-                    infoData.Roket_Level = curShopData.IncAttack;
-                }
-
                 break;
 
             case StoreType.Partner:
@@ -170,7 +169,6 @@ public class Store : MonoBehaviour
                 curShopData.CurEnhance++;
                 curShopData.IncAttack++;
                 curShopData.EnhancePrice += 20;
-                //PlayerDataModel.Attack = curShopData.Inattack;
                 break;
 
             case StoreType.Slug:
@@ -178,7 +176,6 @@ public class Store : MonoBehaviour
                 curShopData.CurEnhance++;
                 curShopData.IncAttack++;
                 curShopData.EnhancePrice += 20;
-                //PlayerDataModel.Attack = curShopData.Inattack;
                 break;
 
             case StoreType.Skill:
@@ -186,7 +183,53 @@ public class Store : MonoBehaviour
                 curShopData.CurEnhance++;
                 curShopData.IncAttack++;
                 curShopData.EnhancePrice += 20;
-                //PlayerDataModel.Attack = curShopData.Inattack;
+                break;
+        }
+
+        playerDataModel.Money -= curShopData.EnhancePrice;
+
+        switch (shopIndex)
+        {
+            case 0:
+                infoData.Heavy_Level = curShopData.CurEnhance;
+                break;
+            case 1:
+                infoData.Flame_Level = curShopData.CurEnhance;
+                break;
+            case 2:
+                infoData.Roket_Level = curShopData.CurEnhance;
+                break;
+            case 3:
+                infoData.Shotgun_Level = curShopData.CurEnhance;
+                break;
+
+            case 4:
+                infoData.Metal_Level = curShopData.CurEnhance;
+                break;
+            case 5:
+                infoData.Drill_Level = curShopData.CurEnhance;
+                break;
+
+            case 6:
+                infoData.Heli_Level = curShopData.CurEnhance;
+                break;
+
+            case 7:
+                infoData.Jet_Level = curShopData.CurEnhance;
+                break;
+
+            case 8:
+                infoData.Marco_Level = curShopData.CurEnhance;
+                break;
+
+            case 9:
+                infoData.Eri_Level = curShopData.CurEnhance;
+                break;
+            case 10:
+                infoData.Tarma_Level = curShopData.CurEnhance;
+                break;
+            case 11:
+                infoData.Fio_Level = curShopData.CurEnhance;
                 break;
         }
 
@@ -197,8 +240,7 @@ public class Store : MonoBehaviour
     /// 아이템 강화 후 정보 업데이트
     /// </summary>
     private void InfoUpdate()
-    {
-
+    { 
         enhanceNum.text = "+" + curShopData.CurEnhance.ToString() + " " + curShopData.ItenName;
         //curAttackTextInfo.text = curShopData.IncAttack.ToString();
         curAttackTextInfo.text = infoData.weaponDamage.ToString();
@@ -212,9 +254,7 @@ public class Store : MonoBehaviour
         else
         {
             priceBtn.interactable = true;
-        }
-
-
+        } 
     }
 
     /// <summary>
@@ -222,7 +262,7 @@ public class Store : MonoBehaviour
     /// </summary>
     private void ShowInfoEnhance()
     {
-        isSelect = !isSelect ? true : false; 
+        isSelect = !isSelect ? true : false;
         if (isSelect)
         {
             enhanceNum.text = "+" + curShopData.CurEnhance.ToString() + " " + curShopData.ItenName;
@@ -246,7 +286,7 @@ public class Store : MonoBehaviour
             curAttackTextInfo.text = "";
             TextMeshProUGUI priceText = priceBtn.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
             priceText.text = "Price";
-            
+
         }
 
         //선택하지 않은 상태 or 보유 머니보다 아이템이 비싸면 상호작용 불가
@@ -254,7 +294,7 @@ public class Store : MonoBehaviour
         {
             priceBtn.interactable = false;
         }
-        
+
     }
 
 
@@ -273,7 +313,7 @@ public class Store : MonoBehaviour
 
         //PlayerDataModel.Money < itemPrice
         //Item Price > ShopData.ItemPrice
-        if (3000 < itemPrice)
+        if (playerDataModel.Money < itemPrice)
         {
             BuyBtn.interactable = false;
         }
@@ -291,7 +331,7 @@ public class Store : MonoBehaviour
     {
         curShopData.IsBuy = true;
         buttonList[shopIndex].GetComponent<Image>().color = new Color(1f, 1f, 1f, 1f);
-        //playerDataModel.Money -= itemPrice;
+        playerDataModel.Money -= itemPrice;
         buyPopup.SetActive(false);
 
     }
